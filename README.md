@@ -7,4 +7,6 @@ This thesis provides a comprehensive survey of approximation theory of neural ne
 Those results were generalized to spaces of Lebesgue integrable and square-integrable functions. 
 The thesis also discusses the universal approximation of Borel measurable functions in a probabilistic sense, concluding with an experimental study of the relationship between established theoretical results and practical applications.
 
+The thesis was submitted for a BSc in Computer Science and Mathematics at The University of Edinburgh and was graded an exceptional A1 (92%).
+
 Here is a compiled [thesis](https://github.com/gboduljak/bsc-thesis/blob/master/On_universality_of_neural_networks.pdf).
