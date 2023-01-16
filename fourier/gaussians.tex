@@ -1,0 +1,64 @@
+\subsection{Gaussians and their Fourier Transforms}
+An example of a family of functions satisfying conditions of the \nameref{lemma:fourier:approxident} is the family of Gaussians, parameterized by the variance. In this section, we will explore their Fourier Transforms. We will use Gaussians to prove \nameref{thm:fourier:inversionlone}. We start with the simplest Gaussians.
+\begin{proposition}[Fourier Transforms of Gaussians]
+\label{prop:fourier:gaussian:ft}
+Suppose $f_1 : \R \to \R$ and $f_n : \R^n \to \R$ are given by 
+\begin{align*}
+        f_1 (x) = \frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}}, \text{ }  f_n (\vec{x}) = \frac{1}{\left ( 2 \pi \right )^\frac{n}{2}} e^{-\frac{\norm{\vec{x}}^2}{2}}.
+\end{align*}
+Then  $\widehat{f_1}(u) = e^{-\frac{u^2}{2}}$ and  $\widehat{f_n}(\vec{u}) = e^{-\frac{\norm{\vec{u}}^2}{2}}$.
+\end{proposition}
+\begin{proof-idea*}
+There are several ways to prove this proposition. A common approach is to use contour integration with a Residue Theorem.
+However, it is possible to give a more elementary argument, such as the following based on page 107 in \cite{jacod_2004_probability} . 
+\end{proof-idea*}
+\begin{proof}
+We begin by proving the claim for $f_1$.
+\setcounter{step}{0}
+\begin{step}[Proof for $f_1$]
+\label{thm:fourier:gaussian:step:1}
+We begin with a direct calculation, \begin{align*}
+    \widehat{f_1}(u) &=  \frac{1}{\sqrt{2 \pi}} \int_\R e^{iux} e^{-\frac{x^2}{2}} \, dx & \\ 
+                     &=  \frac{1}{\sqrt{2 \pi}} \int_\R \cos(ux) e^{-\frac{x^2}{2}} \, dx + i \left (  \frac{1}{\sqrt{2 \pi}} \int_\R \sin(ux) e^{-\frac{x^2}{2}} \, dx  \right) & \\ 
+                     &=  \frac{1}{\sqrt{2 \pi}} \int_\R \cos(ux) e^{-\frac{x^2}{2}} \, dx.
+\end{align*}
+The imaginary part vanishes because  $x \to \sin(ux) e^{-\frac{x^2}{2}}$ is odd.
+Since $|\cos(ux) e^{-\frac{x^2}{2}}| \leq e^{-\frac{x^2}{2}}$ and $\int_\R e^{-\frac{x^2}{2}} \, dx = \sqrt{2 \pi}$, by \nameref{thm:dct}, \begin{align}
+    \label{eqn:fourier:gaussian1d:derivative}
+    \frac{\partial \widehat{f_1}}{\partial u} (u) = \frac{1}{\sqrt{2 \pi}}  \int_\R \frac{\partial}{\partial u} \left(\cos(ux)\right)  e^{-\frac{x^2}{2}}\, dx = -\frac{1}{\sqrt{2\pi}} \int_\R \sin(ux) x  e^{-\frac{x^2}{2}}\, dx .
+\end{align}
+Integration by parts gives \begin{align}
+    \label{eqn:fourier:gaussian1d:integral}
+    \int_{\R} \sin(ux) x  e^{-\frac{x^2}{2}}  \, dx = - u\sin{(ux)} x e^{-\frac{x^2}{2}} \Big|_{x = -\infty}^{x = \infty} + u \int_\R \cos(ux) e^{-\frac{x^2}{2}} \, dx.
+\end{align}
+Since $|- u\sin{(ux)} x e^{-\frac{x^2}{2}} | \leq |u| |x| e^{-\frac{x^2}{2}}$ and $\lim_{x \to \pm \infty}  |u||x| e^{-\frac{x^2}{2}} = 0$, $- u\sin{(ux)} x e^{-\frac{x^2}{2}} \Big|_{x = -\infty}^{x = \infty}$ vanishes. Applying this observation to \ref{eqn:fourier:gaussian1d:integral} and substituting the result in \ref{eqn:fourier:gaussian1d:derivative} gives the initial value problem 
+\begin{align*}
+    \begin{cases}
+        \frac{\partial \widehat{f_1}}{\partial u} (u) = - u \widehat{f_1}(u) \text{ subject to } \widehat{f_1}(0) = 1. \\
+    \end{cases}
+\end{align*}
+Observe that the differential equation implies $ \frac{\partial}{\partial u} \ln{|\widehat{f_1}(u)|} = -u$. By Fundamental Theorem of Calculus, $\ln | \widehat{f_1}(u) | = -\frac{1}{2}u^2 + C$ for $C \in \R$. Exponentiating both sides gives $ \widehat{f_1}(u) = e^{C} \cdot e^{-\frac{1}{2}u^2 }$. Setting the initial value condition results in $C = 0$. Hence $\widehat{f_1}(u) = e^{-\frac{1}{2}u^2 }$.
+\end{step}
+\begin{step}[Proof for $f_n$] We proceed with a direct calculation,
+    \begin{align*}
+        \widehat{f_n}(\vec{u}) &= \frac{1}{\left ( 2 \pi \right )^\frac{n}{2}}  \int_{\R^n}  e^{i \langle \vec{u}, \vec{x} \rangle } e^{-\frac{\norm{\vec{x}}^2}{2}} \, d\vec{x}
+                             = \frac{1}{\left ( 2 \pi \right )^\frac{n}{2}}  \int_{\R^n}  e^{i \left ( \sum_{k=1}^n u_k x_k \right) } e^{-\frac{ \sum_{k=1}^n  x_k^2 }{2}} \, d\vec{x}  & \\
+                             &=  \int_{\R^n}  \prod_{k=1}^n \frac{1}{\sqrt{2 \pi}} e^{i u_k x_k} e^{-\frac{1}{2} x_k^2} d\vec{x} &\\ 
+                             &= \int_{\R} \cdots \int_{\R}  \prod_{k=1}^n \frac{1}{\sqrt{2 \pi}} e^{i u_k x_k} e^{-\frac{1}{2} x_k^2} \, d x_1 \ldots  \, d x_n  \text{ by \nameref{thm:measure:fubini}}  \\ 
+                             &= \prod_{k=1}^n \widehat{f_1}(u_k) = \prod_{k=1}^n e^{-\frac{1}{2} u_k^2} = e^{-\frac{1}{2} \norm{\vec{u}}^2}. 
+    \end{align*}
+\end{step}
+\end{proof}
+\pagebreak
+Using \nameref{prop:fourier:basics} and \nameref{prop:fourier:gaussian:ft}, we can calculate the Fourier Transform of Gaussians which will play essential role in the proof of \nameref{thm:fourier:inversionlone}.
+\begin{corollary}
+\label{cor:fourier:gaussian}
+Let $a \neq 0$ and suppose that $h_a : \R^n \to \R$ is given by \begin{align*}
+    h_a (\vec{x}) = \frac{1}{(2 \pi)^n} e^{-\frac{1}{2a^2} \norm{x}^2}.
+\end{align*}
+Then $\widehat{h_a} (\vec{u}) = (2 \pi)^{-\frac{n}{2}} a^{n} e^{-\frac{a^2 \norm{\vec{u}}^2}{2} }$.
+\end{corollary}
+\begin{proof}
+Write $h_a (\vec{x}) = (2 \pi)^{-\frac{n}{2}} (2 \pi)^{-\frac{n}{2}}  e^{-\frac{1}{2a^2} \norm{x}^2}$. Then $h_a(\vec{x}) =(2 \pi)^{-\frac{n}{2}}  f_n(\frac{1}{a} \vec{x})$.
+By Proposition \ref{prop:fourier:basics}, $\widehat{h_a}(\vec{u}) = (2 \pi)^{-\frac{n}{2}}  a^n \widehat{f_n}(a \vec{u})$. By Proposition \ref{prop:fourier:gaussian:ft}, $\widehat{f_n}(a \vec{u}) = e^{-\frac{ a^2 \norm{\vec{u}}^2}{2}}$ so $\widehat{h_a} (\vec{u}) = (2 \pi)^{-\frac{n}{2}} a^{n} e^{-\frac{a^2 \norm{\vec{u}}^2}{2} }$.
+\end{proof}

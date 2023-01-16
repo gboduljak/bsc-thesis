@@ -1,0 +1,77 @@
+To discuss the relationship between signed measures and measures, it is useful to introduce the idea of positive and negative sets.
+\begin{definition}[a positive set]
+Let $\mu$ be a signed measure on the measurable space $(\Omega, \mathcal{F})$. We say that $P \subseteq \Omega$ is a positive set for $\mu$ if $P$ is $\mathcal{F}$-measurable and each $\mathcal{F}$-measurable subset $E$ of $P$ satisfies $\mu(E) \geq 0$.
+\end{definition}
+\begin{definition}[a negative set]
+Let $\mu$ be a signed measure on the measurable space $(\Omega, \mathcal{F})$. We say that $N \subseteq \Omega$ is a negative set for $\mu$ if $N$ is $\mathcal{F}$-measurable and each $\mathcal{F}$-measurable subset $F$ of $N$ satisfies $\mu(F) \leq 0$.
+\end{definition}
+Now we present the fundamental decomposition result.
+\begin{theorem}[Hahn Decomposition Theorem]
+\label{thm:hahn-decomp-thm}
+Let $(\Omega, \mathcal{F})$ be a measurable space and let $\mu$ be a signed measure on $(\Omega, \mathcal{F})$. Then there are disjoint sets $P \subseteq \Omega$, $N \subseteq \Omega$ such that $P$ is positive for $\mu$, $N$ is negative for $\mu$ and $\Omega = P \cup N$. 
+\end{theorem}
+To simplify the proof of this theorem, we will extract the following lemma.
+\begin{lemma}[Negative set lemma]
+\label{lemma:negative-set}
+Let $\mu$ be a signed measure on the measurable space $(\Omega, \mathcal{F})$ and let $A \subseteq \Omega$ be $\mathcal{F}$-measurable, satisfying $-\infty < \mu(A) < 0$. Then there exists a negative set $B$ included in $A$ such that $\mu(B) \leq \mu(A)$.
+\begin{proof}
+The idea is to remove a carefully constructed sequence of subsets from $A$ and let $B$ consist of the remaining elements of $A$. We begin by letting
+\begin{equation*}
+    \delta_1 = \sup \{ \mu(E) : E \in \mathcal{F}, E \subseteq A \}.
+\end{equation*}
+Clearly, $\emptyset \subseteq A$ and $\emptyset \in \mathcal{F}$, so $\delta_1$ exists, not necessarily finite. Moreover, since $\mu(\emptyset) = 0$, $\delta_1 \geq 0$. By definition of $\delta_1$, we can choose $A_1 \in \mathcal{F}$ such that $A_1 \subseteq A$ and $\mu(A_1) \geq \min \{ \frac{\delta_1}{2}, 1 \}$. We proceed inductively, defining
+\begin{align*}
+    \delta_n = \sup \left \{ \mu(E) : E \in \mathcal{F}, E \subseteq A \setminus \left ( \bigcup_{k = 1}^{n - 1} A_k \right ) \right \}, n \in \N.
+\end{align*}
+We choose a sequence $A_n \subseteq A \setminus \left ( \bigcup_{k = 1}^{n - 1} A_k \right )$ satisfying $\mu (A_n) \geq \min \{ \frac{\delta_n}{2}, 1 \}$. By the same argument as for $\delta_{1}$, we deduce $\delta_n \geq 0$. Observe that $\{ A_n \}_{n=1}^{\infty}$ are disjoint by construction. Now define
+\begin{align*}
+    A_\infty = \bigcup_{n = 1} ^ \infty A_n \text{ and } B = A \setminus A_\infty.
+\end{align*}
+Clearly, $B \in \mathcal{F}$ and $B \subseteq A$. We claim $B$ is a desired set. Since for every $n \in \N, \mu (A_n) \geq 0$, by countable additivity, $\mu(A_\infty) \geq 0$. We also have $\mu(A) = \mu(A_\infty) + \mu(B)$. Since $\mu(A_\infty) \geq 0$, it follows that $\mu(B) \leq \mu(A)$, as desired. It remains to show $B$ is a negative set.
+By assumption, $\mu(A)$ is finite. Since $A_\infty \subseteq A$, we have $\mu(A_\infty)$ is finite. By countable additivity of $\mu$, $\mu (A_\infty) = \sum_{n = 1}^{\infty} \mu (A_n)$. Since $\mu(A_\infty) < \infty$, $\sum_{n = 1}^{\infty} \mu (A_n) < \infty$. Hence $\lim_{n \to \infty} \mu(A_n) = 0$. Now consider the inequality
+\begin{align*}
+    0 \leq \min \left \{ \frac{\delta_n}{2}, 1 \right \} \leq \mu (A_n), \forall n \in \N.
+\end{align*}
+Since $\lim_{n \to \infty} \mu(A_n) = 0$, by Squeeze Theorem, $\lim_{n \to \infty} \delta_n = 0$. Suppose that $E \in \mathcal{F}$ is such that $E \subseteq B$. By definition of $B$, $E \subseteq A \setminus \left ( \bigcup_{k = 1}^{n - 1} A_k \right )$ for every $n \in \N$. Therefore, $\mu (E) \leq \delta_n,$ for every $n \in \N$. Hence $\mu(E) \leq \lim_{n \to \infty} \delta_n = 0 $. Thus, $B$ is indeed negative for $\mu$.
+\end{proof}
+\end{lemma}
+\begin{proof}[Proof of the \nameref{thm:hahn-decomp-thm}]
+Since the signed measure $\mu$ cannot take both $+\infty$ and $-\infty$, without loss of generality, suppose that $\mu : \mathcal{F} \to (-\infty, \infty]$. The idea is to construct a negative set $N$. To perform the construction, consider 
+\begin{align*}
+    L := \inf \{ \mu(A) : A \text{ is a negative set for $\mu$} \}.
+\end{align*}
+Since $\emptyset$ is negative for $\mu$, $L \leq 0$. By approximation property of $\sup$, there exists a sequence of negative sets $\{A_n\}_{n = 1}^\infty$ such that $\lim_{n \to \infty} \mu(A_n) = L$. Now define the family of sets $\{A_n'\}_{n = 1}^\infty$ such that
+\begin{align*}
+    A_{1}' &= A_1 \\
+    A_{2}' &= A_2 \setminus A_1  \\
+    & \vdots  \\
+    A_{n}' &= A_n \setminus \bigcup_{k = 1} ^ {n - 1} A_k .
+\end{align*}
+Clearly, $A_n' \in \mathcal{F}$. By construction, $\{A_n'\}_{n = 1}^\infty$ is a disjoint family such that $\bigcup_{n = 1}^{\infty} A_n = \bigcup_{n = 1}^{\infty} A_n'$. Now define sets $N, P$ as follows
+\begin{equation}
+    \label{hahn:defn:N}
+    N = \bigcup_{n = 1}^{\infty} A_n = \bigcup_{n = 1}^{\infty} A_n' \text{ and } P = \Omega \setminus N.
+\end{equation}
+We claim $N$ is a negative set. Let $E \in \mathcal{F}$ and suppose that $E \subseteq N$. By \ref{hahn:defn:N}, $E = \bigcup_{n=1}^{\infty} (E \cap A_n')$. Since each $(E \cap A_n')$ is a subset of $A_n$ which is negative, $\mu (E \cap A_n') \leq 0$. By countable additivity, $\mu (E) = \sum_{n = 1}^{\infty} \mu (E \cap A_n') \leq 0$. Hence $N$ is negative for $\mu$, as claimed. 
+
+We claim $\mu(N) = L$. Since $N$ is negative, $L \leq \mu(N)$. For every $n \in \N$, $N = A_n \cup (N \setminus A_n)$. Then $\mu(N) = \mu(A_n) + \mu (N \setminus A_n)$. Since $N$ is negative for $\mu$, $\mu(N \setminus A_n) \leq 0$. Thus for every $n \in \N$, $\mu(N) \leq \mu(A_n)$. Taking the limit as $n \to \infty$, $\mu(N) \leq \lim_{n \to \infty} \mu (A_n) = L$. Therefore, $\mu(N) = L$. 
+
+It remains to show $P$ is positive for $\mu$. We will argue by contradiction. Suppose $P$ is not positive, so there exists $A \in \mathcal{F}$ such that $A \subseteq P$ and $\mu(A) < 0$. Since $\mu$ does not attain $-\infty$, $-\infty < \mu(A) < 0$. By \nameref{lemma:negative-set}, there exists a negative set $B \subseteq A$ such that $\mu(B) \leq \mu(A) < 0$. Now consider the set $B \cup N$. Since $B$ and $N$ are negative sets, $B \cup N$ is negative. Since $B \subseteq A$, $B \subseteq P$. Since $P \cap N = \emptyset$, $B \cap N = \emptyset$. But then, $L \leq \mu(B \cup N) = \mu(B) + \mu(N) < \mu(N) = L$. This is a contradiction. Hence $P$ is positive for $\mu$, as desired.
+\end{proof}
+Using the \nameref{thm:hahn-decomp-thm}, we can precisely describe the relationship between signed measures and measures.
+\begin{theorem}[Hahn-Jordan decomposition]
+\label{thm:hahn-jordan}
+Every signed measure is a difference of two measures, at least one of which is finite.
+\end{theorem}
+\begin{proof}
+Let $\mu$ be a signed measure on a the measurable space $(\Omega, \mathcal{F})$. Let $(P, N)$ be the decomposition of $\Omega$ given by \nameref{thm:hahn-decomp-thm}. Now define functions $\mu^+, \mu^-$ on $\mathcal{F}$ by
+\begin{align*}
+    \mu^+ (A) = \mu (A \cap P), & \\
+    \mu^- (A) = -\mu (A \cap N).
+\end{align*}
+Since $P$ is a positive set for $\mu$ and $N$ is a negative set for $\mu$, $\mu^+$ and $\mu^-$ are both measures, satisfying $\mu = \mu^+ - \mu^-$. Since $\mu$ cannot attain both $+\infty$ and $-\infty$, at least one of measures $\mu^+$ and $\mu^-$ is finite.
+\end{proof}
+
+\begin{definition}[variation of a signed measure]
+Let $(\Omega, \mathcal{F})$ be a measurable space and suppose that $\nu$ is a signed measure on $\mathcal{F}$. Write $\nu = \nu^{+} - \nu^{-}$, as in Theorem \ref{thm:hahn-jordan}. The variation of a signed measure $\nu$ is a measure $|\nu|$ defined by $|\nu| = \nu^{+} + \nu^{-}$.
+\end{definition}

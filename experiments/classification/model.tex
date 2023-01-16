@@ -1,0 +1,128 @@
+\subsection{Model}
+\label{subsection:experiments:classification:model}
+To perform classification experiments, our task is to construct a single neural network that assigns to each given image precisely one of 10 labels from Table \ref{table:experiments:classification:fashion-mnist-labels}. We will begin the discussion by considering theoretical aspects of this problem. We will view each $28 \times 28$ image as a flattened vector in $\R^{784}$.
+A way to solve this problem is to interpret it as trying to approximate or learn a 'classification' function which maps an image viewed as a vector  $\R^{784}$ to a vector in $\R^{10}$. In this context, each $i$-th component of an output vector in $\R^{10}$ corresponds to estimated probability that an image belongs to $i$-th class, for $0 \leq i \leq 9$. Hence to assign a label to an image, we assign a label that corresponds to the highest estimated probability. Formally, we want a neural network $\vec{f} : \R^{784} \to \R^{10}$. It turns out that our network can assign labels automatically by using the \textit{softmax} activation function in the output layer. The \textit{softmax} activation function is designed precisely for this use-case. 
+
+
+From a practical standpoint, we want to have a flexible interface to neural network architecture. This requirement is necessary to support a wide variety of experiments. We want to be able to quickly prototype a new neural network by adding layers or by changing activation function in each layer. Fortunately, PyTorch allows us to achieve both theoretical and practical requirements quite elegantly (see Figure \ref{fig:experiments:classification:model:nn-pytorch}).
+
+\begin{figure}[H]
+    \centering
+    \begin{minted}[fontsize=\footnotesize]{python}
+    from collections import namedtuple
+    import torch.nn as nn
+    
+    image_width = 28
+    image_height = 28
+    
+    LayerConfig = namedtuple("LayerConfig", ["width", "activation"])
+    
+    class FashionNNMultiHiddens(nn.Module):
+    
+        def __init__(self, layers_config):
+            super(FashionNNMultiHiddens, self).__init__()
+    
+            previous_width = image_width * image_height
+            hidden_layers = []
+            for config in layers_config:
+                hidden_layers.append(
+                    nn.Linear(in_features=previous_width,
+                              out_features=config.width))
+                hidden_layers.append(config.activation)
+                previous_width = config.width
+    
+            self.nn = nn.Sequential(*hidden_layers)
+    
+        def forward(self, x):
+            return self.nn(x)
+    \end{minted}
+    \caption{PyTorch implementation of model from Figure \ref{fig:experiments:classification:model:nn} }
+    \label{fig:experiments:classification:model:nn-pytorch}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[shorten >=1pt]
+		\tikzstyle{unit}=[draw,shape=circle,minimum size=1.15cm]
+		\tikzstyle{output}=[draw,shape=circle,minimum size=1.15cm,scale=0.9]
+		\tikzstyle{hidden}=[draw,shape=circle,fill=black!25,minimum size=1.15cm]
+ 		\tikzstyle{lasthidden}=[draw,shape=circle,fill=black!25,minimum size=1.15cm,scale=0.8]
+
+		\node[unit](x0) at (0,3.5){$1$};
+		\node[unit](x1) at (0,2){$x_1$};
+		\node at (0,1){\vdots};
+		\node[unit](xd) at (0,0){$x_{784}$};
+ 
+		\node[hidden](h10) at (3,4){$1$};
+		\node[hidden](h11) at (3,2.5){$f_{1}^{(1)}$};
+		\node at (3,1.5){\vdots};
+		\node[hidden](h1m) at (3,-0.5){$f_{n_{(1)}}^{(1)}$};
+ 
+		\node(h22) at (5,0){};
+		\node(h21) at (5,2){};
+		\node(h20) at (5,4){};
+		
+		\node(d3) at (6,0){$\ldots$};
+		\node(d2) at (6,2){$\ldots$};
+		\node(d1) at (6,4){$\ldots$};
+ 
+		\node(hL12) at (7,0){};
+		\node(hL11) at (7,2){};
+		\node(hL10) at (7,4){};
+		
+		\node[hidden](hL0) at (9,4){$1$};
+		\node[lasthidden](hL1) at (9,2.5){$f_1^{(L-1)}$};
+		\node at (9,1.5){\vdots};
+		\node[lasthidden](hLm) at (9,-0.5){$f_{n_{(L-1)}}^{(L-1)}$};
+ 
+		\node[output](y1) at (12,3.5){$f_{1}^{(L)}$};
+		\node[output](y2) at (12,2){$f_{2}^{(L)}$};
+		\node at (12,1){\vdots};	
+		\node[output](yc) at (12,0){$f_{10}^{(L)}$};
+ 
+		\draw[->] (x0) -- (h11);
+		\draw[->] (x0) -- (h1m);
+ 
+		\draw[->] (x1) -- (h11);
+		\draw[->] (x1) -- (h1m);
+ 
+		\draw[->] (xd) -- (h11);
+		\draw[->] (xd) -- (h1m);
+ 
+		\draw[->] (hL0) -- (y1);
+		\draw[->] (hL0) -- (yc);
+		\draw[->] (hL0) -- (y2);
+ 
+		\draw[->] (hL1) -- (y1);
+		\draw[->] (hL1) -- (yc);
+		\draw[->] (hL1) -- (y2);
+ 
+		\draw[->] (hLm) -- (y1);
+		\draw[->] (hLm) -- (y2);
+		\draw[->] (hLm) -- (yc);
+ 
+		\draw[->,path fading=east] (h10) -- (h21);
+		\draw[->,path fading=east] (h10) -- (h22);
+		
+		\draw[->,path fading=east] (h11) -- (h21);
+		\draw[->,path fading=east] (h11) -- (h22);
+		
+		\draw[->,path fading=east] (h1m) -- (h21);
+		\draw[->,path fading=east] (h1m) -- (h22);
+		
+		\draw[->,path fading=west] (hL10) -- (hL1);
+		\draw[->,path fading=west] (hL11) -- (hL1);
+		\draw[->,path fading=west] (hL12) -- (hL1);
+		
+		\draw[->,path fading=west] (hL10) -- (hLm);
+		\draw[->,path fading=west] (hL11) -- (hLm);
+		\draw[->,path fading=west] (hL12) -- (hLm);
+		
+		\draw [decorate,decoration={brace,amplitude=10pt},xshift=-4pt,yshift=0pt] (-0.5,4) -- (0.75,4) node [black,midway,yshift=+0.6cm]{input layer};
+		\draw [decorate,decoration={brace,amplitude=10pt},xshift=-4pt,yshift=0pt] (2.5,4.5) -- (3.75,4.5) node [black,midway,yshift=+0.6cm]{$1^{\text{st}}$ hidden layer};
+		\draw [decorate,decoration={brace,amplitude=10pt},xshift=-4pt,yshift=0pt] (8.5,4.5) -- (9.75,4.5) node [black,midway,yshift=+0.6cm]{$(L-1)^{\text{th}}$ hidden layer};
+		\draw [decorate,decoration={brace,amplitude=10pt},xshift=-4pt,yshift=0pt] (11.5,4) -- (12.75,4) node [black,midway,yshift=+0.6cm]{output layer};
+	\end{tikzpicture}
+	\caption[Network graph for a \textit{Fashion MNIST} classification.]{This figure illustrates a network graph for a \textit{Fashion MNIST} classification neural network. Output layer is fixed and uses \textit{softmax} activation function. Depending on experiment, other hidden layers vary in width and the activation function. More general implementation of this model is given in Figure \ref{fig:experiments:classification:model:nn-pytorch}.}
+	\label{fig:experiments:classification:model:nn}
+\end{figure}

@@ -1,0 +1,136 @@
+\subsection{Hahn-Banach Theorem}
+
+In this subsection, we will state and prove \nameref{thm:funct:hahn-banach}.
+
+\begin{theorem}[Hahn-Banach Theorem]
+\label{thm:funct:hahn-banach}
+Let $X$ be a real vector space, with a sublinear functional $\rho$ defined on $X$.
+Suppose that $W$ is a linear subspace of $X$ and $f_W$ a linear functional on $W$ satisfying
+\begin{equation}
+    f_W(w) \leq \rho(w), w \in W.
+\end{equation}
+Then $f_W$ has an extension $f$ on $X$ such that 
+\begin{equation}
+    f(x) \leq \rho(x), x \in X.
+\end{equation}
+\end{theorem}
+\begin{proof-idea*}
+The proof of this theorem relies on the \nameref{lemma:set:zorn}. It is divided in two parts. The first part is to show that it is possible to perform an extension along a 'single dimension'. The second part is a careful construction of the set of all possible extensions and the application of the \nameref{lemma:set:zorn} to produce the desired extension.
+\end{proof-idea*}
+\begin{lemma}[Single dimension extension lemma]
+\label{lemma:hb:singledimensext}
+Let $X$ be a real vector space and $W \subset X$ its proper linear subspace. Suppose that $f_{W}$ is a linear functional on $W$ and let $\rho$ be a sublinear functional on $X$.
+Furthermore, suppose that 
+\begin{align}
+    \label{ineqn:funct:singledimens:ass1}
+    f_W(w) \leq p(w), \text{    for every $w \in W$}.
+\end{align}
+Suppose that $z \in X \setminus W$. Define $W_z$ by
+\begin{align*}
+    W_z = \{ w + \alpha z : \alpha \in \R, w \in W \}.
+\end{align*}
+$W_z$ is a vector subspace of $X$. There exists a linear functional $f_{W_z} : W_z \to \R$ such that \[ f_{W_z}(w) = f_W(w), \text{ for every $w \in W$.} \]
+Furthermore, for every $w \in W_z, f_{W_z}(w) \leq p(w)$.
+\end{lemma}
+\clearpage
+\begin{proof}
+We begin by showing that $W_z$ is indeed a vector subspace of $X$.
+Suppose $\omega_1, \omega_2 \in W_z$, $\lambda \in \R$. Then $\omega_1 = w_1 + \alpha_1 z, \omega_2 = w_2 + \alpha_2 z$ for $\alpha_1, \alpha_2 \in \R, w_1, w_2 \in W$.
+Since $W$ is linear, $0 \in W$ so $0 \in W_z$. Since $W$ is linear, $\lambda w_1 \in W$ so $\lambda \omega_1 \in W_z$. Since $W$ is linear, $w_1 + w_2 \in W$ so $\omega_1 + \omega_2 = (w_1 + w_2) + (\alpha_1 + \alpha_2) z \in W_z$.
+
+Moreover, we claim that the representation of each element in $W_z$ is unique.
+Suppose that $\omega = w_1 + \alpha_1 z = w_2 + \alpha_2 z$ for $\alpha_1, \alpha_2 \in \R, w_1, w_2 \in W$. This implies $(w_1 - w_2) = (\alpha_2 - \alpha_1) z$. Since $z \not \in W$ and $w_1 - w_2 \in W$, the equality holds if and only if $\alpha_2 = \alpha_1$. But then $w_1 = w_2$.
+
+By linearity of $f_W$ on $W$, sublinearity of $\rho$ on X and \ref{ineqn:funct:singledimens:ass1}, for every $w_1, w_2 \in W$,
+\begin{align*}
+   f_W(w_1) + f_W(w_2) = f_W(w_1 + w_2) &\leq \rho (w_1 + w_2) = \rho(w_1 - z + z + w_2) \\
+                                        &\leq \rho(w_1 - z) + \rho(w_2 + z),
+\end{align*} which implies
+\begin{align}
+    \label{ineqn:funct:singledimens:ineqntoinfsup}
+    f_W(w_1) - \rho(w_1 - z) &\leq  \rho(w_2 + z) - f_W(w_2), \text{ for every $w_1, w_2 \in W$.}
+\end{align}
+By \ref{ineqn:funct:singledimens:ineqntoinfsup}, $\sup \{ f_W(w) - \rho(w - z) : w \in W \} \leq \inf \{ \rho(w + z) - f_W(w) : w \in W \}$.
+
+Now let $\xi$ be any real number satisfying
+\begin{align}
+    \label{ineqn:funct:singledimens:ineqen_infsup}
+    \sup \{ f_W(w) - \rho(w - z) : w \in W \} \leq \xi \leq \inf \{ \rho(w + z) - f_W(w) : w \in W \}.
+\end{align}
+
+Define $f_{W_{z}} : W_{z} \to \R$ by $f(w + \alpha z) = f(w) + \alpha \xi$. By uniqueness of representation of elements in $W_{z}$, the map $f_{W_{z}} $ is well-defined. We claim that $f$ is a desired extension. It is clear that $f_{W_{z}}$ agrees with $f_W$ on $W$.
+
+We begin by discussing linearity.
+Let $\omega_1, \omega_2 \in W_z$, $\lambda \in \R$. Then write $\omega_1 = w_1 + \alpha_1 z, \omega_2 = w_2 + \alpha_2 z$ for $\alpha_1, \alpha_2 \in \R, w_1, w_2 \in W$.
+By linearity of $f_W$, \begin{align*}
+    f_{W_{z}}(\omega_1 + \omega_2) &= f_{W} (w_1 + w_2) + (\alpha_1 + \alpha_2)\xi =  f_{W_{z}}(\omega_1) + f_{W_{z}}(\omega_2), \\
+    f_{W_{z}}(\lambda \omega_1) &=  f_{W_{z}} (\lambda w_1 + \lambda \alpha_1 z) = f(\lambda w_1) + \lambda \alpha \xi = \lambda f(w_1) + \lambda \alpha \xi \\
+                                &= \lambda f_{W_{z}} (\omega_1).
+\end{align*}
+
+Since $f_{W_{z}}$ agrees with $f_W$ on $W$, for $w \in W$, $f_{W_{z}}(w) \leq \rho(w)$. It remains to verify that $f_{W_{z}}(\omega) \leq \rho(\omega)$ for $\omega \in W_{z}$. Let $\omega \in W_z$, so $\omega = w + \alpha z$, $\alpha \in \R$. 
+
+If $\alpha = 0, \omega \in W$ so the claim holds by \ref{ineqn:funct:singledimens:ass1}.
+
+If $\alpha > 0$,
+\begin{align*}
+    f_{W_{z}} (w + \alpha z) &= \alpha \left (f_{W} (\frac{1}{\alpha} w) + \xi \right ) & \text{by linearity of $f_{W}$} \\
+                             &\leq \alpha \left ( f_{W} (\frac{1}{\alpha} w) + \rho (\frac{1}{\alpha} w + z) - f_{W} (\frac{1}{\alpha} w) \right ) & \text{by \ref{ineqn:funct:singledimens:ineqen_infsup}} \\
+                             &\leq \rho (w + \alpha z). & \text{by sublinearity of $\rho$}
+\end{align*}
+
+If $\alpha < 0$,  $\alpha = - \beta$, $\beta > 0$ and
+\begin{align*}
+    f_{W_{z}} (w + \alpha z) &= \beta \left (f_{W} (\frac{1}{\beta} w) - \xi \right ) & \text{by linearity of $f_{W}$} \\
+                             &\leq \beta \left ( f_{W} (\frac{1}{\beta} w) - (f_{W} (\frac{1}{\beta} w) - \rho (\frac{1}{\beta} w - z) ) \right ) & \text{by \ref{ineqn:funct:singledimens:ineqen_infsup}} \\
+                             &\leq \rho (w - \beta z) = \rho (w + \alpha z). & \text{by sublinearity of $\rho$}
+\end{align*}
+\end{proof}
+
+\begin{proof}[Proof of the \nameref{thm:funct:hahn-banach}]
+
+Let $\Omega$ be the set of all pairs $(W_\alpha, f_{\alpha})$ where:
+\begin{enumerate}[label=(\roman*), noitemsep]
+\item \label{axiom:hb:inclusion} $W_\alpha \subseteq X$ is a vector subspace of $X$, $f_\alpha : W_\alpha \to \R$ a linear functional on $W_\alpha$;
+\item \label{axiom:hb:extension} $f_\alpha(w) = f_{W}(w), w \in W$; 
+\item \label{axiom:hb:domination} $f(w) \leq \rho(w), w\in W_\alpha$. 
+\end{enumerate}
+Since $(W, f_{W}) \in \Omega$, $\Omega$ is nonempty and we define a relation $\prec$ on $\Omega$ by
+\begin{align}
+    \label{defn:funct:hb:porder}
+    (W_\alpha, f_\alpha) \prec (W_\beta, f_\beta) \iff W_\alpha \subseteq W_\beta \text{ and $\forall x \in W_\alpha$, } f_\alpha(x) = f_\beta(x).
+\end{align}
+
+We claim that $\prec$ is a \nameref{defn:set:porder} on $\Omega$. Clearly, $(W_\alpha, f_\alpha) \prec (W_\alpha, f_\alpha)$ so \ref{defn:set:porder:P1} holds. Suppose that $(W_\alpha, f_\alpha) \prec (W_\beta, f_\beta)$ and $(W_\beta, f_\beta) \prec (W_\alpha, f_\alpha)$. By \ref{defn:funct:hb:porder}, $W_\alpha \subseteq W_\beta$ and $W_\beta \subseteq W_\alpha$. Therefore $W_\alpha = W_\beta$ and $f_\alpha = f_\beta$. Hence $(W_\alpha, f_\alpha) = (W_\beta, f_\beta)$ so \ref{defn:set:porder:P2} holds. Suppose that $(W_\alpha, f_\alpha) \prec (W_\beta, f_\beta)$ and $(W_\beta, f_\beta) \prec (W_\gamma, f_\gamma)$. By \ref{defn:funct:hb:porder}, $W_\alpha \subseteq W_\beta$, $W_\beta \subseteq W_\gamma$ so $W_\alpha \subseteq W_\gamma$. By \ref{defn:funct:hb:porder}, $f_\alpha, f_\beta$ agree on $W_\alpha$ and $f_\beta, f_\gamma$ agree on $W_\beta$ and since $W_\alpha \subseteq W_\beta$, $f_\alpha$ and $f_\gamma$ agree on $W_\alpha$. Hence $(W_\alpha, f_\alpha) \prec (W_\gamma, f_\gamma)$. This establishes \ref{defn:set:porder:P3} and $\prec$ is indeed a \nameref{defn:set:porder} on $\Omega$.
+
+Suppose that $\Omega' \subseteq \Omega$ is totally ordered. Then $\Omega'$ is of the form 
+\begin{align*}
+    \Omega' = \{ (W_\alpha, f_\alpha) : (W_\alpha, f_\alpha) \in \Omega, \alpha \in A  \},
+\end{align*} for some nonempty index set $A$. 
+We will construct an \nameref{defn:set:upperbnd} for $\Omega'$ in $\Omega$. Define
+\begin{align}
+    \label{defn:funct:hb:W}
+    U = \bigcup_{\alpha \in A} W_\alpha.
+\end{align}
+
+We will show $U$ is a vector subspace of $X$. Since $A$ is nonempty, let $\alpha \in A$. Since $W_\alpha$ is a vector subspace of $X$, $0 \in W_\alpha$ so $0 \in U$. Let $w_1, w_2 \in U, \lambda \in \R$.
+Since $w_1 \in U$, $w_1 \in W_\alpha$ for $\alpha \in A$.
+Since $w_2 \in U$, $w_2 \in W_\beta$ for $\beta \in A$.
+Since $W_\alpha$ is a vector subspace of $X$, $\lambda w_1 \in W_\alpha$ so $\lambda w_1 \in U$.
+By the total ordering of $\Omega'$, either $W_\alpha \prec W_\beta$ or $W_\beta \prec W_\alpha$.
+Without loss of generality, $W_\alpha \prec W_\beta$. Since $W_\alpha$ is a vector subspace of $X$, $w_1 + w_2 \in W_\alpha$ so $w_1 + w_2 \in U$.
+
+We define $f : U \to \R$ as follows. Let $w \in U$. By \ref{defn:funct:hb:W}, $w \in W_\alpha$ for some $\alpha \in A$. Then set $f(w) = f_\alpha(w)$. We will show that $f$ is well-defined. Suppose that $w \in W_\alpha \cap W_\beta$, $\alpha, \beta \in A$. By the total ordering of $\Omega'$, either $W_\alpha \prec W_\beta$ or $W_\beta \prec W_\alpha$. Without loss of generality, $W_\alpha \prec W_\beta$. By \ref{defn:funct:hb:porder}, $W_\alpha \subseteq W_\beta$ and $f_\alpha(w) = f_\beta(w)$ since $w \in W_\alpha$. Thus, $f$ is well-defined.
+
+We will show $f$ is linear on $U$. Take $w_1, w_2 \in U$ and $\lambda \in \R$.
+Since $w_1 \in U$, $w_1 \in W_\alpha$ for $\alpha \in A$.
+Since $w_2 \in U$, $w_2 \in W_\beta$ for $\beta \in A$.
+Since $f_\alpha$ is linear on $W_\alpha$, $f(\lambda w_1) = f_\alpha(\lambda w_1) = \lambda f_\alpha(w_1) = \lambda f(w_1)$. By the total ordering of $\Omega'$, either $W_\alpha \prec W_\beta$ or $W_\beta \prec W_\alpha$. Without loss of generality, $W_\alpha \prec W_\beta$. By \ref{defn:funct:hb:porder}, $W_\alpha \subseteq W_\beta$. Then $w_1, w_2 \in W_\beta$. Since $f_\beta$ is linear on $W_\beta$, $f(w_1 + w_2) = f_\beta (w_1 + w_2) = f_\beta(w_1) + f_\beta(w_2) = f(w_1) + f(w_2)$.
+
+We will prove that $f$ is an extension of $f_W$ in the sense of \ref{axiom:hb:extension}. Let $w \in W$. Since for each $\alpha \in A$, $(W_\alpha, f_\alpha)$ in $\Omega$, by \ref{axiom:hb:extension}, $f_\alpha(w) = f_W(w)$. By definition of $f$, $f(w) = f_\alpha(w) = f_W(w)$.
+
+Now we prove that $f$ is dominated by $\rho$ in the sense of \ref{axiom:hb:domination}.
+Consider $w \in U$. By \ref{defn:funct:hb:W}, $w \in W_\alpha$ for some $\alpha \in A$. By \ref{axiom:hb:domination}, $f_\alpha(w)\leq \rho(w)$. By definition of $f$, $f(w) = f_\alpha(w) \leq \rho(w)$.
+
+Hence $(U, f) \in \Omega$. We claim $(U, f)$ is an \nameref{defn:set:upperbnd} of $\Omega'$. Let $(W_\alpha, f_\alpha) \in \Omega'$. Clearly, $W_\alpha \subseteq U$. Consider $w \in W_\alpha$. By definition of $f$, $f(w) = f_\alpha(w)$. So $f$ and $f_\alpha$ agree on $W_\alpha$. Thus, $(W_\alpha, f_\alpha) \prec (U, f)$. By \nameref{lemma:set:zorn}, $\Omega$ contains a maximal element, say $(\widetilde{U}, \widetilde{f})$. To prove $\widetilde{f}$ is a desired extension of $f_W$, we will prove $\widetilde{U} = X$. Suppose not. Then $\widetilde{U} \subset X$ and there exists $z \in X \setminus \widetilde{U}$. By \nameref{lemma:hb:singledimensext}, $\widetilde{f}$ can be extended to $f_{\widetilde{U}_z}$ on ${\widetilde{U}_z}$ such that $(\widetilde{U}_z, f_{\widetilde{U}_z}) \in \Omega$ with $(\widetilde{U}, \widetilde{f}) \prec (\widetilde{U}_z, f_{\widetilde{U}_z})$, contradicting the maximality of $(\widetilde{U}, \widetilde{f})$. Hence $\widetilde{U} = X$.
+\end{proof}

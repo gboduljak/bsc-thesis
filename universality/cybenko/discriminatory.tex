@@ -1,0 +1,140 @@
+\subsection{Discriminatory activation functions}
+\label{subsection:universality:cybenko:1}
+An essential part of Cybenko's argument is the notion of discriminatory activation function with respect to a given (signed) measure.
+
+\begin{definition}[discriminatory activation function with respect to a measure]
+\label{defn:discrim:discrimactfn}
+Let $\mu$ be a finite signed Borel measure on $[0,1]^n$. A function $\sigma : \R \to \R$ is called discriminatory for $\mu$ if
+\[
+    \int_{[0,1]^n}\sigma(\langle \vec{w}, \vec{x} \rangle + b) \, d \mu(\vec{x}) = 0, \text{ for every } \vec{w} \in \R^n, b \in \R  \implies \mu = 0.
+\]
+\end{definition}
+\begin{remark}
+In the definition above, $\sigma$ is not necessarily the logistic sigmoid.
+\end{remark}
+\begin{definition}[discriminatory activation function]
+A function $\sigma : \R \to \R$ is called discriminatory if it is discriminatory for every finite signed Borel measure on $[0,1]^n$.
+\end{definition}
+
+At first glance, the meaning of definition of a \nameref{defn:discrim:discrimactfn} is somewhat unclear. Thus, it is worth discussing the intuition behind this definition. By contrapositive, if $\sigma$ is discriminatory for $\mu$ and $\mu$ is nonzero, then there exists at least one configuration of weights $\vec{w} \in \R^n$ and a bias $b \in \R$ such that $\int_{[0,1]^n} \sigma(\langle \vec{w}, \vec{x} \rangle + b) \, d \mu (\vec{x}) \neq 0$. Informally, if $\sigma$ is discriminatory for $\mu$, then $\sigma$ is volumetrically non-destructive when it acts on the affine space $\{ \langle \vec{w}, \vec{x} \rangle + b : \vec{x} \in [0,1]^n \}$. Recall that the affine space $\{ \langle \vec{w}, \vec{x} \rangle + b : \vec{x} \in [0,1]^n \}$ is precisely the range of a single neuron parameterized by weights $\vec{w}$ and a bias $b \in \R$, immediately before the application of the activation function. This section aims to answer the following two questions.
+\begin{itemize}[noitemsep]
+\item How to prove that an activation function is discriminatory for a given measure?
+\item Which practically useful activation functions are discriminatory?
+\end{itemize}
+
+To address the first question, we will develop a lemma which will help us prove that a given activation function is discriminatory for a given measure.
+To simplify claims of the following results, we shall introduce a bit of notation for hyperplanes and open half spaces of $[0,1]^n$. We define
+\begin{align*}
+    \Pi_{\vec{w}, b} = \left \{ \vec{x} : \vec{x} \in [0,1]^n, \langle \vec{w}, \vec{x} \rangle + b = 0 \right \}, & \\
+    \Pi_{\vec{w}, b}^{+} = \left \{ \vec{x} : \vec{x} \in [0,1]^n, \langle \vec{w}, \vec{x} \rangle + b > 0 \right \}, & \\
+    \Pi_{\vec{w}, b}^{-} = \left \{ \vec{x} : \vec{x} \in [0,1]^n, \langle \vec{w}, \vec{x} \rangle + b < 0 \right \}.
+\end{align*}
+
+The following lemma will provide us with a method to identify discriminatory activation functions.
+
+\begin{lemma}
+\label{lemma:discrim:vanishhyper}
+Let $\mu$ be a finite signed Borel measure on $[0,1]^n$. If $\mu$ vanishes on all hyperplanes and open half-spaces of $[0,1]^n$, then $\mu$ is identically zero. More formally, if for every configuration consisting of weights $\vec{w} \in \R^n$ and a bias $b \in \R$, \begin{align*}
+    \mu (\Pi_{\vec{w}, b}) &= 0 \text{ and } \mu(\Pi_{\vec{w}, b}^{+}) = 0,
+\end{align*}
+then $\mu = 0$.
+\end{lemma}
+
+\begin{proof-idea*}
+The idea is to apply "Lebesgue induction" to the cleverly constructed functional $F : \Linfty(\R) \to \R$ given by \[
+    F_{\vec{w}}(h) = \int_{[0,1]^n} h ( \langle \vec{w}, \vec{x} \rangle) \, d \mu( \vec{x}).
+\]
+We will "Lebesgue-inductively" show that $F_{\vec{w}} = 0$ on $\Linfty(\R)$. Surprisingly, the main difficulty will be proving that $F_{\vec{w}}(\chi_{B}) = 0$ for every Borel set $B \in \B(\R)$. To prove this, we will use \nameref{thm:measure:lambda-pi}. After proving that the functional $F_\vec{w}$ vanishes on indicator functions of Borel sets, we will show that it vanishes on measurable simple functions. By appealing to \nameref{thm:lp:density}, we will be able to generalize the result to $\Linfty(\R)$. Using $F_{\vec{w}}(\sin)$ and $F_{\vec{w}}(\cos)$ we will show that the Fourier transform of the finite signed Borel measure $\mu$, denoted $\widehat{\mu}$, satisfies $\widehat{\mu} = 0$. But, this implies $\mu = 0$. The application of the Fourier transform of $\mu$ demystifies the definition and use of $F_\vec{w}$.
+\end{proof-idea*}
+\begin{proof}
+\setcounter{step}{0}
+\begin{step}[$F_\vec{w}$ is a bounded linear functional.]
+Fix $\vec{w} \in \R^n$, and define the function $F_\vec{w} : \Linfty(\R) \to \R$ by \[
+    F_{\vec{w}}(h) = \int_{[0,1]^n} h ( \langle \vec{w}, \vec{x} \rangle  ) \, d \mu  (\vec{x}).
+\]
+We claim that $F_\vec{w}$ is a bounded linear functional on $\Linfty(\R)$. Linearity follows from the linearity of an integral. To prove boundedness, suppose $h \in \Linfty(\R)$. By definition of $\Linfty(\R)$, without loss of generality, $h \leq \norm{h}_\infty < \infty$. Then \begin{align}
+    \label{ineqn:discrim:vanishdiscrimlemma:1}
+     | F_{\vec{w}}(h) | &= \left | \int_{[0,1]^n} h ( \langle \vec{w}, \vec{x} \rangle) \, d \mu  (\vec{x}) \right | \leq  \int_{[0,1]^n} \left |  h ( \langle \vec{w}, \vec{x} \rangle)  \right |  \, d  |\mu| (\vec{x}) \leq \norm{h}_\infty  |\mu| ([0,1]^n).
+\end{align}
+Since $\mu$ is finite, by \nameref{thm:hahn-jordan}, so is its total variation $|\mu|$. Hence $ |\mu| ([0,1]^n) < \infty$. By \ref{ineqn:discrim:vanishdiscrimlemma:1}, $| F_{\vec{w}}(h) | < \infty$.
+\end{step}
+\begin{step}[$F_\vec{w}$ vanishes on indicators of Borel sets in $\R$.]
+We begin by proving $F_\vec{w}$ vanishes on indicator functions of intervals.
+Consider the indicator function $\chi_{[b, \infty)}$, for $b \in \R$. We have
+\begin{subequations}\label{eqn:discrim:vanishdiscrimlemma:vanish_chi_b_infty_closed}
+\begin{align*}
+    F_{\vec{w}}(\chi_{[b, \infty)}) &= \int_{[0,1]^n} \chi_{[b, \infty)}( \langle \vec{w}, \vec{x} \rangle  ) \, d \mu  (\vec{x}) \\
+                                &= \mu (\left \{ \vec{x} \in [0,1]^n : b \leq \langle \vec{w}, \vec{x} \rangle < \infty  \right \}) \\
+                                &= \mu (\left \{ \vec{x} \in [0,1]^n : 0 \leq \langle \vec{w}, \vec{x} \rangle -b\right \}) \\
+                                &= \mu(\Pi_{\vec{w}, -b}) +  \mu(\Pi_{\vec{w}, -b}^{+}) = 0.
+     \tag{\ref{eqn:discrim:vanishdiscrimlemma:vanish_chi_b_infty_closed}} 
+\end{align*}
+\end{subequations}
+To establish \ref{eqn:discrim:vanishdiscrimlemma:vanish_chi_b_infty_closed}, we applied the assumption that $\mu(\Pi_{\vec{w}, -b}) = \mu(\Pi_{\vec{w}, -b}^{+}) = 0$. Similarly, \begin{align}
+    \label{eqn:discrim:vanishdiscrimlemma:vanish_chi_b_infty_open}
+    F_{\vec{w}}(\chi_{(b, \infty)}) = \mu(\Pi_{\vec{w}, -b}^{+}) = 0.
+\end{align}
+For every $a, b \in \R$ such that $a < b$, $\chi_{(a,b)} = \chi_{(a, \infty)} - \chi_{[b, \infty)}$. By linearity of $F_\vec{w}$ and by \ref{eqn:discrim:vanishdiscrimlemma:vanish_chi_b_infty_closed} and  \ref{eqn:discrim:vanishdiscrimlemma:vanish_chi_b_infty_open},
+\begin{align}
+    \label{eqn:discrim:vanishdiscrimlemma:openints}
+    F_{\vec{w}}(\chi_{(a,b)}) = F_{\vec{w}}(\chi_{(a, \infty)} - \chi_{[b, \infty)}) = F_{\vec{w}}(\chi_{(a, \infty)}) - F_{\vec{w}}(\chi_{[b, \infty)}) = 0.
+\end{align} We claim that $F_{\vec{w}}(\chi_B) = 0$, for every Borel set $B \subseteq \R$.
+To show that $F_\vec{w}$ vanishes on the indicator function of every Borel set, we will appeal to \nameref{thm:measure:lambda-pi}.
+Define collections $\Pi$ and $\Lambda$ by 
+\begin{align*}
+    \Pi = \left \{ (a,b) : - \infty \leq a \leq b \leq \infty \right \} \text{ and } \Lambda = \left \{ A : A \in \B(\R) \text{ and } F_{\vec{w}}(\chi_{A}) = 0 \right \}.
+\end{align*}
+Since a finite intersection of open intervals is again an open, possibly degenerate interval, $\Pi$ is a $\pi$-system. We will show that $\Lambda$ is a $\lambda$-system. By \ref{eqn:discrim:vanishdiscrimlemma:openints}, $\Lambda$ contains $\Pi$. Clearly, $\R \in \Lambda$. Suppose that $A, B \in \Lambda$ where $B \subseteq A$. Then $\chi_{A \setminus B} = \chi_A - \chi_B$ so $F_{\vec{w}}(\chi_{A \setminus B}) = F_{\vec{w}}(\chi_A - \chi_B)  =F_{\vec{w}}(\chi_A ) - F_{\vec{w}}(\chi_B) = 0$, since $A, B \in \Lambda$. Thus $A \setminus B \in \Lambda$. Suppose that $\{ B_n \}_{n =1}^\infty$ is a collection of disjoint sets in $\Lambda$. We will show that $B = \bigcup_{n=1}^\infty B_n \in \Lambda$. Clearly, $\chi_B = \sum_{k=1}^\infty \chi_{B_k}$ so $\sum_{k=1}^m \chi_{B_k} \uparrow \chi_B$, as $m \to \infty$. Then
+\begin{align*}
+    F_{\vec{w}}(\chi_{B}) &=  \int_{[0,1]^n} \chi_B ( \langle \vec{w}, \vec{x} \rangle  ) \, d \mu  (\vec{x}) =  \int_{[0,1]^n} \sum_{k=1}^\infty \chi_{B_k} ( \langle \vec{w}, \vec{x} \rangle  ) \, d \mu  (\vec{x}) \\
+               &=   \int_{[0,1]^n} \lim_{m \to \infty} \sum_{k=1}^m \chi_{B_k} ( \langle \vec{w}, \vec{x} \rangle  ) \, d \mu  (\vec{x})  \\
+               &=  \lim_{m \to \infty}\int_{[0,1]^n} \sum_{k=1}^m \chi_{B_k} ( \langle \vec{w}, \vec{x} \rangle  ) \, d \mu  (\vec{x})  \text{ by \nameref{thm:mct}}  \\
+               &= \lim_{m \to \infty} \sum_{k=1}^m \int_{[0,1]^n} \chi_{B_k}  ( \langle \vec{w}, \vec{x} \rangle  ) \, d \mu  (\vec{x}) \\ 
+               &=  \lim_{m \to \infty} \sum_{k=1}^m F_{\vec{w}}(\chi_{B_k}) = 0.
+\end{align*}
+It is worth justifying the application of \nameref{thm:mct}. In the original form, \nameref{thm:mct} applies only to measures. In the calculation above, we are integrating with respect to a signed measure. However, by \nameref{thm:hahn-jordan}, $\mu$ admits decomposition $\mu = \mu^{+} - \mu^{-}$, where $\mu^{+}$ and $\mu^{-}$ are measures. We apply \nameref{thm:mct} to integrals with respect to $\mu^{+}$ and $\mu^{-}$. By definition of the integral with respect to $\mu$, we obtain the desired conclusion.
+Hence $\Lambda$ is indeed a $\lambda$-system. By \nameref{thm:measure:lambda-pi}, $\B(\R) = \sigma(\Pi) = \lambda(\Pi) \subseteq \Lambda$.
+Since $\Lambda \subseteq \B(\R)$, $\B(\R) = \Lambda$, as desired.
+\end{step}
+\begin{step}[$F_\vec{w}$ vanishes on measurable simple functions]
+Suppose that $\varphi$ is a $\B(\R)$-measurable simple function. Without loss of generality, $\varphi = \sum_{k=1}^m \alpha_k \chi_{A_k} $, where $A_k$ are disjoint $\B(\R)$-measurable sets. By linearity of $F_\vec{w}$ and Step 2,
+\begin{align}
+    \label{ineqn:discrim:vanishdiscrimlemma:simple}
+    F_{\vec{w}}(\varphi) = F \left (\sum_{k=1}^m \alpha_k \chi_{A_k} \right ) = \sum_{k=1}^m F_{\vec{w}}(\alpha_k \chi_{A_k}) =  \sum_{k=1}^m  \alpha_k F_{\vec{w}}( \chi_{A_k}) = 0.
+\end{align}
+\end{step}
+\begin{step}[$F_\vec{w}$ vanishes on $\Linfty(\R)$]
+Let $f \in \Linfty(\R)$. By \nameref{thm:lp:density}, there exists a sequence of $\B(\R)$-measurable simple functions $\{ \varphi_n \}_{n=1}^\infty$ converging to $f$ in $\norm{\cdot}_\infty$. For every $m \in \N$, $f - \varphi_m \in \Linfty(\R)$. Without loss of generality, $| f - \varphi_m | \leq \norm{f - \varphi_m}_\infty$. Then
+\begin{subequations}\label{ineqn:discrim:vanishdiscrimlemma:vanish_goal}
+\begin{align*}
+    \left | F_{\vec{w}}(f) - F_{\vec{w}}(\varphi_m) \right | &\leq \left | \int_{[0,1]^n} (f - \varphi_m) ( \langle \vec{w}, \vec{x} \rangle) \, d \mu  (\vec{x}) \right | & \\
+    & \leq \int_{[0,1]^n} |  (f - \varphi_m) ( \langle \vec{w}, \vec{x} \rangle) | \, d |\mu| ( \vec{x}) &\\
+    & \leq \norm{f - \varphi_m}_\infty |\mu| ([0,1]^n).
+    \tag{\ref{ineqn:discrim:vanishdiscrimlemma:vanish_goal}} 
+\end{align*}
+\end{subequations}
+Since $\lim_{m \to \infty}  \norm{f - \varphi_m}_\infty = 0$ and $ |\mu| ([0,1]^n) < \infty$, by \ref{ineqn:discrim:vanishdiscrimlemma:vanish_goal}, $\left | F_{\vec{w}}(f) - F_{\vec{w}}(\varphi_m) \right | \to 0$, as $m \to \infty$.
+Combining   $\left | F_{\vec{w}}(f) - F_{\vec{w}}(\varphi_m) \right | \to 0$ as $m \to \infty$ with  \ref{ineqn:discrim:vanishdiscrimlemma:simple} gives
+\begin{align}
+   \label{ineqn:discrim:vanishdiscrimlemma:linfty}
+   F_{\vec{w}}(f) = \lim_{m \to \infty} F_{\vec{w}}(\varphi_m) = 0.
+\end{align}
+Since $f$ was arbitrary, $F_\vec{w}$ vanishes on $\Linfty(\R)$.
+\end{step}
+\begin{step}[$\mu$ is identically zero.]
+We will compute the Fourier transform of $\mu$.
+Since $\cos$ and $\sin$ are bounded and measurable, $\cos, \sin \in \Linfty(\R)$. By \ref{ineqn:discrim:vanishdiscrimlemma:linfty}, we have that $F_\vec{w}(\cos) = F_\vec{w}(\sin) = 0$. This implies  
+\begin{align*}
+    \widehat{\mu}(\vec{w}) &= \int_{[0,1]^n} e^{i \langle \vec{w}, \vec{x} \rangle } \, d\mu(\vec{x}) & \\
+                           &=  \int_{[0,1]^n} \cos (\langle \vec{w}, \vec{x} \rangle) \, d\mu(\vec{x}) + i \int_{[0,1]^n} \sin (\langle \vec{w}, \vec{x} \rangle) \, d\mu(\vec{x})  &\\
+                           &= F_\vec{w}(\cos) + i F_\vec{w}(\sin) &\\
+                           &= 0.
+\end{align*}
+By Corollary \ref{corr:fourier:uniqmeasure}, $\mu = 0$.
+\end{step}
+\end{proof}
+
+
+We are ready to address the second question.
+
+\input{universality/cybenko/sigmoidal}

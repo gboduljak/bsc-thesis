@@ -1,0 +1,114 @@
+\subsubsection{Hahn-Jordan decomposition for bounded linear functionals on $L^p$}
+Based on \cite{bartle_measure_integration}.
+
+\begin{theorem}[Hahn-Jordan decomposition for bounded linear functionals on $L^p$]
+Let $(\Omega, \mathcal{F}, \mu)$ be a measure space. If $\varphi$ is a bounded linear functional on $\Lp(\Omega, \mathcal{F}, \mu)$, $1 \leq p < \infty$, then there exist two positive bounded linear functionals $\varphi^+, \varphi^-$  on $\Lp(\Omega, \mathcal{F}, \mu)$ such that $\varphi = \varphi^+ - \varphi^-$.
+\end{theorem}
+\begin{proof}
+Let $\Lp(\Omega, \mathcal{F}, \mu)^+$ be the set of all nonnegative functions in $\Lp(\Omega, \mathcal{F}, \mu)$.
+
+For $f \in \Lp(\Omega, \mathcal{F}, \mu)^+$ define the set $\Phi(f)$ by
+\begin{equation*}
+    \Phi(f) := \{ \varphi(g) : g \in \Lp(\Omega, \mathcal{F}, \mu), 0 \leq g \leq f \}.
+\end{equation*}
+Now define the function $\widetilde{\varphi} : \Lp(\Omega, \mathcal{F}, \mu)^+ \to \R$ by $\widetilde{\varphi}(f) := \sup \Phi(f)$.
+Firstly, we observe that $0 \in \Phi(f)$. Since $\varphi$ is linear, $\varphi(0) = 0$ so $\widetilde{\varphi}(f) \geq 0$.
+
+Consider $g \in \Phi(f)$. Since $0 \leq g \leq f$ and $\varphi$ is a bounded linear functional, we have $| \varphi(g) | \leq \norm{ \varphi } \norm{g}_p \leq \norm{ \varphi } \norm{f}_p$. Consequently, 
+\begin{equation}
+    \label{decomp:widetilde-varphi}
+    0 \leq \widetilde{\varphi}(f) \leq \norm{ \varphi } \norm{f}_p.
+\end{equation}
+We claim that $\widetilde{\varphi}$ is linear on $\Lp(\Omega, \mathcal{F}, \mu)^+$.
+We will show that for $\lambda \geq 0$, $\widetilde{\varphi}(\lambda f) = \lambda \widetilde{\varphi}(f)$. Consider $\lambda = 0$. Since $\widetilde{\varphi}(0) = 0$, the claim holds.
+Now suppose $\lambda > 0$. Then
+\begin{align*}
+    \widetilde{\varphi}(\lambda f) &= \sup \{ \varphi(g) : g \in \Lp(\Omega, \mathcal{F}, \mu), 0 \leq g \leq \lambda f \} & \\
+    &= \sup \{ \varphi(g) : g \in \Lp(\Omega, \mathcal{F}, \mu), 0 \leq \frac{1}{\lambda} g \leq f \}  & \\
+    &= \sup \{ \varphi(\lambda g) : g \in \Lp(\Omega, \mathcal{F}, \mu), 0 \leq g \leq f \} & \\
+    &= \sup \{ \lambda \varphi( g) : g \in \Lp(\Omega, \mathcal{F}, \mu), 0 \leq g \leq f \} & \text{by linearity of $\varphi$} \\
+    &= \lambda \sup \{  \varphi( g) : g \in \Lp(\Omega, \mathcal{F}, \mu), 0 \leq g \leq f \} & \\
+    &= \lambda \widetilde{\varphi}(f).
+\end{align*}
+Now consider $f, h \in \Lp(\Omega, \mathcal{F}, \mu)^+$. Let $g_1 \in \Phi(f)$, $g_2 \in \Phi(h)$.
+Then $0 \leq g_1 \leq f$, $0 \leq g_2 \leq h$. Hence $0 \leq g_1 + g_2 \leq f + h$ so $g_1 + g_2 \in \Phi(f + h)$. This implies $\varphi(g_1 + g_2) \leq \widetilde{\varphi} (f + h)$.  
+By linearity of $\varphi$, we have
+\begin{align*}
+    \varphi(g_1 + g_2) = \varphi(g_1) + \varphi(g_2) \leq \widetilde{\varphi} (f + h).
+\end{align*}
+Since $g_1$ and $g_2$ were arbitrary, $ \widetilde{\varphi} (f) + \widetilde{\varphi} (h) \leq \widetilde{\varphi} (f + h)$. Conversely, suppose $\epsilon > 0$. By definition of $\widetilde{\varphi}$ and \ref{decomp:widetilde-varphi}, we can choose $g \in \Phi(f + h)$ such that $0 \leq g \leq f + h$ and 
+\begin{equation}
+    \label{decomp:prop}
+    \widetilde{\varphi} (f + h) < \varphi(g) + \epsilon.
+\end{equation}
+Set $g_1 = \min(f, g)$ and observe that $0 \leq g \leq f$ and $0 \leq g - g_1$. Since $0 \leq g \leq f$ , $g_1 \in \Phi(f)$.
+We claim $0 \leq g - g_1 \leq h$. Suppose not. Then there exists $\omega \in \Omega$ such that:
+\begin{equation}
+    \label{decomp:contradict}
+    g(\omega) - g_1(\omega) > h (\omega)
+\end{equation}
+By definition of $g_1$, $g_1(\omega) = g(\omega)$ or $g_1(\omega) = f(\omega)$.
+
+Suppose $g_1(\omega) = g(\omega)$. By \ref{decomp:contradict}, $h (\omega) < 0$. This is a contradiction to $h \in \Lp(\Omega, \mathcal{F}, \mu)^+$. Hence $g_1(\omega) = f(\omega)$. By \ref{decomp:contradict}, $f(\omega) + h(\omega) < g(\omega)$. This contradicts the choice $g \in \Phi(f + h)$. Hence $0 \leq g - g_1 \leq h$ so $g - g_1 \in \Phi(h)$.
+
+By linearity of $\varphi$, $\varphi(g) = \varphi(g - g_1 + g_1) = \varphi(g - g_1) + \varphi(g_1)$.
+By \ref{decomp:prop}, 
+\begin{align*}
+    \widetilde{\varphi} (f + h) &< \varphi(g) + \epsilon & \\
+                                &= \varphi(g - g_1) + \varphi(g_1) + \epsilon & \\
+                                &\leq \widetilde{\varphi} (h) + \varphi(g_1) + \epsilon & \text{since $g - g_1 \in \Phi(h)$} \\
+                                &\leq \widetilde{\varphi}(h) + \widetilde{\varphi} (f) + \epsilon  & \text{since $g_1 \in \Phi(f)$}
+\end{align*}
+Since $\epsilon$ was arbitrary, $\widetilde{\varphi} (f + h) \leq + \widetilde{\varphi} (f) + \widetilde{\varphi} (h)$. Hence $\widetilde{\varphi} (f + h) = \widetilde{\varphi} (f) + \widetilde{\varphi} (h)$.
+
+Using $\widetilde{\varphi}$, we construct the desired decomposition of $\varphi$ on $\Lp(\Omega, \mathcal{F}, \mu)$. To perform the decomposition, we define $\phi : \Lp(\Omega, \mathcal{F}, \mu) \to \R$ by
+\begin{align*}
+    \phi (f) := \widetilde{\varphi}(f^+) - \widetilde{\varphi}(f^-).
+\end{align*}
+
+We claim that $\phi$ is a positive bounded linear functional. To prove $\phi$ is a positive functional, suppose that $f \in \Lp(\Omega, \mathcal{F}, \mu)$ with $f \geq 0$. Then $f^+ = f$ and $f^- = 0$.
+We have $\widetilde{\varphi}(f^-) = \widetilde{\varphi}(0) = 0$. Now $\phi(f) = \widetilde{\varphi}(f^+) - \widetilde{\varphi}(f^-) =  \widetilde{\varphi}(f) \geq 0$, by \ref{decomp:widetilde-varphi}.
+
+Now consider the linearity of $\phi$. Let $f, g \in \Lp(\Omega, \mathcal{F}, \mu)$. Write
+\begin{align*}
+    f = f^+ - f^- & \text{ where } f^+, f^- \in \Lp(\Omega, \mathcal{F}, \mu)^+, \\
+    g = g^+ - g^- & \text{ where } g^+, g^- \in \Lp(\Omega, \mathcal{F}, \mu)^+.
+\end{align*}
+By decompositions above, $f + g = (f^+ + g^+) - (f^- + g^-)$.
+We also have the decomposition $f + g = (f+g)^+ - (f+g)^-$. Combining those gives
+\begin{equation}
+    \label{decomp:widetildeapply}
+    (f^+ + g^+) + (f+g)^- = (f^- + g^-) + (f+g)^+.
+\end{equation}
+Applying $\widetilde{\varphi}$ to \ref{decomp:widetildeapply} gives 
+\begin{equation*}
+   \widetilde{\varphi}(f^+) + \widetilde{\varphi}(g^+) + \widetilde{\varphi}((f+g)^-) = \widetilde{\varphi}(f^-) + \widetilde{\varphi}(g^-) + \widetilde{\varphi}((f+g)^+).
+\end{equation*}
+Rearranging gives
+\begin{equation}
+\label{decomp:linearity}
+\widetilde{\varphi}((f+g)^+) - \widetilde{\varphi}((f+g)^-) =  \widetilde{\varphi}(f^+) - \widetilde{\varphi}(f^-) + \widetilde{\varphi}(g^+) -  \widetilde{\varphi}(g^-).
+\end{equation}
+By definition of $\phi$ and \ref{decomp:linearity}, $\phi(f + g) = \phi(f) + \phi(g)$.
+
+It remains to prove that for every $\lambda \in \R$ and for every $f \in \Lp(\Omega, \mathcal{F}, \mu)$, $\phi(\lambda f) = \lambda \phi (f)$.  Consider $\lambda \geq 0$. By linearity of $\widetilde{\varphi}$ on $\Lp(\Omega, \mathcal{F}, \mu)^+$, we have
+\begin{align*}
+    \phi (\lambda f) &= \widetilde{\varphi}((\lambda f)^+) - \widetilde{\varphi}((\lambda f)^-) & \\
+                     &= \widetilde{\varphi}(\lambda f^+) - \widetilde{\varphi}(\lambda f^-) & \\
+                     &= \lambda \widetilde{\varphi}(f^+) - \lambda \widetilde{\varphi}(f^-)) & \\
+                     &= \lambda \left ( \widetilde{\varphi}(f^+) - \widetilde{\varphi}(f^-) \right ) & \\
+                     &= \lambda \left ( \phi(f) \right ).
+\end{align*}
+
+By definition, $(-\lambda f)^+ = \lambda f^-$ and $(-\lambda f)^- = \lambda f^+$. Now
+\begin{align*}
+    \phi (- \lambda f) &= \widetilde{\varphi}((-\lambda f)^+) - \widetilde{\varphi}((-\lambda f)^-) & \\
+                     &= \widetilde{\varphi}(\lambda f^-) - \widetilde{\varphi}(\lambda f^+) & \\
+                     &= \lambda \widetilde{\varphi}(f^-) - \lambda \widetilde{\varphi}(f^+)) & \\
+                     &= \lambda \left ( \widetilde{\varphi}(f^-) - \widetilde{\varphi}(f^+) \right ) & \\
+                     &= -\lambda \left ( \phi(f) \right ).
+\end{align*}
+We conclude $\phi$ is linear on $\Lp(\Omega, \mathcal{F}, \mu)$.
+
+Finally, we claim that the desired decomposition is $\varphi = \phi - (\phi - \varphi)$. We have shown that $\phi$ is a positive bounded linear functional. We claim that $(\phi - \varphi)$ is also a positive bounded linear functional. Linearity of $(\phi - \varphi)$ follows from the linearity of $\phi$ and $\varphi$. Since $\phi$ and $\varphi$ are both bounded linear functionals,  ($\phi - \varphi)$ is also a bounded linear functional. To conclude, we discuss positivity of $(\phi - \varphi)$. Suppose $f \in \Lp(\Omega, \mathcal{F}, \mu)^+$. Clearly, $f \in \Phi(f)$. Then $\phi(f) = \widetilde{\varphi}(f) \geq \varphi(f)$. Hence $\phi(f) - \varphi(f) \geq 0$, as desired.
+\end{proof}

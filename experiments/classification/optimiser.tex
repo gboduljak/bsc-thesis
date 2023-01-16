@@ -1,0 +1,56 @@
+
+\pagebreak
+\subsection{The choice of an optimizer}
+\label{subsection:experiments:classification:optimizer}
+When it comes to optimizers, in this thesis we only discussed stochastic gradient descent. We briefly mentioned other methods of practical importance. However, the convergence of stochastic gradient descent was too slow under configuration from Table \ref{table:expriments:training_config} (see Table \ref{table:experiments:classification:optimizers-sigmoid} and Table \ref{table:experiments:classification:optimizers-relu}). 
+Since the computational resources were limited, after experimenting with different optimizers, Adam produced the best results in the smallest number of training epochs. Adam is currently one of the most popular optimizers and it is a common default choice. The choice of an optimizer is a good example of a practical problem that is not discussed in the approximation theory of neural networks. Theoretical results are completely disconnected from choices regarding the optimization algorithm and its configuration. However, those may significantly affect the performance of the resulting neural network. Effects are especially noticeable when training for a fixed number of epochs, which is a very common practice. Given the fact an average training time of a network with a single hidden layer was about 30 minutes, the training time was indeed significantly affected. This observation was neatly summarised in \citetitle{ruder_2017_an} \cite{ruder_2017_an}, quoted below.
+
+\begin{displayquote}[\citetitle{ruder_2017_an} \cite{ruder_2017_an}, p.10]
+"Interestingly, many recent papers use vanilla SGD without momentum and a simple learning rate
+annealing schedule. As has been shown, SGD usually achieves to find a minimum, but it might take
+significantly longer than with some of the optimizers, is much more reliant on a robust initialization
+and annealing schedule, and may get stuck in saddle points rather than local minima. Consequently,
+if you care about fast convergence and train a deep or complex neural network, you should choose
+one of the adaptive learning rate methods."
+\end{displayquote}
+
+The following results were obtained by changing the optimizer in configuration from Table \ref{table:expriments:training_config}. All optimizers were initialized with a default configuration.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ | c | c | c | }
+         \hline
+         \textbf{model} & \textbf{SGD} & \textbf{Adam} \\
+         \hline
+         nn-16-sigmoid-softmax & 70.9800\% & 79.2200\% \\
+         \hline
+         nn-32-sigmoid-softmax & 70.8300\% & 79.8700\% \\
+         \hline
+         nn-64-sigmoid-softmax & 70.1500\% & 79.0100\% \\
+         \hline
+         nn-128-sigmoid-softmax & 68.6500\% & 79.4500\% \\
+         \hline
+    \end{tabular}
+
+    \caption{validation set accuracy of sigmoid networks after 5 training epochs}
+    \label{table:experiments:classification:optimizers-sigmoid}
+\end{table}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ | c | c | c | }
+         \hline
+         \textbf{model} & \textbf{SGD} & \textbf{Adam} \\
+         \hline
+         nn-16-relu-softmax & 72.5100\% & 76.7800\% \\
+         \hline
+         nn-32-relu-softmax & 72.5400\% & 76.6100\% \\
+         \hline
+         nn-64-relu-softmax & 72.8500\% & 77.2100\% \\
+         \hline
+         nn-128-relu-softmax & 72.8900\% & 77.4200\% \\
+         \hline
+    \end{tabular}
+
+    \caption{validation set accuracy of ReLU networks after 5 training epochs}
+    \label{table:experiments:classification:optimizers-relu}
+\end{table}

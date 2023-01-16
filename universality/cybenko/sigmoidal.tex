@@ -1,0 +1,113 @@
+\subsection{Sigmoidal activation functions}
+\label{subsection:universality:cybenko:2}
+\begin{definition}[sigmoidal activation function]
+A function $\sigma : \R \to \R$ is called sigmoidal if \[
+    \lim_{x \to \infty} \sigma(x) = 1 \text{ and } \lim_{x \to -\infty} \sigma(x) = 0.
+\]
+\end{definition}
+
+\begin{proposition}[Bounded measurable sigmoidal functions are discriminatory]
+\label{prop:discrim:boundedmeasdiscrim}
+Let $\mu$ be a finite signed Borel measure on $[0,1]^n$. Suppose that $\sigma : \R \to \R$ is bounded, Borel measurable and sigmoidal function. Then $\sigma$ is discriminatory for $\mu$. 
+\end{proposition}
+\begin{proof-idea*}
+We will reduce the problem to the application of Lemma \ref{lemma:discrim:vanishhyper}.
+\end{proof-idea*}
+\begin{proof}
+Suppose that $\sigma$ satisfies \begin{align}
+    \label{eqn:discrim:bdsigm:sigma}
+    \int_{[0,1]^n}\sigma(\langle \vec{w}, \vec{x} \rangle + b) \, d \mu  (\vec{x}) = 0, \text{ for every } \vec{w} \in \R^n, b \in \R.
+\end{align}
+We need to show that $\mu = 0$. We aim to apply Lemma \ref{lemma:discrim:vanishhyper}. For fixed $\lambda, a \in \R$, define $\sigma_{\lambda, a} : [0,1]^n \to \R$ by \[
+    \sigma_{\lambda, a} (\vec{x}) = \sigma \left ( \lambda (\langle \vec{w}, \vec{x} \rangle + b) + a \right ) = \sigma \left (\langle \lambda \vec{w}, \vec{x} \rangle + b\lambda + a \right ).
+\]
+By \ref{eqn:discrim:bdsigm:sigma}, 
+ \begin{align}
+    \label{eqn:discrim:bdsigm:sigmalambda}
+    \int_{[0,1]^n}\sigma_{\lambda, a} (\vec{x}) \, d \mu  (\vec{x}) = 0.
+\end{align}
+Define $\gamma : [0,1]^n \to \R$ by $\gamma(\vec{x}) = \lim_{\lambda \to \infty} \sigma_{\lambda, a} (\vec{x})$. Observe that  \begin{equation}
+    \label{eqn:discrim:bdsigm:gamma}
+    \gamma(\vec{x}) =
+    \begin{cases}
+      1         & \text{ if } \langle \vec{w}, \vec{x} \rangle + b > 0 \\
+      \sigma(a) & \text{ if } \langle \vec{w}, \vec{x} \rangle + b = 0 \\
+      0         & \text{ if } \langle \vec{w}, \vec{x} \rangle + b < 0
+    \end{cases}.
+  \end{equation}
+  
+By \ref{eqn:discrim:bdsigm:gamma}, \begin{align*}
+    \int_{[0,1]^n} \gamma(\vec{x}) d \mu  (\vec{x}) &= \int_{\Pi_{\vec{w}, b}^{+}} \gamma(\vec{x}) d \mu  (\vec{x})  + \int_{\Pi_{\vec{w}, b}} \gamma(\vec{x}) d \mu  (\vec{x})  + \int_{\Pi_{\vec{w}, b}^{-}} \gamma(\vec{x}) d \mu  (\vec{x})  & \\
+                                                    &=\int_{\Pi_{\vec{w}, b}^{+}} 1 d \mu  (\vec{x})  + \int_{\Pi_{\vec{w}, b}} \sigma(a) d \mu  (\vec{x})  + \int_{\Pi_{\vec{w}, b}^{-}} 0 d \mu  (\vec{x})  & \\
+                                                   &= \mu(\Pi_{\vec{w}, b}^{+}) + \sigma(a) \cdot \mu (\Pi_{\vec{w}, b}).
+\end{align*}
+Taking $\lim_{a \to \infty}$ and applying the fact $\sigma$ is sigmoidal gives
+\begin{align}
+      \label{eqn:discrim:bdsigm:vanish_1}
+      \int_{[0,1]^n} \gamma(\vec{x}) d \mu  (\vec{x}) = \mu(\Pi_{\vec{w}, b}^{+}) + \lim_{a \to \infty} \sigma(a) \cdot \mu (\Pi_{\vec{w}, b}) = \mu(\Pi_{\vec{w}, b}^{+}) + \mu (\Pi_{\vec{w}, b}).
+\end{align}
+Taking $\lim_{a \to -\infty}$ and applying the fact $\sigma$ is sigmoidal gives
+\begin{align}
+      \label{eqn:discrim:bdsigm:vanish_2}
+      \int_{[0,1]^n} \gamma(\vec{x}) d \mu  (\vec{x}) = \mu(\Pi_{\vec{w}, b}^{+}) + \lim_{a \to -\infty} \sigma(a) \cdot \mu (\Pi_{\vec{w}, b}) = \mu(\Pi_{\vec{w}, b}^{+}).
+\end{align}
+Equating \ref{eqn:discrim:bdsigm:vanish_1} and  \ref{eqn:discrim:bdsigm:vanish_2} gives
+\begin{align}
+     \mu(\Pi_{\vec{w}, b}^{+}) + \mu (\Pi_{\vec{w}, b}) = \mu(\Pi_{\vec{w}, b}^{+}) \implies \mu (\Pi_{\vec{w}, b}) = 0.
+\end{align}
+By \ref{eqn:discrim:bdsigm:vanish_2}, to prove $\mu(\Pi_{\vec{w}, b}^{+}) = 0$, it is equivalent to prove $\int_{[0,1]^n} \gamma(\vec{x}) d \mu  (\vec{x}) = 0$. We will appeal to the \nameref{thm:dct}.
+By \nameref{thm:hahn-jordan}, $\mu$ can be decomposed as $\mu = \mu^{+} - \mu^{-}$, where $\mu^{+}$ and $\mu^{-}$ are measures and at least one of them is finite. Since $\mu$ is finite, so are both $\mu^{+}$ and $\mu^{-}$. \newpage
+Since $\sigma$ is bounded, for every $\lambda \in \R$, for every $a \in \R$, for every $\vec{x} \in [0,1]^n$,  \[ 
+    |\sigma_{\lambda, a} (\vec{x})| \leq \norm{\sigma}_\infty.
+\]
+Since $\mu^{+}$ and $\mu^{-}$ are finite, $\vec{x} \to \norm{\sigma}_\infty$ is $\mu^{+}$ and $\mu^{-}$ integrable. Now \begin{align}
+    \label{eqn:discrim:bdsigm:vanish_int_main}
+    \int_{[0,1]^n} \gamma(\vec{x}) d \mu  (\vec{x}) &=  \int_{[0,1]^n} \gamma(\vec{x}) d \mu^{+} (\vec{x}) -  \int_{[0,1]^n} \gamma(\vec{x}) d \mu^{-} (\vec{x}).
+\end{align}
+By \ref{eqn:discrim:bdsigm:gamma} and \nameref{thm:dct}, we have \begin{align}
+     \label{eqn:discrim:bdsigm:vanish_int_1}
+     \int_{[0,1]^n} \gamma(\vec{x}) d \mu^{+} (\vec{x}) = \lim_{\lambda \to \infty}  \int_{[0,1]^n} \sigma_{\lambda, a} (\vec{x}) d \mu^{+} (\vec{x}).
+\end{align}
+Similarly, we have \begin{align}
+     \label{eqn:discrim:bdsigm:vanish_int_2}
+     \int_{[0,1]^n} \gamma(\vec{x}) d \mu^{-} (\vec{x}) = \lim_{\lambda \to \infty}  \int_{[0,1]^n} \sigma_{\lambda, a} (\vec{x}) d \mu^{-} (\vec{x}).
+\end{align}
+Applying \ref{eqn:discrim:bdsigm:vanish_int_1} and \ref{eqn:discrim:bdsigm:vanish_int_2} to \ref{eqn:discrim:bdsigm:vanish_int_main} gives
+\begin{align*}
+    \int_{[0,1]^n} \gamma(\vec{x}) d \mu  (\vec{x}) &= \lim_{\lambda \to \infty}  \int_{[0,1]^n} \sigma_{\lambda, a} (\vec{x}) d \mu^{+} (\vec{x}) - \lim_{\lambda \to \infty}  \int_{[0,1]^n} \sigma_{\lambda, a} (\vec{x}) d \mu^{-} (\vec{x}) & \\ 
+                                                   &= \lim_{\lambda \to \infty} \left (\int_{[0,1]^n} \sigma_{\lambda, a} (\vec{x}) d \mu^{+} (\vec{x})  -\int_{[0,1]^n} \sigma_{\lambda, a} (\vec{x}) d \mu^{-} (\vec{x}) \right ) & \\ 
+                                                   &= \lim_{\lambda \to \infty}\left (\int_{[0,1]^n} \sigma_{\lambda, a} (\vec{x}) d \mu  (\vec{x}) \right) &\\
+                                                   &= 0,
+\end{align*}
+since by \ref{eqn:discrim:bdsigm:sigmalambda}, $\int_{[0,1]^n} \sigma_{\lambda, a} (\vec{x}) d \mu  (\vec{x}) = 0. $ We have shown that $\mu$ vanishes on $\Pi_{\vec{w}, b}^{+}$ and $\Pi_{\vec{w}, b}$. By Lemma \ref{lemma:discrim:vanishhyper}, $\mu$ is identically zero.
+We conclude $\sigma$ is discriminatory for $\mu$, as claimed.
+\end{proof}
+
+\begin{proposition}[Continuous sigmoidal functions are discriminatory]
+\label{prop:discrim:contsigmoidalarediscrim}
+Let $\mu$ be a finite signed Borel measure on $[0,1]^n$. Suppose that $\sigma : \R \to \R$ is a continuous sigmoidal function. Then $\sigma$ is discriminatory for $\mu$. 
+\end{proposition}
+\begin{proof}
+Since $\sigma$ is continuous, it is Borel measurable. Since it is continuous and sigmoidal, $\sigma$ is bounded. The result follows directly from
+Proposition \ref{prop:discrim:boundedmeasdiscrim}.
+\end{proof}
+
+\begin{corollary}
+Consequently, any continuous sigmoidal function is discriminatory.
+\end{corollary}
+\begin{proof}
+Apply Proposition \ref{prop:discrim:contsigmoidalarediscrim} to arbitrary $\mu$.
+\end{proof}
+\begin{corollary}
+Logistic sigmoid is discriminatory.
+\end{corollary}
+\begin{corollary}
+Heaviside step function is discriminatory.
+\end{corollary}
+It turns out that a wide variety of bounded functions are discriminatory.
+\begin{theorem}[Theorem 5 in \cite{hornik_1991_approximation}]
+Whenever $\sigma$ is bounded and nonconstant, it is discriminatory.
+\end{theorem}
+\begin{proof}
+See Theorem 5 in \cite{hornik_1991_approximation}.
+\end{proof}

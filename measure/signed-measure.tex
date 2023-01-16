@@ -1,0 +1,21 @@
+\subsection{Signed measures and their decompositions}
+This section is devoted to signed measures, which can be seen as a generalization of measures. We will also discuss the relationship between signed measures and measures. We begin with a definition.
+\begin{definition}[a signed measure]
+Let $(\Omega, \mathcal{F})$ be a measurable space. The function $\nu : \mathcal{F} \to \overline{\R}$ is a signed measure if it satisfies all of the following:
+\begin{axioms}{S}
+  \item \label{defn:measure:smeasure:S1} $\nu(\emptyset) = 0$;
+  \item \label{defn:measure:smeasure:S2} $\nu$ does not attain both $+\infty$ and $-\infty$;
+  \item \label{defn:measure:smeasure:S3}  if $\{ E_n \}_{n=1}^\infty$ are pairwise disjoint $\mathcal{F}$-measurable sets, $\nu(\bigcup_{n=1}^\infty E_n) = \sum_{n=1}^\infty \nu(E_n)$.
+\end{axioms}
+\end{definition}
+As one might expect, the continuity results extend from measures.
+\begin{lemma}[Continuity of a signed measure]
+Let $(\Omega, \mathcal{F})$ be a measurable space and let $\mu$ be a measure on $(\Omega, \mathcal{F})$. 
+\begin{description}
+\item If $\{ E_n \}_{n = 1}^{\infty}$ is an increasing sequence of sets in $\mathcal{F}$, then $\nu \left (\bigcup_{n = 1} ^ {\infty} E_n \right) = \lim_{n \to \infty} \nu(E_n)$.
+\item  If $\{ E_n \}_{n = 1}^{\infty}$  is a decreasing sequence of sets in $\mathcal{F}$ such that $\nu(E_n)$ is finite for some $n \in \mathbb{N}$, then $\nu \left (\bigcap_{n = 1} ^ {\infty} E_n \right) = \lim_{n \to \infty} \nu(E_n)$.
+\end{description}
+\end{lemma}
+\begin{proof}
+See Lemma 4.1.2 in \cite{cohn_2013_measure}.
+\end{proof}

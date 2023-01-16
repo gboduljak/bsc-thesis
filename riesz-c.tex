@@ -1,0 +1,411 @@
+\section{Linear functionals on $\C(X)$}
+\label{section:appendix:functionals-cx}
+In this section, we will discuss duality theory on $\C(X)$.
+\subsection{Construction of partitions of unity}
+In this subsection, we will prepare foundations for the proof of the \nameref{thm:fcs:rrt-positive}. We begin by recalling the definition of the support of a function.
+\begin{definition}[support of a function]
+Let $X$ be a topological space and let $f : X \to \R$. The support of $f$, denoted by $\supp f$ is the set
+\begin{align*}
+    \supp f = \overline{\{ x : f(x) \neq 0 \}}.
+\end{align*}
+\end{definition}
+
+If $G$ is an open subset of $X$, we define $\mathcal{F}_{G}$ by
+\begin{align*}
+    \mathcal{F}_{G} = \{ f : f \in \C(X), 0 \leq f \leq 1, \supp f \subset G \}.
+\end{align*}
+
+\begin{lemma}
+\label{lemma:fcs:sepfn}
+Let $X$ be a compact metric space such that $K \subset G \subset X$, $K$ compact, $G$ open.
+Then there exists a function $h \in \mathcal{F}_{G}$ such that $h = 1$ on $K$.
+\end{lemma}
+
+To prove this lemma, we will recall the Urysohn lemma.
+\begin{lemma}[Urysohn lemma, Theorem 33.1 \cite{munkres_2014_topology}]
+Let $X$ be a normal space. Let $A, B$ be disjoint closed subsets of $X$. There exists a continuous map $f : X \to [a,b]$ such that $f(x) = a$, for every $a \in A$ and $f(x) = b$, for every $b \in B$.
+\end{lemma}
+
+\begin{proof}[Proof of Lemma \ref{lemma:fcs:sepfn}]
+Since $K$ is compact and $X$ is Hausdorff, $K$ is closed. Since $G$ is open, $X \setminus G$ is closed and $K \cap (X \setminus G) = \emptyset$. By Urysohn Lemma, there exists a continuous function $h : X \to [0,1]$ separating $K$ and $X \setminus G$. We may choose $h$ satisfying $h = 1$ on $K$ and  $h = 0$ on $X \setminus G$. Since $h = 0$ on $X \setminus G$, $\supp h \subseteq G$. Since $\supp h$ is closed and $G$ is open, $\supp h \subset G$, as claimed.
+\end{proof}
+
+\begin{remark}
+Since we are working in a metric space $X$, it was not necessary to invoke Urysohn Lemma, due to the structure of $X$ induced by the metric $d$. For example, a desired function is $f : X \to [0,1]$ given by
+\begin{align*}
+     f(x) = \frac{d(x,X \setminus G)}{d(x,K) + d (x, X \setminus G)}.
+\end{align*}
+where $d(x, A)= \inf_{y \in A} \{ d(x,y) \}.$ The constructive proof is omitted for the sake of brevity.
+\end{remark}
+
+
+\begin{definition}[partition of unity, p.225 \cite{munkres_2014_topology}]
+Let $\{ U_i \}_{i = 1}^n$ be a finite indexed open covering of the topological space $X$. An indexed family of continuous functions $\{ \varphi_{i} \}_{i = 1}^n$ is said to be a \textbf{partition of unity} dominated by $\{ U_i \}_{i = 1}^n$ if for each $i$, $\supp \varphi_i \subset U_i$ and for each $x \in X$, $\sum_{k = 1}^{n} \varphi_{i}(x) = 1$.
+\end{definition}
+
+Using the Lemma \ref{lemma:fcs:sepfn}, we can demonstrate the existence of partition of unity under the conditions relevant to the \nameref{thm:fcs:rrt-positive}.
+
+\begin{lemma}[Existence of partition of unity of a compact set]
+\label{lemma:fcs:partsunity}
+Let $X$ be a compact metric space and suppose that $K \subset X$ is compact and $K \subset \bigcup_{k=1}^n G_k$ where $G_k$ are open in $X$. There exists $g_i \in \mathcal{F}_{G_i}$, for $1 \leq i \leq n$ such that $\sum_{k = 1}^{n} g_k(x) = 1$ whenever $x \in K$.
+\end{lemma}
+\begin{proof}
+Let $x \in K$. Then $x \in G_i$, for some $i \in \{1,2,\ldots, n\}$. Since $\{ x \}$ is compact, by Lemma \ref{lemma:fcs:sepfn}, there exists $h_{x} \in \mathcal{F}_{G_i}$ such that $h_x = 1$ on $K$.
+
+Set $N_x = \{ y : h_x(y) > 0 \}$. Since $h_{x}$ is continuous, $N_x$ is open. Since $h_x(x) = 1$, $x \in N_x$. Clearly, $N_x \subseteq \supp h_x \subset G_i$ so $\overline{N_x} \subseteq \sup h_x \subset G_i$. Since $x \in N_x$, $\{ N_x \}_{x \in X}$ is an open cover for $X$. Since $X$ is compact, there exists $x_1, x_2, \ldots , x_m$ such that \begin{equation}
+     \label{eqn:fcs:partsunit:x}
+     X = \bigcup_{k = 1}^m N_{x_k}.
+\end{equation}
+
+Now for each $i \in \{1,2,\ldots,n\}$, define $F_i = \bigcup \{ \overline{N_{x_j}} : \overline{N_{x_j}} \subset G_i \}$. Clearly, $F_i \subset G_i$ and $F_i$ is closed. Since $F_i$ is closed and $X$ is compact, $F_i$ is compact. By Lemma \ref{lemma:fcs:sepfn}, choose a function $f_i \in \mathcal{F}_{G_i}$ such that $f_i = 1$ on $F_i$. Define $g_i : X \to [0,1]$ by \begin{align*}
+    g_1 &= f_1 \\
+    g_2 &= (1 - f_1) f_2 \\
+    \vdots & \\
+    g_n &= \prod_{k = 1}^{n - 1} (1 - f_k) f_n
+\end{align*}
+
+Since $0 \leq f_k \leq 1$, by definition of $g_i$, $0 \leq g_i \leq 1$. Clearly, $\supp g_i \subseteq \supp f_i \subset G_i$. Hence $g_i \in \mathcal{F}_{g_i}$. It remains to prove that for $x \in K$, $\sum_{k=1}^n g_k(x) = 1$. We claim that \begin{equation}
+     \label{eqn:fcs:partsunit:sumprod}
+    \sum_{k = 1}^l g_k = 1 - \prod_{k = 1}^l (1 - f_k), \text{  for every $1 \leq l \leq n$.}
+\end{equation} We will proceed by induction. When $l = 1$, $g_1 = f_1 = 1 - (1 - f_1)$ so the base case holds. Suppose that $\sum_{k = 1}^{l - 1} g_k = 1 - \prod_{k = 1}^{l-1} (1 - f_k)$. Now
+\begin{align*}
+       \sum_{k = 1}^l g_k &= \sum_{k = 1}^{l - 1} g_k + g_l & \\  
+                          &= 1 - \prod_{k = 1}^{l-1} (1 - f_k) + \prod_{k = 1}^{l-1} (1 - f_k) f_l & \text{ by induction, definition of $g_l$}\\
+                          &= 1 - \prod_{k = 1}^{l-1} (1 - f_k) (1 - f_l) =  1 - \prod_{k = 1}^l (1 - f_k).
+\end{align*}
+This proves the induction step and hence the claim holds. Now let $x \in K$. By \ref{eqn:fcs:partsunit:x}, $x \in N_{x_j}$, for at least one $j \in \{ 1, 2, \ldots, m\}$. This implies $x \in F_i$, for some $i \in \{1,2,\ldots, n\}$. By construction of $F_i$, $f_i (x) = 1$. By \ref{eqn:fcs:partsunit:sumprod}, $\sum_{k = 1}^n g_k(x) = 1 - \prod_{k = 1}^n (1 - f_k(x)) = 1$, as desired.
+\end{proof}
+\subsection{Measures on compact metric spaces}
+\begin{definition}[regular measure]
+Let $X$ be a topological space and let $\mathcal{F}$ be a $\sigma$-algebra. Suppose $\mu : \mathcal{F} \to [0, \infty]$ is a measure. We say $\mu$ is \textbf{regular} if for every $E \in \mathcal{F}$, 
+\begin{align*}
+    \mu(E) &= \inf \{ \mu(G) : \text{G open}, E \subseteq G \} \text{, and} &  \\
+    \mu(E) &= \sup \{ \mu(K) : \text{K compact}, K \subseteq E \}.
+\end{align*}
+\begin{example}
+Lebesgue measure on $\R^n$ is regular.
+\end{example}
+\begin{lemma}[Approximation Lemma, Proposition 17.6 in \cite{bass2011real}]
+\label{thm:fcs:approximation}
+Let $X$ be a compact metric space, $\mathcal{B}(X)$ a Borel $\sigma$-algebra and suppose that $\mu$ is a \textbf{finite} measure on the measurable space $(X, \mathcal{B}(X))$. If $E \in \mathcal{B}(X)$, for every $\epsilon > 0$, there exist sets $K$ and $U$ such that $K \subset E \subset U$ where $K$ is compact, $U$ is open and 
+\begin{align*}
+    \mu (U \setminus E) < \epsilon \text{ and } \mu (E \setminus K) < \epsilon.
+\end{align*}
+\end{lemma}
+\begin{proof-idea*}
+We will apply a common method in measure theory where we prove the property on the whole $\sigma$-algebra $\B(X)$ by defining a set $\mathcal{H} \subseteq \B(X)$  where the property holds and then proving that $\mathcal{H}$ is actually $\B(X)$.
+\end{proof-idea*}
+\begin{proof}
+    Say that $E \in \B(X)$ is \textbf{approximable} if for every $\epsilon > 0$, there exist sets $K$ and $U$ such that $K \subset E \subset G$ where $K$ is compact, $U$ is open and $\mu (U \setminus E) < \epsilon \text{ and } \mu (E \setminus K) < \epsilon.$
+    Define $\mathcal{H}$ by \begin{align*}
+        \mathcal{H} = \{ E : E \in \B(X) \text{ such that $E$ is \textbf{approximable}} \}.
+    \end{align*}
+    
+    Suppose that $K$ is compact. For $n \in \N$, define $U_n = \{ x : x \in X, d(x, K) < \frac{1}{n} \}$
+    Since $d(\cdot, K)$ is continuous, $U_n$ is open. Note that, $x \in K \iff d(x, K) = 0 \iff \forall n \in \N,  d(x, K) < \frac{1}{n} \iff \forall n \in \N, x \in U_n$. Hence $K = \bigcap_{n = 1}^{\infty} U_n$. Since $\mu$ is continuous and \textbf{finite}, $\mu(K) = \lim_{n \to \infty} \mu(U_n)$. But then, for every $\epsilon > 0$, there exists $N \in \N$ such that $n \geq N \implies \mu(U_n) - \mu(K) < \epsilon$. In particular $\mu(U_N) - \mu(K) < \epsilon$. Since $\mu$ is finite, $\mu(U_N \setminus K) = \mu(U_N) - \mu(K) < \epsilon$. Hence $K \in \mathcal{H}$. Since $X$ is compact, $X \in \mathcal{H}$.
+    
+    If $E \in \mathcal{H}$ and $\epsilon > 0$, choose $K \subset E \subset U$ with $K$ compact, $U$ open such that $\mu(E \setminus K)< \epsilon$ and $\mu(U \setminus E) < \epsilon$. Then $X \setminus U \subset X \setminus E \subset X \setminus K$. Since $U$ is open, $X \setminus U$ is closed. Since $X \setminus U$ is closed and $X$ is compact, $X \setminus U$ is also compact. Since $K$ is compact and $X$ Hausdorff, $K$ is also closed. But then, $X \setminus K$ is open. Observe that \begin{align*}
+          \mu ((X \setminus E) \setminus (X \setminus U)) &= \mu(U \setminus E) < \epsilon, \\
+          \mu ((X \setminus K) \setminus (X \setminus E)) &= \mu(E \setminus K) < \epsilon.
+    \end{align*}
+    Hence $X \setminus E \in \mathcal{H}$.
+    
+    Let $\{ E_i \}_{i=1}^\infty$ be a family of pairwise disjoint sets in $\mathcal{H}$. We will show that $\bigcup_{i=1}^\infty E_i \in \mathcal{H}$. Let $\epsilon > 0$. For each $i \in \N$, choose $K_i$, $K_i$ compact, $U_i$ open such that $K_i \subset E_i \subset U_i$ and $\mu(U_i \setminus E_i) < \frac{\epsilon}{2^i}$, $\mu(E_i \setminus K_i) < \frac{\epsilon}{2^{i+1}}$. 
+    
+    Then $\bigcup_{i = 1}^{\infty} U_i$ is open and $\bigcup_{i = 1}^{\infty} E_i \subseteq \bigcup_{i = 1}^{\infty} U_i$. Now \begin{align*}
+        \mu \left ( \bigcup_{i=1}^\infty U_i \setminus \bigcup_{j=1}^\infty E_j \right) \leq \mu \left(\bigcup_{i=1}^\infty (U_i \setminus E_i) \right) \leq \sum_{i = 1}^\infty \mu (U_i \setminus E_i) < \epsilon. 
+    \end{align*}
+    We have $\bigcup_{i = 1}^{\infty} K_i \subseteq \bigcup_{i = 1}^{\infty} E_i$ and \begin{align}
+        \label{ineqn:fcs:compactregular:ineqn1}
+        \mu \left (\bigcup_{i = 1}^{\infty} E_i \setminus \bigcup_{j = 1}^{\infty} K_j \right) \leq  \sum_{i = 1}^{\infty} \mu \left ( E_i \setminus K_i \right ) < \frac{\epsilon}{2}.
+    \end{align}
+    Since $\bigcup_{i = 1}^n K_i \uparrow \bigcup_{i = 1}^\infty K_i$, by continuity of $\mu$, $\lim_{n \to \infty} \mu (\bigcup_{i = 1}^n K_i) = \mu (\bigcup_{i = 1}^\infty K_i)$. Hence we can choose $n \in N$ such that \begin{align}
+        \label{ineqn:fcs:compactregular:ineqn2}
+        \mu \left (\bigcup_{i = n + 1}^{\infty} K_i \right) =  \mu \left (\bigcup_{i = 1}^{\infty} K_i \right) -  \mu \left (\bigcup_{j = 1}^{n} K_j \right) < \frac{\epsilon}{2}.
+    \end{align}
+    Since each $K_j$ is compact, so is $\bigcup_{j = 1}^n K_j$. Moreover, $\bigcup_{j = 1}^n K_j \subseteq \bigcup_{i = 1}^\infty E_i$ and \begin{align*}
+        \mu \left (\bigcup_{i=1}^\infty E_i \setminus \bigcup_{j =1}^{n} K_j \right) &=  \mu \left (\bigcup_{i=1}^\infty E_i \setminus \bigcup_{j = 1}^{\infty} K_j \right) +  \mu \left (\bigcup_{i=1}^\infty K_i \setminus \bigcup_{j = 1}^{n} K_j \right) &  \\
+            & < \frac{\epsilon}{2} +  \frac{\epsilon}{2}  = \epsilon. \text{    }   \text{by \ref{ineqn:fcs:compactregular:ineqn1} and \ref{ineqn:fcs:compactregular:ineqn2}}
+    \end{align*}
+    Hence $\bigcup_{i = 1}^{\infty} E_i \in \mathcal{H}$.
+    
+    It remains to prove $\mathcal{H} = \B(X)$. Clearly, $\mathcal{H} \subseteq \B(X)$. Since $X$ is compact, every closed subset of $X$ is compact. Since $\mathcal{H}$ contains all compact sets, $\mathcal{H}$ contains all closed subsets of $X$. Since $\mathcal{H}$ is a $\sigma$-algebra containing all closed sets, $\mathcal{H}$ contains all open sets. Since $\B(X)$ is the smallest $\sigma$-algebra containing all open sets, $\B(X) \subseteq \mathcal{H}$. Hence $\mathcal{H} = \B(X)$, as desired.
+\end{proof}
+
+Using \nameref{thm:fcs:approximation}, we can prove the main result of this section - a generalization of \nameref{proposition:measure:regularity_borel_finite}.
+
+\begin{corollary}[Regularity of finite measures on compact metric spaces]
+\label{cor:fcs:regularity}
+Let $X$ be a compact metric space, let $\mathcal{B}(X)$ be the Borel $\sigma$-algebra on $X$ and suppose that $\mu$ is a \textbf{finite} measure on the measurable space $(X, \mathcal{B}(X))$. Then $\mu$ is \textbf{regular}.
+\end{corollary}
+\begin{proof}
+Let $\epsilon > 0$. By \nameref{thm:fcs:approximation}, there exist sets $K$ and $U$ such that $K \subseteq E \subseteq U$ where $K$ is compact, $U$ is open and 
+\begin{align}
+    \label{ineqn:fcs:compactregular:ineqn3}
+    \mu (U \setminus E) < \epsilon \text{ and } \mu (E \setminus K) < \epsilon.
+\end{align}
+Since $\mu$ is finite, $ \mu (U \setminus E) =  \mu (U) -  \mu(E)$ and $\mu(E \setminus K) = \mu(E) - \mu(K)$.
+By \ref{ineqn:fcs:compactregular:ineqn3}, \begin{align*}
+    \mu(U) - \epsilon < \mu (E) < \mu(K) + \epsilon.
+\end{align*}
+Hence $\mu (E) = \inf \{ \mu(U) : \text{U open}, E \subseteq U \}  = \sup \{ \mu(K) : \text{K compact}, K \subseteq E \}$, as desired.
+\end{proof}
+\end{definition}
+
+\subsection{Riesz Representation Theorem for the dual of $\C(X)$}
+
+We are ready to state and prove the main result of this section - \nameref{thm:fcs:rrt-positive}.
+
+\begin{theorem}[Riesz Representation Theorem for positive linear functionals on $\C(X)$]
+\label{thm:fcs:rrt-positive}
+Let $X$ be a compact metric space and $I$ be a positive linear functional on $\C(X)$. Then there exists the unique regular finite measure $\mu$ on $\mathcal{B}(X)$ such that
+\begin{equation}
+    \label{eqn:fcs:rrt-positive:claim}
+    I (f) = \int_{X} f \,d\mu, \text{    for every $f \in \C(X)$}.
+\end{equation}
+\end{theorem}
+\begin{proof-idea*}
+Although the statement of \nameref{thm:fcs:rrt-positive} resembles the statement of \nameref{thm:lp:rrt}, the proof will be significantly different. Unlike the proof for the case of the dual of $\Lp$, this proof will be constructive. In other words, we will construct the measure $\mu$ satisfying the claimed conditions. Thanks to the \nameref{thm:radon-nikodym-signed}, such an important and relatively difficult construction could be abstracted. The argument is divided into nine steps. The first four steps are a construction of desired measure $\mu$ based on Carathéodory's method. The first part is a definition of the outer measure $\mu^{\ast}$.  In Step 2, we will show that $\mu^{\ast}$ is indeed an outer measure. In Step 3, we argue that every open set is $\mu^{\ast}$-measurable.  In Step 4, we will apply the \nameref{thm:measure:caratheodory} to extend $\mu^{\ast}$ to a measure. In Step 5, we will discuss some regularity conditions. In Step 6, we will prove that the resulting measure is finite. In Step 7, we will establish \ref{eqn:fcs:rrt-positive:claim}. In Step 8, we will discuss the regularity of the resulting measure. In the last step, we will discuss uniqueness.
+\end{proof-idea*}
+\begin{proof}
+\setcounter{step}{0}
+\begin{step}[Definition of $\mu^{\ast}$]
+For an open set $U$, define \begin{align*}
+    \nu(U) = \sup \{ I(f) : f \in \mathcal{F}_{U} \}.
+\end{align*}
+For an arbitrary set $A$, set \begin{align*}
+    \mu^{\ast}(A) = \inf \{ \nu(U) : A \subseteq U, U \text{ open} \}.
+\end{align*}
+
+We claim that for an open set $U$, $\mu^{\ast} (U) = \nu(U)$.
+Since $U \subseteq U$ and $U$ is open, $\mu^{\ast}(U) \leq \nu(U)$. Now let $V$ be an open set containing $U$. If $f \in \mathcal{F}_{U}$, then $0 \leq f \leq 1$ and $\supp f \subset U \subseteq V$. Hence $f \in \mathcal{F}_{V}$. Hence $\nu(U) \leq \nu(V)$. Since $V$ was arbitrary,
+$\nu(U) \leq \mu^{\ast}(U)$. Therefore, $\mu^{\ast}(U) = \nu(U)$, as desired.
+\end{step}
+
+\begin{step}[$\mu^{\ast}$ is an outer measure]
+
+Since $I$ is positive, $\nu \geq 0$ so $\mu^{\ast} \geq 0$.
+
+We will show $\mu^{\ast}(\emptyset) = 0$. Consider $f \in \mathcal{F}_\emptyset$. Since $\supp f \subset \emptyset$, $\supp f = \emptyset$ so $f = 0$. By linearity of $I$, $I(0) = 0$. Since $f$ was arbitrary, $\nu(\emptyset) = 0$. Since $\emptyset$ is open, $\mu^{\ast}(\emptyset) = \nu(\emptyset) = 0$.
+
+We will show $\mu^\ast$ is monotonic.
+Suppose $A \subseteq B$. Suppose that $V$ is an open set such that $B \subseteq V$. Then $A \subseteq B \subseteq V$. Hence $ \{ \nu(U) : B \subseteq U, U \text{ open} \} \subseteq \{ \nu(U) : A \subseteq U, U \text { open} \}$. Thus, $\mu^{\ast}(A) \leq \mu^{\ast}(B)$.
+
+We will prove countable subadditivity on open sets.
+Let $\{ U_n \}_{n = 1}^{\infty}$ be a family of open sets. Set $U = \bigcup_{n=1}^{\infty} U_n$.
+We want to show \begin{align}
+    \label{eqn:fcs:rrt:outer:u:goal}
+    \mu^{\ast} (U) =  \mu^{\ast} \left (\bigcup_{n=1}^{\infty} U_n 
+    \right ) \leq \sum_{n = 1}^{\infty} \mu^{\ast}(U_n).
+\end{align}
+
+Let $f \in \mathcal{F}_U$. Then $0 \leq f \leq 1$ and $\supp f \subset U$. Since $\supp f$ is closed and $X$ is compact, $\supp f$ is compact. Observe that $\{ U_n \}_{n = 1}^{\infty}$ is an open cover for $\supp f$. By compactness of $\supp f$, without loss of generality, $\supp f \subset \bigcup_{k=1}^m U_k$.
+By \nameref{lemma:fcs:partsunity}, there exists a family of functions $\{ \varphi_k \}_{k=1}^m$ such that $\varphi_k \in \mathcal{F}_{U_k}$ and for every $x \in \supp f$, $\sum_{k=1}^m \varphi_k(x) = 1$. 
+Since for every $x \in \supp f$, $\sum_{k=1}^m \varphi_k(x) = 1$, \begin{equation}
+    \label{eqn:fcs:rrt:outer:f}
+    f = \sum_{k=1}^m f \varphi_k.
+\end{equation}
+Consider $\varphi_k$ for fixed $k \in \{ 1, 2, \ldots, m \}$.
+Since $0 \leq f \leq 1$ and $0 \leq \varphi_k \leq 1$, we have $0 \leq f \varphi_k \leq 1$.
+Clearly, $\supp(f \varphi_k) \subseteq \supp \varphi_k \subset U_k$. Hence $f \varphi_k \in \mathcal{F}_{U_k}$. This implies $\mu^{\ast} (U_k) = \nu(U_k) \geq I (f \varphi_k)$. Summing over all $k \in \{ 1, 2, \ldots, m \}$ and applying the linearity of $I$ along with \ref{eqn:fcs:rrt:outer:f} gives
+\begin{align*}
+    \sum_{k=1}^m \mu^{\ast}(U_k) &\geq \sum_{k = 1}^m I (f \varphi_k) =  I \left (\sum_{k = 1}^m f \varphi_k \right) = I(f).
+\end{align*}
+Since $\mu^{\ast} \geq 0$, $I(f) \leq \sum_{k=1}^m \mu^{\ast}(U_k) \leq \sum_{k = 1}^\infty \mu^{\ast}(U_k)$. Since $f$ was arbitrary in $\mathcal{F}_U$ and $U$ is open, $\mu^\ast(U) = \nu(U) \leq \sum_{k = 1}^\infty \mu^{\ast}(U_k)$. This establishes \ref{eqn:fcs:rrt:outer:u:goal}.
+
+Using \ref{eqn:fcs:rrt:outer:u:goal}, we can prove countable subadditivity for arbitrary sets. 
+Let $\{ A_n \}_{n = 1}^{\infty}$ be a family of sets. We want to show \begin{align}
+    \label{eqn:fcs:rrt:outer:a:goal}
+    \mu^{\ast} \left (\bigcup_{n=1}^{\infty} A_n 
+    \right ) \leq \sum_{n = 1}^{\infty} \mu^{\ast}(A_n).
+\end{align}
+If $ \sum_{n = 1}^{\infty} \mu^{\ast}(A_n) = \infty$, $\ref{eqn:fcs:rrt:outer:a:goal}$ holds.
+Assume $ \sum_{n = 1}^{\infty} \mu^{\ast}(A_n) < \infty$. Hence, for every $n \in \N$, $\mu^{\ast} (A_n) < \infty$. Let $\epsilon > 0$. For every $n \in \N$, choose an open set $U_n$ containing $A_n$ such that $\mu^{\ast}(U_n) < \mu^{\ast} (A_n) + \frac{\epsilon}{2^n}$. Since $A_n \subseteq U_n$ for every $n \in N$, $\bigcup_{n = 1}^{\infty} A_n \subseteq \bigcup_{n = 1}^{\infty} U_n$. By monotonicity of $\mu^{\ast}$, \begin{align*}
+    \mu^{\ast} \left ( \bigcup_{n = 1}^{\infty} A_n  \right) &\leq \mu^{\ast} \left ( \bigcup_{n = 1}^{\infty} U_n \right) &  \\
+        &\leq \sum_{n = 1}^{\infty} \mu^{\ast} (U_n)  & \text{by \ref{eqn:fcs:rrt:outer:u:goal}} \\
+        &\leq \sum_{n = 1}^{\infty} \mu^{\ast} (A_n) + \sum_{n = 1}^{\infty} \frac{\epsilon}{2^n} \leq \sum_{n = 1}^{\infty} \mu^{\ast} (A_n) + \epsilon.
+\end{align*}
+Since $\epsilon$ was arbitrary, \ref{eqn:fcs:rrt:outer:a:goal} holds. 
+\end{step}
+
+\begin{step}[Open subsets of $X$ are $\mu^{\ast}$-measurable]
+
+We will show that every open set in $X$ is $\mu^{\ast}$-measurable. Let $U \subseteq X$ be open. We begin by showing that for every open $V$,  \begin{equation}
+    \label{eqn:fcs:rrt:borel:open_goal}
+    \mu^{\ast}(V) = \mu^{\ast}(V \cap U) + \mu^{\ast}(V \cap (X \setminus U)).
+\end{equation}
+
+By \ref{eqn:fcs:rrt:outer:a:goal}, it suffices to show $ \mu^{\ast}(V) \geq \mu^{\ast}(V \cap U) + \mu^{\ast}(V \cap (X \setminus U))$. If $\mu^{\ast}(V) = \infty$, the claim holds. Suppose $\mu^{\ast}(V) < \infty$. By monotonicity of $\mu^{\ast}$, $\mu^{\ast}(V \cap U), \mu^{\ast}(V \cap (X \setminus U)) < \infty$. Let $\epsilon > 0$ and choose $f \in \mathcal{F}_{V \cap U}$ such that
+\begin{equation}
+    \label{eqn:fcs:rrt:borel:openf}
+    \mu^{\ast} (V \cap U) - \frac{\epsilon}{2} < I(f).
+\end{equation}
+Since $f \in \mathcal{F}_{V \cap U}$, $0 \leq f \leq 1$, $\supp f \subset V \cap U$. Since $\supp f$ is closed, $X \setminus \supp f$ is open. This implies $V \cap (X \setminus \supp f)$ is open. Since $\supp f \subset V \cap U$,
+$(X \setminus V) \cup (X \setminus U) \subset X \setminus \supp f$. Thus,
+\begin{equation}
+    \label{eqn:fcs:rrt:borel:inclusion}
+    V \cap (X \setminus U) \subset V \cap (X \setminus \supp f).
+\end{equation}
+
+Since $V \cap (X \setminus \supp f)  \subseteq V$ and $\mu^{\ast}(V) < \infty$, by monotonicity of $\mu^{\ast}$, $\mu^{\ast}(V \cap (X \setminus \supp f)) < \infty$. Hence, we may choose $g \in \mathcal{F}_{V \cap (X \setminus \supp f) }$ such that \begin{equation}
+    \label{eqn:fcs:rrt:borel:openg}
+    \mu^{\ast} (V \cap (X \setminus \supp f)) - \frac{\epsilon}{2} < I(g).
+\end{equation}
+Since $g \in \mathcal{F}_{(V \cap X \setminus \supp f)}$, $0 \leq g \leq 1$, $\supp g \subset V \cap (X \setminus \supp f)$. Since $\supp g \subset V$ and $\supp f \subset V$, $\supp (f + g) \subset V$. Since $\supp g \subset (X \setminus \supp f)$, $0 \leq f + g \leq 1$. Hence $f + g \in \mathcal{F}_{V}$. This implies \begin{align*}
+    \mu^{\ast} (V) &\geq I (f + g) = I(f) + I(g)  & \text{by linearity of $I$} \\
+                   &> \mu^{\ast} (V \cap U) -  \frac{\epsilon}{2} + \mu^{\ast} ((V \cap X \setminus \supp f)) - \frac{\epsilon}{2} & \text {by \ref{eqn:fcs:rrt:borel:openf} and \ref{eqn:fcs:rrt:borel:openg}} \\
+                   &\geq\mu^{\ast} (V \cap U) + \mu^{\ast} (V \cap (X \setminus U)) - \epsilon. & \text{by \ref{eqn:fcs:rrt:borel:inclusion}}
+\end{align*}
+Since $\epsilon$ was arbitrary, \ref{eqn:fcs:rrt:borel:open_goal} holds.
+\end{step}
+
+Now suppose that $V$ is not necessarily open. We will show that
+\begin{align}
+    \label{eqn:fcs:rrt:borel:goal}
+     \mu^{\ast}(V) = \mu^{\ast}(V \cap U) + \mu^{\ast}(V \cap (X \setminus U)), \text{ for every open set $U$}.
+\end{align}
+By \ref{eqn:fcs:rrt:outer:a:goal}, it suffices to prove \begin{align}
+     \label{ineqn:fcs:rrt:borel:goal}
+     \mu^{\ast}(V) \geq \mu^{\ast}(V \cap U) + \mu^{\ast}(V \cap (X \setminus U)).
+\end{align}
+If $\mu^{\ast}(V) = \infty$, \ref{ineqn:fcs:rrt:borel:goal} holds. Suppose $\mu^{\ast}(V) < \infty$ and let $\epsilon > 0$. Then choose an open set $E$ containing $V$ such that $\mu^{\ast}(V) \leq \mu^{\ast}(E) < \mu^{\ast}(V) + \epsilon$. Then
+\begin{align*}
+    \mu^{\ast}(V) + \epsilon &> \mu^{\ast}(E) & \\
+                             &= \mu^{\ast}(E \cap U) + \mu^{\ast}(E \cap (X \setminus U)) & \text{by \ref{eqn:fcs:rrt:borel:open_goal}} \\
+                             &\geq \mu^{\ast}(V \cap U) + \mu^{\ast}(V \cap (X \setminus U)). & \text{since $V \subseteq E$}
+\end{align*}    
+Since $\epsilon$ was arbitrary, \ref{ineqn:fcs:rrt:borel:goal} holds.
+\newpage
+\begin{step}[$\mu^{\ast}_{| \mathcal{B}(X)}$ is a measure on $\mathcal{B}(X)$]
+By \nameref{thm:measure:caratheodory}, $\mu^{\ast}_{| \mathcal{M}(X)}$ is a measure on the $\sigma$-algebra of $\mu^{\ast}$-measurable sets, denoted by $\mathcal{M}(X)$. By Step 3, $\mathcal{M}(X)$ contains all open sets. Since $\mathcal{B}(X)$ is generated by the collection of all open sets of $X$, $\mathcal{B}(X) \subseteq \mathcal{M}(X)$. Hence, $\mu^{\ast}_{| \mathcal{B}(X)}$ is a measure on $\mathcal{B}(X)$.
+\end{step}
+\begin{step}[Regularity lemma]
+\begin{lemma}
+\label{lemma:step:fcs:rrt-positive:reglemma}
+Suppose that $f \in \C(X)$ and $K \subseteq X$ is compact. If $0 \leq \chi_K \leq f$ then $\mu(K) \leq I(f)$.
+\end{lemma}
+\begin{proof}
+For $\epsilon \in (0, 1)$, define \begin{equation*}
+    U_\epsilon = \{ x \in X : f(x) > 1 - \epsilon \} = f^{-1} (1 - \epsilon, \infty).
+\end{equation*}
+Since $f$ is continuous, $U_\epsilon$ is open. Since $0 \leq \chi_K \leq f$ and $\chi_K = 1$ on $K$, $K \subseteq U_\epsilon$. By monotonicity of $\mu$, $\mu(K) \leq \mu(U_\epsilon)$. Hence, it is sufficient to prove $\mu(U_\epsilon) \leq I(f)$. Since $U_\epsilon$ is open, $\mu(U_\epsilon) = \nu(U_\epsilon) = \sup \{ I(g) : g \in \mathcal{F}_{U_\epsilon} \}$. Observe that on $U_\epsilon$, $\frac{1}{1 - \epsilon} f > 1$.
+ Consider $g \in \mathcal{F}_{U_\epsilon}$. Since $0 \leq g \leq 1$ and $\supp g \subset U_\epsilon$, it follows that $0 \leq g \leq 1 < \frac{1}{1 - \epsilon} f$. Thus, $I(g) \leq I (\frac{1}{1 - \epsilon} f) = \frac{1}{1 - \epsilon} I(f).$
+ Since $g$ was arbitrary, $\mu(U_\epsilon) \leq \frac{1}{1 - \epsilon} I(f)$. Since $\epsilon$ was arbitrary, $\mu(U_\epsilon) \leq I(f)$, as desired.
+ 
+\end{proof}
+\end{step}
+\begin{step}[$\mu$ is finite]
+We will show $\mu$ is finite. Since $\mu$ is a measure, by subadditivity, it suffices to prove that $\mu(X) < \infty$.
+Since $X$ is open, $\mu(X) = \nu(X) = I(1) < \infty$.
+\end{step}
+
+\begin{step}[Verification of \ref{eqn:fcs:rrt-positive:claim}]
+Let $f \in \C(X)$ and suppose $f \geq 0$. Since $f$ is continuous and $X$ is compact, $f$ is bounded.
+By linearity of integral and the functional $I$, we may assume that $0 \leq f \leq 1$.
+
+To apply Lemma \ref{lemma:step:fcs:rrt-positive:reglemma}, we partition the range of $f$, in segments of equal length.
+Fix $n \in \N$. Define $K_k = \{ x \in X : f(x) \geq \frac{k}{n} \}$, for $k \in \{ 0, 1, \ldots n \}$. Since $f$ is continuous, $K_k$ is a closed set. Since $X$ is compact, $K_k$ is compact. Observe that $K_0 = X$ and for every $k$, $K_{k + 1} \subseteq K_k$.
+Define \begin{align*}
+  f_k(x) =
+  \begin{cases}
+       0                      & x \in (X \setminus K_{k-1}) \\
+       f(x) - \frac{k - 1}{n} & x \in (K_{k-1} \setminus K_k) \\
+       \frac{1}{n}            & x \in K_k
+  \end{cases}.
+\end{align*}
+By construction, $f = \sum_{k = 1}^n f_k$ and $\chi_{K_k} \leq n f_k \leq \chi_{K_{k-1}}$.
+Integration gives \begin{align}
+    \label{ineqn:fcs:rrt-positive:ineqn1}
+    \frac{\mu(K_k)}{n} \leq \int_{X} f_k \,d\mu \leq \frac{\mu(K_{k-1})}{n}.
+\end{align}
+Summing \ref{ineqn:fcs:rrt-positive:ineqn1} over all $k \in \{ 0, 1, \ldots n \}$ and applying $f = \sum_{k = 1}^n f_k$ gives \begin{align}
+     \label{ineqn:fcs:rrt-positive:ineqn2}
+     \frac{1}{n} \sum_{k=1}^n \mu(K_k) \leq \int_{X} f \,d\mu \leq \frac{1}{n} \sum_{k=0}^{n-1} \mu(K_k).
+\end{align}
+
+Let $\epsilon >0$. Since $\mu$ is finite, let $G$ be an open set containing $K_{k-1}$ such that $\mu(G) < \mu(K_{k-1}) + \epsilon$. By definition of $f_k$, $\supp n f_k \subseteq K_{k-1} \subset G$. Since $\chi_{K_k} \leq n f_k \leq \chi_{K_{k-1}}$, $n f_k \in \mathcal{F}_G$. Then $I(n f_k) \leq \mu(G) <  \mu(K_{k-1}) + \epsilon$. \newpage
+By linearity of $I$, $I(f_k) < \frac{\mu(K_{k-1})}{n} + \frac{\epsilon}{n}$. Since $\epsilon$ was arbitrary, $I(f_k) \leq \frac{\mu(K_{k-1})}{n}$. By Lemma \ref{lemma:step:fcs:rrt-positive:reglemma}, $\mu(K_k) \leq I (n f_k)$ which implies $\frac{\mu(K_k)}{n} \leq I (f_k)$. We have \begin{align}
+\label{ineqn:fcs:rrt-positive:ineqn3}
+    \frac{\mu(K_k)}{n} \leq I (f_k) \leq  \frac{\mu(K_{k-1})}{n}.
+\end{align} 
+
+Summing \ref{ineqn:fcs:rrt-positive:ineqn3} over all $k \in \{ 0, 1, \ldots n \}$ and applying $f = \sum_{k = 1}^n f_k$ gives
+\begin{align}
+     \label{ineqn:fcs:rrt-positive:ineqn4}
+     \frac{1}{n} \sum_{k=1}^n \mu(K_k) \leq I(f) \leq \frac{1}{n} \sum_{k=0}^{n-1} \mu(K_k).
+\end{align}
+Combining \ref{ineqn:fcs:rrt-positive:ineqn2} and \ref{ineqn:fcs:rrt-positive:ineqn4} gives \begin{align}
+    \label{ineqn:fcs:rrt-positive:ineqnfinal}    
+    \left | I(f) - \int_{X} f \,d\mu \right | \leq \frac{\mu(K_0) - \mu(K_n)}{n} \leq \frac{\mu(X)}{n}.
+\end{align}
+Letting $n \to \infty$  in \ref{ineqn:fcs:rrt-positive:ineqnfinal} gives $I(f) = \int_{X} f \, d\mu$, as desired.
+
+We will now generalize the result to $\C(X)$. Consider an arbitrary $f \in \C(X)$. Write $f = f^+ - f^-$, where $f^+, f^- \in \C(X)$ and $f^+, f^- \geq 0$. There exists a regular finite measure $\mu$ on $\mathcal{B}(X)$ such that
+$ I(f^+) = \int_{X} f^+ \,d\mu$ and $I(f^-) = \int_{X} f^- \,d\mu$. By linearity of the functional $I$ and the integral, we have \begin{align*}
+    I (f) = I(f^+ - f^-) = I(f^+) - I(f^-) =   \int_{X} f^+ \,d\mu -  \int_{X} f^- \,d\mu =  \int_{X} f \,d\mu,
+\end{align*}
+as desired.
+\end{step}
+
+\begin{step}[Regularity]
+Regularity of $\mu$ follows directly from Corollary \ref{cor:fcs:regularity}.
+\end{step}
+
+\begin{step}[Uniqueness]
+Let $\eta$ be another regular finite measure on $\B(X)$ satisfying \begin{align*}
+    I(f) = \int_{X} f \,d \mu = \int_{X} f \,d \eta , \text {   for every $f \in \C(X).$}
+\end{align*}
+
+Regularity of $\mu$ and $\eta$ implies that $\mu$ and $\eta$ are completely determined by their values on compact sets in $\B(X)$. Thus, it suffices to prove that $\mu$ and $\eta$ agree on compact sets in $\B(X)$. Let $K \in \B(X)$ be compact and let $\epsilon > 0$. Since $\mu$ is finite and regular, we may choose an open set $U $ such that $ K \subset U$ and $\mu(U) < \mu(K) + \epsilon$.
+By Lemma \ref{lemma:fcs:sepfn}, there exists $h \in \C(X)$ with $\supp h \subset U$ such that $h = 1$ on $K$ and $0 \leq h \leq 1$.
+Then \begin{align*}
+    \eta (K) = \int_X \chi_{K} \,d\eta &\leq \int_X h \,d\eta & \\
+             &\leq  \int_X h \,d\mu \leq  \int_X \chi_{U} \,d\mu = \mu(U) < \mu(K) + \epsilon. 
+\end{align*}
+Hence $\eta(K) < \mu(K) + \epsilon$. Since $\epsilon$ was arbitrary, $\eta(K) \leq \mu(K)$. Reversing roles of $\mu$ and $\eta$ and applying the previous argument gives $\mu(K) \leq \eta(K)$. Hence $\mu(K) = \eta(K)$, as desired.
+\end{step}
+\end{proof}
+
+Using the Riesz Representation Theorem for positive linear functionals, we can prove the similar result for bounded linear functionals.
+
+\begin{theorem}[Riesz Representation Theorem for bounded linear functionals on $\C(X)$]
+\label{thm:fcs:rrt-bounded}
+Let $X$ be a compact metric space and $I$ be a bounded linear functional on $\C(X)$. Then there exists the unique finite signed regular measure $\mu$ on $\B(X)$ such that
+\begin{equation}
+    \label{eqn:fcs:rrt-bounded:claim}
+    I (f) = \int_{X} f \,d\mu, \text{    for every $f \in \C(X)$}.
+\end{equation}
+\end{theorem}
+\begin{proof-idea*}
+The proof consists of two parts. In the first part, we will prove the existence of such a signed measure by reduction to Theorem \ref{thm:fcs:rrt-positive}. We will discuss uniqueness in the second part.
+\end{proof-idea*}
+\begin{proof}
+\setcounter{step}{0}
+\begin{step}[Existence]
+By \nameref{thm:funct:hahn-jordan-cx}, $I$ can be expressed as $I = I^{+} - I^{-}$, where $I^{+}$ and $I^{-}$ are positive linear functionals on $\C(X)$. By \nameref{thm:fcs:rrt-positive}, there exist two finite regular Borel measures $\mu^{+}$ and $\mu^{-}$ such that for every $f \in \C(X)$, \begin{align}
+\label{eqn:fcs:hahndecomped_i}
+I^{+}(f) = \int_X f \,d\mu^{+} \text{ and } I^{-}(f) = \int_X f \,d\mu^{-}.
+\end{align}
+Define $\mu : \B(X) \to \R$ by $\mu = \mu^{+} - \mu^{-}$. Then $\mu$ is a signed measure on $\B(X)$. By linearity of the integral and \ref{eqn:fcs:hahndecomped_i}, for every $f \in \C(X)$, 
+\begin{align*}
+    I(f) =  I^{+}(f) - I^{-}(f) =  \int_X f \,d\mu^{+} -  \int_X f \,d\mu^{-} = \int_{X} f \, d\mu.
+\end{align*}
+\end{step}
+\begin{step}[Regularity]
+Regularity of $\mu$ follows from the regularity of $\mu^{+}$ and $\mu^{-}$. 
+\end{step}
+\begin{step}[Uniqueness]
+Let $\mu$ and $\nu$ be finite signed measures on $\B(X)$ such that for every $f \in \C(X)$, \begin{align}
+    \label{eqn:fcs:rrt-bounded:uqass}
+    I(f) = \int_X f \,d\mu = \int_X f \,d\nu.  
+\end{align}
+
+Define $\eta : \B(X) \to \R$ by $\eta = \mu - \nu$. Clearly, $\eta$ is a signed measure on $\B(X)$. By \ref{eqn:fcs:rrt-bounded:uqass}, for every $f \in \C(X)$, $\int_X f \, d\eta = \int_X f \, d\mu- \int_X f \, d\nu  = 0$. By \nameref{thm:hahn-jordan}, $\eta$ admits decomposition $\eta = \eta^{+} - \eta^{-}$, where $\eta^{+}$ and $\eta^{-}$ are measures on $\B(X)$. Now for every $f \in \C(X)$, \begin{align}
+      \label{eqn:fcs:rrt-bounded:etadecomp}
+      \int_{X} f \,d\eta^{+} - \int_{X} f \,d\eta^{-} = \int_{X} f \,d\eta = 0.
+\end{align}
+Define $F : \C(X) \to \R$ by $F(f) =  \int_{X} f \,d\eta^{+} = \int_{X} f \,d\eta^{-}$. By \ref{eqn:fcs:rrt-bounded:etadecomp}, $F$ is well-defined.
+By linearity of the integral, $F$ is a positive linear functional. By uniqueness part of \nameref{thm:fcs:rrt-positive}, $\eta^{+} = \eta^{-}$. Then $\mu - \nu = \eta = \eta^{+} - \eta^{-} = 0$ which implies $\mu = \nu$.
+
+\end{step}
+\end{proof}

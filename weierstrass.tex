@@ -1,0 +1,188 @@
+
+\section{Stone-Weierstrass Theorem}
+\label{section:appendix:stone-weierstrass}
+\subsubsection{Weierstrass Approximation Theorem}
+
+We begin by tackling one of the oldest problems in analysis - whether it is possible to approximate continuous functions using polynomials. Weierstrass solved the problem with the approximation family of \nameref{defn:anal:bernstein}. 
+
+To precisely define the notion of approximation, we begin by discussing the metric structure of a vector space of continuous functions - $\C(X)$. We equip $\C(X)$ with a metric $\delta_\infty$ based on the sup-norm $ \norm{f}_{\infty} = \sup_{x \in X} | f(x) |$. We define $\delta_\infty(f,g) = \norm{f - g}_{\infty}$. The proof $\delta_\infty$ is a metric and $\norm{.}_{\infty}$ is a norm is Example 10.6 in \cite{wade_2014_introduction}.
+
+Observe that the convergence in $\C(X)$ is equivalent to the uniform convergence.
+
+Before discussing the approximation, we define the uniform density of a family of functions.
+
+\begin{definition}[uniform density of a family]
+A subset $\mathcal{A}$ of $\C(X)$ is uniformly dense in $\C(X)$ if and only if given $\epsilon > 0$, there exists $g \in \mathcal{A}$ such that $\delta_{\infty}(f,g)<\epsilon$.
+\end{definition}
+
+We are ready to discuss the \nameref{defn:anal:bernstein}.
+
+\begin{definition}[Bernstein polynomials]
+\label{defn:anal:bernstein}
+Let $f$ be a function defined on $[0,1]$. The $n$-th Bernstein polynomial of $f$, denoted by $B_n{f}$, is a polynomial given by 
+\begin{align*}
+    B_n{f} = \sum_{k = 0}^n  f \left(\frac{k}{n}\right) \cdot \binom{n}{k} x^k (1 - x)^{n - k}.
+\end{align*}
+\end{definition}
+
+\begin{theorem}[Bernstein Approximation Theorem]
+\label{thm:anal:bernstein-approx}
+\nameref{defn:anal:bernstein} are uniformly dense in $\C[0,1]$.
+\end{theorem}
+
+Before discussing the proof, we state a few technical results which will be used.
+\begin{lemma}
+    \label{lemma:anal:bernstein:1}
+    For every $x \in \R$, $n \geq 0$, $\sum_{k = 0}^n  \binom{n}{k} x^k (1 - x)^{n - k} = 1$.
+\end{lemma}
+\begin{proof}
+Follows from the Binomial Theorem applied to $a = x$ and $b = 1 - x$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma:anal:bernstein:2}
+For $x \in \R$, $n \geq 0$, $\sum_{k = 0}^n (nx - k)^2 \binom{n}{k} x^k (1 - x)^{n - k} = nx(1-x) \leq \frac{n}{4}$.
+\end{lemma}
+\begin{proof}
+This is a direct computation applying the combinatorial identites:
+\begin{itemize}[noitemsep]
+    \item for $k \geq 1$, $k \binom{n}{k} = n \binom{n - 1}{k - 1}$,
+    \item for $k \geq 2, k (k - 1) \binom{n}{k} = n (n - 1)\binom{n - 2}{k - 2}$.
+\end{itemize}
+For detailed calculations, see the proof of Lemma 27.2 in \cite{ross_2015_elementary}.
+\end{proof}
+
+\begin{proof}[Proof of Bernstein Approximation Theorem]
+If $f$ is identically zero the result follows immediatelly.
+Suppose $f$ is not identically zero and let $\epsilon > 0$. Set $M = \sup \{|f(x)| : x \in [0,1] \}$. By compactness of $[0,1]$, $M$ is finite and $f$ is uniformly continuous, so there exists $\delta > 0$ such that \begin{align}
+    \label{ineqn:anal:bern:unifcont}
+    x,y \in [0,1] \text{ with } | x - y | < \delta \implies | f(x) - f (y) | < \frac{\epsilon}{2}.
+\end{align}
+
+Set $N = \frac{M}{\epsilon \cdot \delta^2}$. We will show $|  B_n{f}(x) - f(x) | < \epsilon$, $\forall x \in [0, 1]$, for every $n > N$.
+
+Let $x \in [0,1]$ and $n > N$. By Lemma \ref{lemma:anal:bernstein:1}, $f(x) = \sum_{k = 0}^n f(x) \binom{n}{k} x^k (1 - x)^{n - k}$,
+so \begin{equation}
+    \label{ineqn:anal:bern:main}
+    |  B_n{f}(x) - f(x) | \leq \sum_{k = 0}^n \left | f \left(\frac{k}{n}\right) - f(x) \right | \cdot  \binom{n}{k} x^k (1 - x)^{n - k}.
+\end{equation}
+
+To estimate \ref{ineqn:anal:bern:main}, partition $\{ 0, 1, \ldots, n \}$ into sets $\Delta_{<}$ and $\Delta_{\geq}$ such that $\Delta_{<} := \{ k : \left | \frac{k}{n} - x \right | < \delta \}$ and $\Delta_{\geq} := \{ k : \left | \frac{k}{n} - x \right | \geq \delta \}$.
+
+Suppose $k \in \Delta_<$. By \ref{ineqn:anal:bern:unifcont}, $\left | f \left(\frac{k}{n} \right) - f(x) \right | < \frac{\epsilon}{2}$. By Lemma \ref{lemma:anal:bernstein:1},
+\begin{align}
+    \label{ineqn:anal:bern:delta_less}
+    \sum_{k \in \Delta_<}  \left | f \left(\frac{k}{n}\right) - f(x) \right | \cdot  \binom{n}{k} x^k (1 - x)^{n - k} \leq \frac{\epsilon}{2} \sum_{k = 0}^n  \binom{n}{k} x^k (1 - x)^{n - k} = \frac{\epsilon}{2}.
+\end{align}
+
+Suppose $k \in \Delta_\geq$. Then $\left | \frac{k}{n} - x \right | \geq \delta$ which is equivalent to $(k - nx)^2 \geq n^2 \delta^2$, so
+\begin{align*}
+    \sum_{k \in \Delta_\geq}  \left | f \left(\frac{k}{n}\right) - f(x) \right | \cdot  \binom{n}{k} x^k (1 - x)^{n - k} &\leq 2M \sum_{k \in \Delta_\geq} \frac{n^2 \delta^2}{n^2 \delta^2} \binom{n}{k} x^k (1 - x)^{n - k} & \\
+    &\leq \frac{2M}{n^2 \delta^2} \sum_{k = 0}^n (nx - k)^2 \binom{n}{k} x^k (1 - x)^{n - k}
+    .
+\end{align*}
+Applying the Lemma \ref{lemma:anal:bernstein:2},
+\begin{align}
+    \label{ineqn:anal:bern:delta_geq}
+    \sum_{k = 0}^n  \left | f \left(\frac{k}{n}\right) - f(x) \right | \cdot  \binom{n}{k} x^k (1 - x)^{n - k} &\leq \frac{2M}{n^2 \delta^2} \cdot \frac{n}{4} \leq \frac{M}{2n\delta^2} < \frac{M}{2N \delta ^2} = \frac{\epsilon}{2}.
+\end{align}
+
+By \ref{ineqn:anal:bern:delta_less} and \ref{ineqn:anal:bern:delta_geq}, $\left | B_{n} f (x) - f(x) \right | < \epsilon$. Since $x$ was arbitrary, the proof is complete.
+
+\end{proof}
+Using \nameref{thm:anal:bernstein-approx}, we can easily prove the main result of this section - \nameref{thm:anal:weierstrass-approx}.
+
+\begin{theorem}[Weierstrass Approximation Theorem]
+\label{thm:anal:weierstrass-approx}
+Polynomials are uniformly dense in $\C[a,b]$.
+\end{theorem}
+\begin{proof}
+Consider the polynomial $\phi : [0, 1] \to [a,b]$ given by $\phi(x) = (b - a)x + a$. It is easy to check $\phi$ is a continuous bijection, whose inverse $\phi^{-1} : [a, b] \to [0, 1]$ given by $\phi^{-1} (y) =  \frac{y - a}{b - a}$ is also a polynomial. By continuity of composition, $f \circ \phi : [0,1] \to \R$ is continuous. By \nameref{thm:anal:bernstein-approx}, there exists a sequence of polynomials $\varphi_n$ such that $\lim_{n \to \infty} \sup_{y \in [0,1]} | (f \circ \phi^{-1}) (y) - \varphi_n(y) | = 0$. We will show $\psi_n := \varphi_n \circ \phi^{-1}$ uniformly approximates $f$. Since
+\begin{align*}
+    \sup_{x \in [a,b]} | f(x) - \psi_n(x) | &= \sup_{x \in [a,b]} | (f \circ \phi) (\phi^{-1}(x)) - \varphi_n (\phi^{-1}(x)) |  \\  &= \sup_{y \in [0,1]} | (f \circ \phi^{-1}) (y) - \varphi_n(y)|,
+\end{align*}
+$\lim_{n \to \infty} \sup_{x \in [a,b]} | f(x) - \psi_n(x) | = \lim_{n \to \infty} \sup_{y \in [0,1]} | (f \circ \phi^{-1}) (y) - \varphi_n(y) | = 0$.
+\end{proof}
+\subsubsection{Stone-Weierstrass Theorem}
+In the following discussion, we assume that $\C(X)$ is a metric space equipped with $d_\infty$ metric.
+We aim to generalize \nameref{thm:anal:weierstrass-approx} to $\C(X)$. To accomplish that, it is useful to generalize closure properties of polynomials by introducing algebras of continuous functions.
+\begin{definition}[algebra on $\C(X)$]
+\label{defn:top:algebra}
+A nonempty subset $\mathcal{A} \subseteq \C(X)$ is said to be a real function algebra in $\C(X)$ if and only if
+\begin{axioms}{A}
+  \item \label{defn:anal:alg:2} If $f, g \in \mathcal{A}$, then $f + g \in \mathcal{A}$ and $fg \in \mathcal{A}$;
+  \item \label{defn:anal:alg:3} If $c \in \R$ and $f \in \mathcal{A}$ then $cf \in \mathcal{A}$.
+\end{axioms}
+\end{definition}
+It turns out that algebras of functions are closed under pointwise minimums, maximums and the absolute value.
+\begin{lemma}[Closure under min and max]
+\label{lemma:top:closurelattice}
+Suppose that $X$ is a compact metric space and $\mathcal{A}$ a closed algebra containing constants in $\C(X)$. If $f, g \in \mathcal{A}$, then $|f|$, $\min(f,g)$, $\max(f,g)$ $\in \mathcal{A}$.
+\end{lemma}
+\begin{proof}
+Recall that $\min(f,g) = \frac{1}{2}(f + g - | f - g |)$, $\max(f,g) = \frac{1}{2}(f + g + | f + g |)$.
+Since $\mathcal{A}$ is an algebra, to prove $\min(f,g), \max(f,g) \in \mathcal{A}$, it is sufficient to prove that $|f| \in \mathcal{A}$. 
+
+If $f$ is identically zero, the result follows immediately. Thus, suppose $f$ is not identically zero. Then set $M = \norm{f}_{\infty}$ and observe that $M > 0$. Define the function $g : [-1, 1] \to [0,1]$ by $g(t) = | t |$. By \nameref{thm:anal:weierstrass-approx}, there exists a sequence of polynomials $\{ p_n \}_{n = 1}^{\infty}$ defined on $[-1,1]$ such that $p_n \rightarrow g$ in $\delta_\infty$.
+
+For every $x \in X$, define $g_n : X \to \R$ by $g_n (x) := p_n(\frac{f(x)}{M})$. By definition of $M$, $ t = \frac{f(x)}{M} \in [-1,1]$. Thus, the composition $g_n$ is indeed well-defined. Since composition preserves continuity, $g_n \in \C(X)$. We will show $g_n \in \mathcal{A}$. Since $\frac{1}{M} \in \mathcal{A}$  by \ref{defn:anal:alg:3}, $\frac{1}{M} f \in \mathcal{A}$. Since $p_n$ is a polynomial, by \ref{defn:anal:alg:2}, $g_n  \in \mathcal{A}$.
+By definition of $g_n$ and the choice of $p_n$,
+\begin{align}
+    \label{eqn:top:closure:delta}
+    \delta_\infty \left(g_n, \frac{|f|}{M} \right ) = \sup_{x \in X} \left| g_n(x) - \left | \frac{f(x)}{M} \right| \right | = \sup_{t \in [-1,1]} \left | p_n(t) - g(t)  \right | =  \delta_\infty \left(p_n, g \right)
+\end{align}
+Since $p_n \rightarrow g$ in $\delta_\infty$, $g_n \rightarrow \frac{|f|}{M}$ in $\delta_\infty$ by \ref{eqn:top:closure:delta}.
+Thus, $M g_n \rightarrow |f|$ in $\delta_\infty$. By \ref{defn:anal:alg:3}, $M g_n \in \mathcal{A}$. Since $\mathcal{A}$ is closed, $|f| \in \mathcal{A}$.
+
+\end{proof}
+It is interesting to note that a closure of an algebra remains an algebra.
+\begin{lemma}[The uniform closure lemma]
+\label{lemma:top:unifclosure}
+If $\mathcal{A}$ is \nameref{defn:top:algebra} containing constants, so is $\overline{\mathcal{A}}$.
+\end{lemma}
+\begin{proof}
+Let $f, g \in \overline{\mathcal{A}}$. There exist $f_n, g_n \in \mathcal{A}$ such that $f_n \to f$, $g_n \to g$ in $\delta_\infty$. Then $f_n + g_n \rightarrow f + g$ in $\delta_\infty$ and $f_n g_n \rightarrow f g$ in $\delta_\infty$. Similarly, $\lambda f_n \rightarrow \lambda f$ in $\delta_\infty$.
+Since $\mathcal{A}$ is an algebra, $f_n + g_n, f_n g_n, \lambda f_n \in \mathcal{A}$. This establishes
+\ref{defn:anal:alg:2} and \ref{defn:anal:alg:3}.
+\end{proof}
+
+Finally, we introduce the notion of separation of points.
+\begin{definition}[separation on $\C(X)$]
+A subset $\mathcal{A}$ of $\C(X)$ separates points of $X$ if and only if given $x, y \in X$ with $x \neq y$ there exists $f \in \mathcal{A}$ such that $f(x) \neq f(y)$.
+\end{definition}
+
+We are ready to state and prove the most important result in this section.
+
+\begin{theorem}[Stone-Weierstrass Theorem]
+\label{thm:anal:stone-weierstrass}
+Suppose that $X$ is a compact metric space. If $\mathcal{A}$ is an algebra in $\C(X)$ that separates points of $X$ and contains constants then $\mathcal{A}$ is uniformly dense in $\C(X)$.
+\end{theorem}
+\begin{proof}
+Since $\mathcal{A}$ is an algebra, so is $\overline{\mathcal{A}}$ by \nameref{lemma:top:unifclosure}.
+Let $f \in \C(X)$ and let $\epsilon > 0$.
+\setcounter{step}{0}
+\begin{step}
+We begin by proving that for every $s \in X$, there exists $h_s \in \overline{\mathcal{A}}$ such that for every $x \in X, h_s(x) < f(x) + \frac{\epsilon}{2}$ and $h_s(s) = f(s)$. Fix $s \in X$ and consider $t \in X, s \neq t$. Since $\mathcal{A}$ separates points of $X$, there exists $h \in A$ such that $h(s) \neq h(t)$. Define 
+\begin{align*}
+    f_{s, t} (x) = s \cdot \frac{h(x) - h(t)}{h(s) - h(t)} + t  \cdot \frac{h(x) - h(s)}{h(t) - h(s)}.
+\end{align*}
+Observe that $f_{s, t} (s) = s$ and $f_{s, t} (t) = t$. Clearly, $f_{s,t} \in \mathcal{A}$ so $f_{s,t} \in  \overline{\mathcal{A}}$. Define
+\begin{align*}
+    V_{s, t} = \left \{ x :  x \in X, f_{s,t}(x) - f(x) < \frac{\epsilon}{2} \right \} = (f_{s,t} - f)^{-1} \left (-\infty, \frac{\epsilon}{2} \right ).
+\end{align*}
+Since $f_{s, t} (s) = s$ and $f_{s, t} (t) = t$, $s, t \in V_{s, t}$. Since $f_{s,t} \in \C(X)$, $(f_{s,t} - f) \in \C(X)$. By continuity of $f_{s,t}$, $V_{s, t}$ is open since it is the preimage of the open interval. Since $t \in V_{s,t}$, $\{ V_{s,t} \}_{t \in X}$ is an open cover of $X$. By compactness of $X$, there exist $t_1, \ldots t_n$ such that $X = \bigcup_{k = 1}^{n} V_{s, t_k}$. Now define $h_s = \min_{1 \leq k \leq n} f_{s, t_{k}}$. By \nameref{lemma:top:closurelattice}, $h_s \in \overline{\mathcal{A}}$. Since for every $f_{s, t}$, $f_{s, t}(s) = f(s)$, we have $h_s(s) = f(s)$. We will show $h_s(x) < f(x) + \frac{\epsilon}{2}$, for every $x \in X$. Let $x \in X$. Then $x \in V_{s, t_j}$, for at least one $j$ such that $1 \leq j \leq n$. By definition of $h_s$ and the fact $x \in V_{s, t_j}$ for at least one $j \in \{ 1, 2, \ldots, n \}$,
+\begin{align*}
+    h_s(x) - f(x) &\leq f_{s, t_j} (x) - f(x) < \frac{\epsilon}{2} \implies h_s(x) < f(x) + \frac{\epsilon}{2}.
+\end{align*}
+\end{step}
+\begin{step}
+For $s \in X$, define \[
+    W_s = \left \{ x \in X : h_{s}(x) > f(x) - \frac{\epsilon}{2} \right \} = (h_{s} - f)^{-1} \left (-\frac{\epsilon}{2}, \infty \right).
+\]
+By continuity of $h_s - f$, $W_s$ is open since it is the preimage of the open interval. Since $h_s(s) = f(s)$, $s \in W_s$. Therefore, the family $\{ W_s \}_{s \in X}$ is an open cover of $X$. By compactness of $X$, there exist $s_1, \ldots s_m$ such that $X = \bigcup_{k = 1}^{m} W_{s_k}$. Now define $g = \operatorname{max}_{1 \leq k \leq m} h_{s_k}$.  By \nameref{lemma:top:closurelattice}, $g \in \overline{\mathcal{A}}$. Since for every $k \in \{ 1, 2, \ldots m \}$, for every $x \in X$, $h_{s_k} (x) < f(x) + \frac{\epsilon}{2}$, $g(x) < f(x) + \frac{\epsilon}{2}$. We will show that for every $x \in X$, $g(x) > f(x) - \frac{\epsilon}{2}$. Fix $x \in X$. Then $x \in W_{s_j}$, for some $j \in \{ 1, 2, \ldots m \}$. But then, $h_{s_j} (x) > f(x) - \frac{\epsilon}{2}$. Since for every $j \in \{ 1, 2, \ldots m \}$, for every $y \in X$, $h_{s_j}(y) \leq g (y)$, we have $f(x) -\frac{\epsilon}{2} < h_{s_j}(x) \leq g(x)$. Thus for every $x \in X,  - \frac{\epsilon}{2} < f(x) -  g(x) < \frac{\epsilon}{2}$.
+Hence $\delta_\infty(f,g) \leq \frac{\epsilon}{2} < \epsilon$.
+\end{step}
+\end{proof}
+\newpage 
+
+\newpage

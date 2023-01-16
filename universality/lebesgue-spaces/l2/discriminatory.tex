@@ -1,0 +1,254 @@
+\subsection{$\Ltwo$-discriminatory activation functions}
+\label{subsection:universality:ltwo:1}
+In the case of $\Ltwo([0,1]^n)$, it is possible to derive the notion of discriminatory activation function, using the orthogonality. Recall that the $\norm{\cdot}_2$ on $\Ltwo([0,1]^n)$ arises from the inner product \[ 
+    \langle f, g \rangle = \int_{[0,1]^n} f(\vec{x})g(\vec{x}) \, d\vec{x}, \text{ for every $f, g \in \Ltwo([0,1]^n)$}.
+\]
+Suppose that $\mathcal{H}$ is dense in $\Ltwo([0,1]^n)$ and consider $g \in \Ltwo([0,1]^n)$, satisfying $g \perp \mathcal{H}$. Since $\mathcal{H}$ is dense in $\Ltwo([0,1]^n)$, there exists a sequence of functions $\{ g_m \}_{m=1}^\infty$ in $\mathcal{H}$ such that $g_m \to g$ in $\norm{\cdot}_2$ as $m \to \infty$. Since $g \perp \mathcal{H}$, $\langle g_m, g \rangle = 0$. Now
+\begin{subequations}\label{ineqn:universality:ltwo:discussion-discrim}
+\begin{align*}
+    | \langle g, g \rangle | &= | \langle g - g_m, g \rangle + \langle g_m, g \rangle | \\
+                             &= | \langle g - g_m, g \rangle | \\
+                             &\leq \norm{g - g_m}_2 \cdot \norm{g}_2.
+     \tag{\ref{ineqn:universality:ltwo:discussion-discrim}} 
+\end{align*}
+\end{subequations}
+To obtain \ref{ineqn:universality:ltwo:discussion-discrim}, we applied the Cauchy–Schwarz inequality in the last step.
+\newpage
+Applying $\lim_{m \to \infty}$ on \ref{ineqn:universality:ltwo:discussion-discrim} gives $ | \langle g, g \rangle | = 0$. But then $\norm{g}_2 = 0$. By Proposition \ref{proposition:measure:characterzerointergral_one_dir}, $\norm{g}_2 = 0$ implies $g = 0$ almost everywhere. The condition $g \perp \mathcal{H}$ is equivalent to \begin{align}
+    \label{eqn:subsection:universality:ltwo:derivationdiscrim}
+    \int_{[0,1]^n} h(\vec{x}) g(\vec{x}) \, d\vec{x} = 0, \text{ for every $h \in \mathcal{H}$. } 
+\end{align}
+Now recall the definition of the family of single-layer fully-connected neural networks with activation function $\sigma$, \begin{align*}
+\mathcal{H}_{\sigma} = \left \{ \vec{x} \to \sum_{k=1}^{m} \alpha_k \sigma{\left (\langle \vec{w_k}, \vec{x} \rangle + \beta_k \right)} : m \in \N, \alpha_1 \ldots \alpha_m \in \R,  \beta_1 \ldots \beta_m \in \R, \vec{w_k} \in \R^n \right \}.
+\end{align*}
+If $\mathcal{H}_{\sigma}$ is dense in $\Ltwo([0,1]^n)$ and \ref{eqn:subsection:universality:ltwo:derivationdiscrim} holds, then $g = 0$ almost everywhere. Thus, it is natural to define $\Ltwo$-discriminatory activation function in the following way.
+
+\begin{definition}[$\Ltwo$-discriminatory activation function]
+Let $\sigma : \R \to [0,1]$. We say $\sigma$ is $\Ltwo([0,1]^n)$-discriminatory if for every $g \in \Ltwo([0,1]^n)$, \[
+    \int_{[0,1]^n} \sigma(\langle \vec{w}, \vec{x} \rangle + b) g(\vec{x}) \, d \vec{x} = 0, \text{ for every } \vec{w} \in \R^n, b \in \R,
+\]
+implies $g = 0$ almost everywhere.
+\end{definition}
+We will develop an $\Ltwo([0,1]^n)$-analog of Lemma \ref{lemma:discrim:vanishhyper}.
+\begin{lemma}
+\label{lemma:universality:l2:vanishhyper}
+Suppose that $g \in \Ltwo([0,1]^n)$ satisfies\begin{align}
+     \label{eqn:universality:l2:vanishhyper:assumption}
+     \int_{\Pi_{\vec{w}, b}^{+}} g(\vec{x}) \, d\vec{x} = 0, \text{ for every } \vec{w} \in \R^n, b \in \R.
+\end{align}
+Then $g = 0$ almost everywhere.
+\end{lemma}
+
+\begin{proof-idea*}
+We will mimick the proof of Lemma \ref{lemma:discrim:vanishhyper} and use the injectivity property of the Fourier Transform on $\Lone([0,1]^n)$. The first observation is that $g \in \Lone([0,1]^n)$ because $([0,1]^n, \B([0,1]^n), \lambda_{|[0,1]^n})$ is a finite measure space.
+Thus, if we can show that the Fourier transform of $g$ is identically zero, we can appeal to the injectivity of the Fourier Transform on $\Lone([0,1]^n)$ to deduce $g = 0$ almost everywhere.
+The idea is to apply classical "Lebesgue induction" to the cleverly constructed functional $F : \Linfty(\R) \to \R$ given by \[
+    F_{\vec{w}}(h) = \int_{[0,1]^n} h ( \langle \vec{w}, \vec{x} \rangle) g(\vec{x}) \, d \vec{x}.
+\]
+We will use $F_{\vec{w}}$ to prove that $\widehat{g} = 0$. We will "Lebesgue-inductively" show that $F_{\vec{w}} = 0$ on $\Linfty(\R)$. As in the proof of Lemma \ref{lemma:discrim:vanishhyper}, the main difficulty will be proving that $F_{\vec{w}}(\chi_{B}) = 0$ for every Borel set $B \in \B(\R)$. To prove this, we will use \nameref{thm:measure:lambda-pi}.
+\end{proof-idea*}
+\pagebreak
+\begin{proof}
+\setcounter{step}{0}
+\begin{step}[$F_\vec{w}$ is a bounded linear functional.]
+Fix $\vec{w} \in \R^n$, and define the function $F_\vec{w} : \Linfty(\R) \to \R$ by \[
+    F_{\vec{w}}(h) = \int_{[0,1]^n} h ( \langle \vec{w}, \vec{x} \rangle) g(\vec{x}) \, d \vec{x}.
+\]
+We claim that $F_\vec{w}$ is a bounded linear functional on $\Linfty(\R)$. Linearity follows from the linearity of an integral. To prove boundedness, suppose $h \in \Linfty(\R)$. By definition of $\Linfty(\R)$, without loss of generality, $h \leq \norm{h}_\infty < \infty$. Then
+\begin{subequations}\label{ineqn:lp:discrim:vanishdiscrimlemma:1}
+\begin{align*}
+     | F_{\vec{w}}(h) | &= \left | \int_{[0,1]^n} h ( \langle \vec{w}, \vec{x} \rangle) g(\vec{x}) \, d \vec{x} \right | \leq  \int_{[0,1]^n} \left |  h ( \langle \vec{w}, \vec{x} \rangle)  \right | |  g(\vec{x}) |  \, d \vec{x} &\\
+     &\leq \norm{h}_\infty \int_{[0,1]^n} |  g(\vec{x}) | \, d\vec{x} \leq \norm{h}_\infty \left ( \lambda([0,1]^n) \right)^{1/2} \norm{g}_2 \text{    by \nameref{ineqn:lp:holder}} \\
+     &\leq \norm{h}_\infty \norm{g}_2. \tag{\ref{ineqn:lp:discrim:vanishdiscrimlemma:1}} 
+\end{align*}
+\end{subequations}
+Since $g \in \Ltwo([0,1]^n)$ and $h$ was arbitrary, $F_{\vec{w}}$ is indeed bounded by $\norm{g}_2$.
+\end{step}
+\begin{step}[$F_\vec{w}$ vanishes on indicators of Borel sets in $\R$.]
+We begin by proving $F_\vec{w}$ vanishes on indicator functions of intervals in $\R$.
+Consider the indicator function $\chi_{(b, \infty)}$, for $b \in \R$. Then
+\begin{subequations}\label{eqn:universality:l2:vanishhyper:vanish_open}
+\begin{align*}
+    F_{\vec{w}}(\chi_{(b, \infty)}) &=  \int_{[0,1]^n} \chi_{(b, \infty)}( \langle \vec{w}, \vec{x} \rangle) g(\vec{x}) \, d \vec{x} \\
+    &=   \int_{\{ \vec{x} \in [0,1]^n : b < \langle \vec{w}, \vec{x}  \rangle < \infty  \}} g(\vec{x}) \, d \vec{x} \\
+    &= \int_{ \Pi_{\vec{w}, -b}^{+} } g(\vec{x}) \, d \vec{x} \\
+    &= 0. & \text{by \ref{eqn:universality:l2:vanishhyper:assumption}}
+    \tag{\ref{eqn:universality:l2:vanishhyper:vanish_open}} 
+\end{align*}
+\end{subequations}
+Consider the indicator function $\chi_{[b, \infty)}$, for $b \in \R$. Then
+\begin{subequations}\label{eqn:universality:l2:vanishhyper:vanish_closed}
+\begin{align*}
+    F_{\vec{w}}(\chi_{[b, \infty)}) &=  \int_{[0,1]^n} \chi_{[b, \infty)}( \langle \vec{w}, \vec{x} \rangle) g(\vec{x}) \, d \vec{x} \\
+    &=   \int_{\{ \vec{x} \in [0,1]^n : b \leq \langle \vec{w}, \vec{x}  \rangle < \infty  \}} g(\vec{x}) \, d \vec{x} \\
+    &=  \int_{ \Pi_{\vec{w}, -b} } g(\vec{x}) \, d \vec{x} + \int_{ \Pi_{\vec{w}, -b}^{+} } g(\vec{x}) \, d \vec{x} \\
+    &= 0. & \text{by \ref{eqn:universality:l2:vanishhyper:assumption}}
+    \tag{\ref{eqn:universality:l2:vanishhyper:vanish_closed}} 
+\end{align*}
+\end{subequations}
+To show $F_{\vec{w}}(\chi_{[b, \infty)}) = 0$, we also applied the fact that $\Pi_{\vec{w}, -b}$ is a set of Lebesgue measure zero. Hence $\int_{ \Pi_{\vec{w}, -b} } g(\vec{x}) \, d \vec{x} = 0$. Note that for every $a, b \in \R$,
+\begin{align}
+     \label{eqn:universality:l2:vanishhyper:chi_decomp}
+     \chi_{(a,b)} = \chi_{(a, \infty)} - \chi_{[b, \infty]}. 
+\end{align}
+Applying linearity of $F_\vec{w}$ to \ref{eqn:universality:l2:vanishhyper:chi_decomp} and together with \ref{eqn:universality:l2:vanishhyper:vanish_open} and \ref{eqn:universality:l2:vanishhyper:vanish_closed} yields
+\begin{align}
+    \label{eqn:universality:l2:vanishhyper:openints}
+    F_{\vec{w}}(\chi_{(a,b)}) = F_{\vec{w}}(\chi_{(a, \infty)} - \chi_{[b, \infty)}) = F_{\vec{w}}(\chi_{(a, \infty)}) - F_{\vec{w}}(\chi_{[b, \infty)}) = 0.
+\end{align} We claim that $F_{\vec{w}}(\chi_B) = 0$, for every Borel set $B \subseteq \R$.
+To show that $F_\vec{w}$ vanishes on indicator functions of Borel sets, we will appeal to \nameref{thm:measure:lambda-pi}.
+Define the collections $\Pi$ and $\Lambda$ by 
+\begin{align*}
+    \Pi = \left \{ (a,b) : -\infty \leq a \leq b \leq \infty \right \} \text{ and }
+    \Lambda = \left \{ A : A \in \B(\R) \text{ and } F_{\vec{w}}(\chi_{A}) = 0 \right \}.
+\end{align*}
+Since the finite intersection of open intervals is again an open, possibly degenerate interval, $\Pi$ is a $\pi$-system. We will show that $\Lambda$ is a $\lambda$-system. By \ref{eqn:universality:l2:vanishhyper:openints}, $\Lambda$ contains $\Pi$. Clearly, $\R \in \Lambda$. 
+
+Suppose that $A, B \in \Lambda$ where $B \subseteq A$. Then $\chi_{A \setminus B} = \chi_A - \chi_B$ so $F_{\vec{w}}(\chi_{A \setminus B}) = F_{\vec{w}}(\chi_A - \chi_B)  =F_{\vec{w}}(\chi_A ) - F_{\vec{w}}(\chi_B) = 0$, since $A, B \in \Lambda$. Thus $A \setminus B \in \Lambda$. Suppose that $\{ B_n \}_{n =1}^\infty$ is a collection of disjoint sets in $\Lambda$. We will show that $B = \bigcup_{n=1}^\infty B_n \in \Lambda$. Clearly, $\chi_B = \sum_{k=1}^\infty \chi_{B_k}$ so $\sum_{k=1}^m \chi_{B_k} \uparrow \chi_B$, as $m \to \infty$. Then
+\begin{align*}
+    F_{\vec{w}}(\chi_{B}) &=  \int_{[0,1]^n} \chi_B ( \langle \vec{w}, \vec{x} \rangle  ) g(\vec{x}) \, d \vec{x} \\ 
+               &=  \int_{[0,1]^n} \sum_{k=1}^\infty \chi_{B_k} ( \langle \vec{w}, \vec{x} \rangle  ) g(\vec{x}) \, d \vec{x} & \\
+               &=   \int_{[0,1]^n} \lim_{m \to \infty} \sum_{k=1}^m \chi_{B_k} ( \langle \vec{w}, \vec{x} \rangle  ) g(\vec{x}) \, d \vec{x}  & \\
+               &=  \lim_{m \to \infty}\int_{[0,1]^n} \sum_{k=1}^m \chi_{B_k} ( \langle \vec{w}, \vec{x} \rangle  ) g(\vec{x}) \, d \vec{x}  \text{ by \nameref{thm:mct}}  \\
+               &= \lim_{m \to \infty} \sum_{k=1}^m \int_{[0,1]^n} \chi_{B_k}  ( \langle \vec{w}, \vec{x} \rangle  ) g(\vec{x}) \, d \vec{x}  &\\ 
+               &=  \lim_{m \to \infty} \sum_{k=1}^m F_{\vec{w}}(\chi_{B_k}) = 0.
+\end{align*}
+Thus $B \in \Lambda$. Hence $\Lambda$ is indeed a $\lambda$-system.
+
+We will show that $\B(\R) = \Lambda$. By \nameref{thm:measure:lambda-pi}, $\B(\R) = \sigma(\Pi) = \lambda(\Pi)$.
+Recall that the $\lambda$-system generated by $\Pi$, denoted by $\lambda(\Pi)$, is the smallest $\lambda$-system on $\R$ containing $\Pi$. Since $\Lambda$ is also a $\lambda$-system containing $\Pi$, we deduce $\lambda(\Pi) \subseteq \Lambda$. Since $\lambda(\Pi) = \B(\R)$, we have that $\B(\R) \subseteq \Lambda$. By construction, $\Lambda \subseteq \B(\R)$. Hence $\B(\R) = \Lambda$, as desired.
+\end{step}
+\begin{step}[$F_\vec{w}$ vanishes on measurable simple functions]
+Suppose that $\varphi$ is a $\B(\R)$-measurable simple function. Without loss of generality, $\varphi = \sum_{k=1}^m \alpha_k \chi_{A_k} $, where $A_k$ are disjoint $\B(\R)$-measurable sets. By linearity of $F_\vec{w}$ and by Step 2,
+\begin{align}
+    \label{eqn:universality:l2:vanishhyper:simple}
+    F_{\vec{w}}(\varphi) = F \left (\sum_{k=1}^m \alpha_k \chi_{A_k} \right ) = \sum_{k=1}^m F_{\vec{w}}(\alpha_k \chi_{A_k}) =  \sum_{k=1}^m  \alpha_k F_{\vec{w}}( \chi_{A_k}) = 0.
+\end{align}
+\end{step}
+\pagebreak
+\begin{step}[$F_\vec{w}$ vanishes on $\Linfty(\R)$]
+Let $f \in \Linfty(\R)$. By \nameref{thm:lp:density}, there exists a sequence of $\B(\R)$-measurable simple functions $\{ \varphi_m \}_{m=1}^\infty$ converging to $f$ in $\norm{\cdot}_\infty$ as $m \to \infty$. For every $m \in \N$, $f - \varphi_m \in \Linfty(\R)$. Without loss of generality, $| f - \varphi_m | \leq \norm{f - \varphi_m}_\infty$. 
+Then \begin{align*}
+    \left | F_{\vec{w}}(f) - F_{\vec{w}}(\varphi_m) \right | &\leq \left | \int_{[0,1]^n} (f - \varphi_m) ( \langle \vec{w}, \vec{x} \rangle) g(\vec{x}) \, d \vec{x} \right | & \\
+    & \leq \int_{[0,1]^n} |  (f - \varphi_m) ( \langle \vec{w}, \vec{x} \rangle) | | g(\vec{x}) | \, d \vec{x} &\\
+    & \leq \norm{f - \varphi_m}_\infty \int_{[0,1]^n}  | g(\vec{x}) | \, d \vec{x} &\\
+    & \leq  \norm{f - \varphi_m}_\infty \left(\lambda([0,1]^n)\right)^{\frac{1}{2}} \norm{g}_2. & \text{by \nameref{ineqn:lp:holder}}
+\end{align*}
+Since $\lim_{m \to \infty}  \norm{f - \varphi_m}_\infty = 0$ and $\norm{g}_2 < \infty$, $\left | F_{\vec{w}}(f) - F_{\vec{w}}(\varphi_m) \right | \to 0$ as $m \to \infty$.
+Combining this result with \ref{eqn:universality:l2:vanishhyper:simple} gives
+\begin{align}
+   \label{eqn:universality:l2:vanishhyper:linfty}
+   F_{\vec{w}}(f) = \lim_{m \to \infty} F_{\vec{w}}(\varphi_m) = 0.
+\end{align}
+Since $f$ was arbitrary, $F_\vec{w}$ vanishes on $\Linfty(\R)$.
+\end{step}
+\begin{step}[$g$ is zero almost everywhere.]
+We will compute the Fourier transform of $g$.
+Since $\cos$ and $\sin$ are bounded and measurable, $\cos, \sin \in \Linfty(\R)$. By \ref{eqn:universality:l2:vanishhyper:linfty}, $F_\vec{w}(\cos) = F_\vec{w}(\sin) = 0$. However, this implies  
+\begin{align*}
+    \widehat{g}(\vec{w}) &= \int_{[0,1]^n} e^{i \langle \vec{w}, \vec{x} \rangle } g(\vec{x}) \, d\vec{x} & \\
+                           &=  \int_{[0,1]^n} \cos (\langle \vec{w}, \vec{x} \rangle) \,  d\vec{x} + i \int_{[0,1]^n} \sin (\langle \vec{w}, \vec{x} \rangle) \,  d\vec{x}  &\\
+                           &= F_\vec{w}(\cos) + i F_\vec{w}(\sin) &\\
+                           &= 0.
+\end{align*}
+By \nameref{thm:lp:inclusion}, $g \in \Lone([0,1]^n)$. Since $ \widehat{g} = 0$, by \nameref{thm:fourier:inversionlone}, $g = 0$ almost everywhere.
+\end{step}
+\end{proof}
+As a corollary of Proposition \nameref{prop:discrim:contsigmoidalarediscrim}, we have shown that the Heaviside step function and the logistic sigmoid were discriminatory in the sense of Definition \ref{defn:discrim:discrimactfn}. The natural question is whether those two activation functions remain $\Ltwo$-discriminatory. It turns out they do, and we will apply the Lemma \ref{lemma:universality:l2:vanishhyper} to justify that fact. 
+
+\begin{lemma} The Heaviside step function, denoted by $s$, is $\Ltwo$-discriminatory.
+\label{lemma:universality:l2:stepdiscrim}
+\end{lemma}
+\begin{proof}
+Clearly, $0 \leq s \leq 1$.
+Assume that for $g \in \Ltwo([0,1]^n)$, \begin{align}
+        \label{eqn:universality:l2:stepdiscrim:cond}
+        \int_{[0,1]^n} s(\langle \vec{w}, \vec{x} \rangle + b) g(\vec{x}) \, d\vec{x} = 0, \text{ for every $\vec{w} \in \R^n, b \in \R$}.
+\end{align}
+By definition of $s$ and \ref{eqn:universality:l2:stepdiscrim:cond}, \begin{align*}
+    \int_{[0,1]^n}s(\langle \vec{w}, \vec{x} \rangle + b) g(\vec{x}) \, d\vec{x} = \int_{\Pi_{\vec{w}, -b}^{+}} g(\vec{x})\, d\vec{x} = 0.
+\end{align*}
+By Lemma \ref{lemma:universality:l2:vanishhyper}, $g = 0$ almost everywhere. Since $g$ was arbitrary, $s$ is $\Ltwo$-discriminatory.
+\end{proof}
+\begin{lemma} The logistic sigmoid $\sigma$ is $\Ltwo$-discriminatory.
+\label{lemma:universality:l2:sigmoiddiscrim}
+\end{lemma}
+\begin{proof-idea*}
+We will present the argument very similar to the proof of Proposition \ref{prop:discrim:boundedmeasdiscrim}.
+The main idea is to reduce the proof to an application of Lemma \ref{lemma:universality:l2:vanishhyper}. 
+\end{proof-idea*}
+\begin{proof}
+Clearly, $0 \leq \sigma \leq 1$.
+Assume that for $g \in \Ltwo([0,1]^n)$, \begin{align}
+        \label{eqn:universality:l2:sigmoiddiscrim:cond}
+        \int_{[0,1]^n} \sigma(\langle \vec{w}, \vec{x} \rangle + b) g(\vec{x}) \, d\vec{x} = 0, \text{ for every $\vec{w} \in \R^n, b \in \R$}.
+\end{align}
+Fix $\vec{w} \in \R^n, b \in \R$. For $\lambda \in \R$, define $\sigma_\lambda (\vec{x}) = \sigma (\lambda (\langle \vec{w}, \vec{x} \rangle + b) )$. By \ref{eqn:universality:l2:sigmoiddiscrim:cond}, 
+\begin{align}
+    \label{eqn:universality:l2:sigmoiddiscrim:lambdacond}
+    \int_{[0,1]^n} \sigma_\lambda (\vec{x}) g(\vec{x}) \, d\vec{x} = 0, \text{ for every $\lambda \in \R$}.
+\end{align}
+Define $\gamma: [0,1]^n \to \R$ by $\gamma(\vec{x}) = \lim_{\lambda \to \infty} \sigma_{\lambda} (\vec{x})$. Observe that  \begin{equation}
+    \label{eqn:universality:l2:sigmoiddiscrim:gamma}
+    \gamma(\vec{x}) =
+    \begin{cases}
+      1         & \text{ if } \langle \vec{w}, \vec{x} \rangle + b > 0 \\
+      \frac{1}{2} & \text{ if } \langle \vec{w}, \vec{x} \rangle + b = 0 \\
+      0         & \text{ if } \langle \vec{w}, \vec{x} \rangle + b < 0
+    \end{cases}.
+  \end{equation}
+Clearly, $\gamma \in \Ltwo([0,1]^n)$. We will show that $\sigma_\lambda \to \gamma$ in $\norm{\cdot}_2$, as $\lambda \to \infty$. It is sufficient to show that $\norm{\sigma_\lambda - \gamma}_2^2 \to 0$ as $\lambda \to \infty$. Note that 
+ \begin{equation*}
+    \label{eqn:universality:l2:sigmoiddiscrim:diff}
+    |\sigma_\lambda(\vec{x}) - \gamma(\vec{x})|^2 =
+    \begin{cases}
+      \frac{1}{ \left ( 1 + e^{\lambda ( \langle \vec{w}, \vec{x} \rangle + b ) } \right)^2}& \text{ if } \langle \vec{w}, \vec{x} \rangle + b > 0 \\
+      \frac{1}{ \left ( 1 + e^{-\lambda ( \langle \vec{w}, \vec{x} \rangle + b ) } \right)^2}& \text{ if } \langle \vec{w}, \vec{x} \rangle + b < 0 \\
+      0         & \text{ if }  \langle \vec{w}, \vec{x} \rangle + b = 0 
+    \end{cases}.
+  \end{equation*}
+Since $\Pi_{\vec{w}, b}$ is a set of Lebesgue measure zero, 
+\begin{subequations}\label{eqn:universality:l2:sigmoiddiscrim:l2norm}
+\begin{align*}
+    \int_{[0,1]^n} |\sigma_\lambda(\vec{x}) - \gamma(\vec{x})|^2 \, d\vec{x} &=  \int_{\Pi_{\vec{w}, b}^{+}} |\sigma_\lambda(\vec{x}) - \gamma(\vec{x})|^2 \, d\vec{x} +  \int_{\Pi_{\vec{w}, b}^{-}} |\sigma_\lambda(\vec{x}) - \gamma(\vec{x})|^2 \, d\vec{x} \\
+    &= \int_{\Pi_{\vec{w}, b}^{+}} |\sigma_\lambda(\vec{x}) - \gamma(\vec{x})|^2 \, d\vec{x} + \int_{\Pi_{-\vec{w}, -b}^{+}} |\sigma_\lambda(\vec{x}) - \gamma(\vec{x})|^2 \, d\vec{x} \\ 
+    &= \int_{\Pi_{\vec{w}, b}^{+}} \frac{1}{\left (  1 + e^{\lambda ( \langle \vec{w}, \vec{x} \rangle + b ) } \right)^2 } \, d\vec{x} + \int_{\Pi_{-\vec{w}, -b}^{+}} \frac{1}{\left ( 1 + e^{-\lambda ( \langle \vec{w}, \vec{x} \rangle + b ) } \right)^2} \, d\vec{x}.
+     \tag{\ref{eqn:universality:l2:sigmoiddiscrim:l2norm}} 
+\end{align*}
+\end{subequations}
+\newpage
+For every $ \lambda$, $\vec{x} \to \frac{1}{\left ( 1 + e^{\lambda ( \langle \vec{w}, \vec{x} \rangle + b ) } \right)^2}$ and $\vec{x} \to \frac{1}{\left ( 1 + e^{\lambda ( \langle -\vec{w}, \vec{x} \rangle - b ) } \right)^2}$  are bounded on $\Pi_{\vec{w}, b}^{+}$, $\Pi_{\vec{-w}, -b}^{+}$ respectively.
+Since $\lambda_{|[0,1]^n}$ is a finite measure, by \nameref{thm:dct}, 
+\begin{align}
+    \label{eqn:universality:l2:sigmoiddiscrim:dct1}
+    \lim_{\lambda \to \infty} \int_{\Pi_{\vec{w}, b}^{+}} \frac{1} {\left (  1 + e^{\lambda ( \langle \vec{w}, \vec{x} \rangle + b ) } \right)^2 } \, d\vec{x} =  \int_{\Pi_{\vec{w}, b}^{+}} \lim_{\lambda \to \infty}  \frac{1} {\left (  1 + e^{\lambda ( \langle \vec{w}, \vec{x} \rangle + b ) } \right)^2 } \, d\vec{x} = 0,
+\end{align}
+and,
+\begin{align}
+    \label{eqn:universality:l2:sigmoiddiscrim:dct2}
+    \lim_{\lambda \to \infty} \int_{\Pi_{\vec{-w}, -b}^{+}} \frac{1} {\left (  1 + e^{-\lambda ( \langle \vec{w}, \vec{x} \rangle + b )  } \right)^2 } \, d\vec{x} =  \int_{\Pi_{-\vec{w}, -b}^{+}} \lim_{\lambda \to \infty}  \frac{1} {\left (  1 + e^{-\lambda ( \langle \vec{w}, \vec{x} \rangle + b )  } \right)^2 } \, d\vec{x} = 0.
+\end{align}
+Taking $\lambda \to \infty$ on both sides of \ref{eqn:universality:l2:sigmoiddiscrim:l2norm} and applying \ref{eqn:universality:l2:sigmoiddiscrim:dct1} and \ref{eqn:universality:l2:sigmoiddiscrim:dct2} gives
+\begin{align}
+    \label{eqn:universality:l2:sigmoiddiscrim:eqn3}
+   \lim_{\lambda \to \infty} \norm{\sigma_\lambda - \gamma}_2^{2} =  \lim_{\lambda \to \infty} \int_{[0,1]^n} |\sigma_\lambda(\vec{x}) - \gamma(\vec{x})|^2 \, d\vec{x} = 0.
+\end{align}
+Since $\Pi_{\vec{w}, b}$ is a set of Lebesgue measure zero, by \ref{eqn:universality:l2:sigmoiddiscrim:gamma}, 
+\begin{align}
+    \int_{[0,1]^n} \gamma(\vec{x}) g(\vec{x})\,d\vec{x} = \int_{\Pi_{\vec{w}, b}^{+}}  g(\vec{x})\,d\vec{x}.
+\end{align}
+By \nameref{ineqn:lp:holder},
+\begin{subequations}\label{eqn:universality:l2:sigmoiddiscrim:final}
+\begin{align*}
+  \left | \int_{[0,1]^n} \gamma(\vec{x}) g(\vec{x})\,d\vec{x} - \int_{[0,1]^n} \sigma_\lambda(\vec{x})  g(\vec{x})\,d\vec{x} \right|  &\leq  \int_{[0,1]^n} \left |\gamma(\vec{x}) - \sigma_\lambda(\vec{x}) \right | |g(\vec{x})| \, d\vec{x} \\
+  &\leq \norm{\sigma_\lambda - \gamma}_2 \cdot \norm{g}_2.
+     \tag{\ref{eqn:universality:l2:sigmoiddiscrim:final}} 
+\end{align*}
+\end{subequations}
+Since $g \in \Ltwo([0,1]^n)$, taking $\lambda \to \infty$  on both sides of \ref{eqn:universality:l2:sigmoiddiscrim:final} and applying \ref{eqn:universality:l2:sigmoiddiscrim:eqn3} and \ref{eqn:universality:l2:sigmoiddiscrim:lambdacond} gives
+\begin{align}
+    \label{eqn:universality:l2:sigmoiddiscrim:conclusioneqn}
+    \int_{\Pi_{\vec{w}, b}^{+}}  g(\vec{x})\,d\vec{x} = \int_{[0,1]^n} \gamma(\vec{x}) g(\vec{x})\,d\vec{x} = \lim_{\lambda \to \infty}  \int_{[0,1]^n} \sigma_\lambda(\vec{x})  g(\vec{x})\,d\vec{x} = 0.
+\end{align}
+By Lemma \ref{lemma:universality:l2:vanishhyper}, $g = 0$ almost everywhere.
+\end{proof}

@@ -1,0 +1,261 @@
+
+\section{Code for \nameref{chapter:experiments}}
+\label{section:appendix:code}
+\subsection{Code for \nameref{subsection:experiments:classification:model}}
+\begin{minted}[fontsize=\scriptsize]{python}
+from collections import namedtuple
+import torch.nn as nn
+
+image_width = 28
+image_height = 28
+
+LayerConfig = namedtuple("LayerConfig", ["width", "activation"])
+
+
+class FashionNNMultiHiddens(nn.Module):
+
+    def __init__(self, layers_config):
+        super(FashionNNMultiHiddens, self).__init__()
+
+        previous_width = image_width * image_height
+        hidden_layers = []
+        for config in layers_config:
+            hidden_layers.append(
+                nn.Linear(in_features=previous_width,
+                          out_features=config.width))
+            hidden_layers.append(config.activation)
+            previous_width = config.width
+
+        self.nn = nn.Sequential(*hidden_layers)
+
+    def forward(self, x):
+        return self.nn(x)
+\end{minted}
+\subsection{Code for \nameref{section:experiments:classification:experiments-methodology}}
+\begin{minted}[fontsize=\scriptsize]{python}
+    
+import torch
+from torch.autograd import Variable
+from torch.optim.adam import Adam
+from torch.utils.data.dataloader import DataLoader
+from torchvision.datasets import FashionMNIST
+from torchvision import transforms
+import torch.nn as nn
+import matplotlib.pyplot as plt
+import sklearn.metrics as metrics
+
+from nn_multi_hidden_layers import FashionNNMultiHiddens
+from utils import get_label_name
+
+torch.manual_seed(42)
+device = 'cpu'
+
+
+def evaluate_accuracy(model: any, loader: any):
+    total = 0
+    correct = 0
+    loss = 0
+    loss_fn = nn.CrossEntropyLoss()
+
+    with torch.no_grad():
+        for images, labels in loader:
+            images, labels = images.to(device), labels.to(device)
+            x_images = Variable(images.view(images.size(0), -1))
+            outputs = model(x_images)
+            loss += loss_fn(outputs, labels)
+            predictions = torch.max(outputs, 1)[1].to(device)
+            correct += (predictions == labels).sum()
+            total += len(labels)
+    return (loss, (correct / total) * 100)
+
+
+def display_loss_plot(iterations: list, train_losses: list,
+                      validation_losses: list):
+    plt.plot(iterations, train_losses, label='train loss')
+    plt.plot(iterations, validation_losses, label='val loss')
+    plt.xlabel('Iteration')
+    plt.ylabel('Loss')
+    plt.legend(loc='lower right')
+    plt.title('Iterations vs Loss')
+    plt.show()
+
+
+def display_accuracy_plot(iterations: list, train_acc: list,
+                          validation_acc: list):
+    plt.plot(iterations, train_acc, label='train acc')
+    plt.plot(iterations, validation_acc, label='val acc')
+    plt.xlabel('Iteration')
+    plt.ylabel('Accuracy')
+    plt.legend(loc='lower right')
+    plt.title('Iterations vs Accuracy')
+    plt.show()
+
+
+def print_confusion_matrix(model: any, loader: any):
+
+    labels_list = []
+    predictions_list = []
+
+    with torch.no_grad():
+        for images, labels in loader:
+            images, labels = images.to(device), labels.to(device)
+            x_images = Variable(images.view(images.size(0), -1))
+            y_outs = model(x_images)
+            y_pred = torch.max(y_outs, 1)[1].to(device)
+            predictions_list.extend(y_pred)
+            labels_list.extend(labels)
+
+    metrics.confusion_matrix(labels_list, predictions_list)
+
+    print('classification report for NN :\n%s\n' %
+          (metrics.classification_report(
+              labels_list,
+              predictions_list,
+              target_names=[get_label_name(c) for c in range(10)])))
+
+
+def display_per_class_accuracy(model, loader):
+
+    class_correct = [0. for _ in range(10)]
+    total_correct = [0. for _ in range(10)]
+
+    with torch.no_grad():
+        for images, labels in loader:
+            images, y_true = images.to(device), labels.to(device)
+            x_images = Variable(images.view(images.size(0), -1))
+            y_outs = model(x_images)
+            y_pred = torch.max(y_outs, 1)[1].to(device)
+            c = (y_pred == y_true).squeeze()
+
+            for i in range(images.size(0)):
+                label = labels[i]
+                class_correct[label] += c[i].item()
+                total_correct[label] += 1
+
+    for c in range(10):
+        print('val accuracy for {}: {:.2f}%'.format(
+            get_label_name(c), class_correct[c] * 100 / total_correct[c]))
+
+
+
+
+def train(model: any,
+          train_loader: any,
+          val_loader: any,
+          epochs: int,
+          model_name: str,
+          lr=1e-3):
+    print('--------------training--------------')
+    print('model:')
+    print(model)
+
+    model.to(device)
+    optimizer = Adam(model.parameters(), lr=lr)
+    train_loss_fn = nn.CrossEntropyLoss()
+
+    iterations_list = []
+    train_losses = []
+    val_losses = []
+    train_accs = []
+    val_accs = []
+    best_val_acc = None
+    best_val_loss = None
+
+    iteration = 0
+
+    for epoch in range(epochs):
+        for images, labels in train_loader:
+            # Transfering images and labels to GPU if available
+            images, labels = images.to(device), labels.to(device)
+            x_train = Variable(images.view(images.size(0), -1))
+            labels = Variable(labels)
+
+            # Forward pass
+            outputs = model(x_train)
+            # Compute train loss
+            loss = train_loss_fn(outputs, labels)
+            # Initializing a gradient as 0 so there is no mixing of gradient among the batches
+            optimizer.zero_grad()
+            # Compute gradients
+            loss.backward()
+            # Apply optimisation step
+            optimizer.step()
+
+            iteration += 1
+
+            if not (iteration % 100):
+                # Evaluate train and validation statistics
+                (train_loss,
+                 train_accuracy) = evaluate_accuracy(model, train_loader)
+                (val_loss, val_accuracy) = evaluate_accuracy(model, val_loader)
+                # Maintain the best model
+                if (not best_val_acc) or (val_accuracy > best_val_acc):
+                    best_val_acc = val_accuracy
+                    best_val_loss = val_loss
+                    torch.save(model.state_dict(), f'{model_name}.pth')
+                # Register calculated statistics
+                train_losses.append(train_loss)
+                train_accs.append(train_accuracy)
+                val_losses.append(val_loss)
+                val_accs.append(val_accuracy)
+                iterations_list.append(iteration)
+                # Display evaluated statistics
+                if not (iteration % 500):
+                    print(
+                        f'epoch:{epoch}, iteration:{iteration}, train_loss:{train_loss}, train_accuracy:{train_accuracy}, val_loss:{val_loss}, val_accuracy:{val_accuracy}'
+                    )
+
+    # restore the best model
+    model.load_state_dict(torch.load(f'{model_name}.pth'))
+    model.eval()
+
+
+    return {
+        'iterations_list': iterations_list,
+        'train_losses': train_losses,
+        'val_losses': val_losses,
+        'train_accs': train_accs,
+        'val_accs': val_accs,
+        'best_val_acc': best_val_acc,
+        'best_val_loss': best_val_loss
+    }
+
+
+def run_experiment(experiment_config: dict):
+    epochs = experiment_config['epochs']
+    batch_size = experiment_config['batch_size']
+    layers_config = experiment_config['layers_config']
+    model_name = experiment_config['name']
+
+    torch.manual_seed(42)
+    nn = FashionNNMultiHiddens(layers_config)
+
+    train_set = FashionMNIST('./data',
+                             download=True,
+                             train=True,
+                             transform=transforms.Compose(
+                                 [transforms.ToTensor()]))
+    val_set = FashionMNIST('./data',
+                           download=True,
+                           train=False,
+                           transform=transforms.Compose(
+                               [transforms.ToTensor()]))
+
+    train_loader = DataLoader(train_set, batch_size=batch_size)
+    val_loader = DataLoader(val_set, batch_size=batch_size)
+
+    history = train(nn, train_loader, val_loader, epochs, model_name)
+    best_val_acc = history['best_val_acc']
+    best_val_loss = history['best_val_loss']
+
+    with torch.no_grad():
+        display_loss_plot(history['iterations_list'], history['train_losses'],
+                          history['val_losses'])
+        display_accuracy_plot(history['iterations_list'],
+                              history['train_accs'], history['val_accs'])
+        print('--------------best model--------------')
+        print('validation accuracy: {:.2f}%'.format(best_val_acc))
+        print(f'validation loss: {best_val_loss}')
+        display_per_class_accuracy(nn, val_loader)
+        print_confusion_matrix(nn, val_loader)
+    \end{minted}

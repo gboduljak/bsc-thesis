@@ -1,0 +1,101 @@
+\chapter{Literature review}
+\label{chapter:literature-review}
+
+Since the invention of the backpropagation algorithm in \citetitle{rumelhart_1986_learning} \cite{rumelhart_1986_learning}, neural networks have been applied to a wide variety of problems in pattern recognition and machine learning.
+
+\begin{displayquote}[\citetitle{bishop_1998_neural} \cite{bishop_1998_neural}, p.5]
+"The importance of neural networks in this context is that they offer a very powerful and very general framework for representing non-linear mappings from several input variables to several output variables, where the form of the mapping is governed by a number of adjustable parameters."
+\end{displayquote}
+Recently, very sophisticated neural networks began to significantly outperform alternative machine learning methods in a wide variety of tasks, including natural language processing (\cite{vaswani_2017_attention}, \cite{brown_2020_language}), computer vision (\cite{szegedy_2014_going}, \cite{he_2015_deep}, \cite{bochkovskiy_2020_yolov4}), computational biology (\cite{senior_2020_improved}) and reinforcement learning (\cite{silver_2017_mastering}). Interestingly, some of the most influential researchers in the field received a Turing award for their work in deep learning. However, most of the advancements in the field came from clever architectures, massive datasets, and experimental verification.  Given such an experimental success, some research was devoted to demystification of mathematical capabilities of neural networks, even before the most of breakthroughs mentioned above.
+It turns out that the activation function plays an important role in the expressive power of neural networks. A simple observation is a fact if there was no activation function, neural networks would become nothing but a linear transformation of the input data. This follows from the fact that a composition of linear transformations is a linear transformation and each layer would be a linear transformation of the previous layer.
+Following \cite{bishop_1998_neural}'s terminology above, the key adjustable parameter governing the non-linearity is the choice of the activation function.
+When it comes to the approximation theory of neural networks, very important research problems are the following two questions.
+\begin{itemize}[noitemsep]
+    \item Under which necessary and sufficient conditions does the particular family of neural networks have the power to approximate any continuous function, possibly with a compact domain, given the desired approximation accuracy?
+    \item Under which necessary and sufficient conditions does the particular family of neural networks have the power to approximate any Lebesgue $p$-integrable function, given the desired approximation accuracy?
+\end{itemize}
+The results addressing questions posed above are known as universal approximation theorems. This chapter contains a summary of conducted research in the last 35 years. Theorems are grouped based on the neural network topology and the relevant function space.
+There are two main groups of results based on the neural network topology.
+\begin{description}
+\item[\nameref{section:literature-review:unbounded_width}]
+This setup usually studies neural networks with a single hidden layer, imposing no bounds on the number of neurons in the hidden layer.
+\item[\nameref{section:literature-review:bounded_width}]
+This setup usually studies neural networks with several hidden layers, imposing bounds on the number of neurons in each hidden layer.
+The activation function usually remains the same for different layers.
+\end{description}
+\begin{remark}
+In the previous chapter, we introduced the notation for neural network terminology. The introduced notation will be the main notation used in this thesis. However, the results cited from papers use the convention from the respective paper, so the notation in this chapter can be slightly different.
+\end{remark}
+\section{Unbounded width, bounded depth}
+\label{section:literature-review:unbounded_width}
+Studies related to the approximation power of neural networks started with single-layer feed-forward neural networks. A possible explanation is the lack of computational power necessary to train deeper networks and the lack of massive datasets omnipresent today. This setting imposed no bounds on the hidden layer width. The classical result addressing that setup is Theorem 2 presented in \cite{cybenko_1989_approximation}, published by G.Cybenko in 1989.
+\begin{definition}
+Let $\sigma : \R \to \R$. We say that $\sigma$ is sigmoidal if $\lim_{x \to \infty} \sigma(x) = 1$ and $\lim_{x \to -\infty} \sigma(x) = 0$.
+\end{definition}
+\begin{theorem}[Cybenko's Universal Approximation Theorem for Unbounded-Width Networks, Theorem 2 in \cite{cybenko_1989_approximation}]
+Let $\sigma$ be any continuous sigmoidal function. Then the finite sums of the form $G(\vec{x}) = \sum_{j = 1}^N \alpha_j \sigma(\langle \vec{w}_j, \vec{x} \rangle + \theta_j)$
+are dense in $\C([0,1]^n)$.
+\end{theorem}
+This result will be thoroughly discussed in \nameref{section:universality:continuous:cybenko}.
+In 1991, K. Hornik proved that sigmoidal assumption can be dropped.
+\begin{theorem}[Hornik's Universal Approximation Theorem for Unbounded-Width Networks, Theorem 2 in \cite{hornik_1991_approximation}]
+If $\sigma$ is continuous, bounded and nonconstant, then the finite sums of the form $G(\vec{x}) = \sum_{j = 1}^N \alpha_j \sigma(\langle \vec{w}_j, \vec{x} \rangle + \theta_j)$
+are dense in $\C(X)$ for all compact subsets $X$ of $\R^n$.
+\end{theorem}
+It turns out that both boundedness and continuity assumption can be dropped.
+Perhaps the most general result regarding single-layer networks and continuous functions is the following theorem, presented in \cite{leshno_1993_multilayer} from 1993.
+Before stating the theorem, we will introduce relevant notation used in the paper.
+\begin{definition}[the space $\mathcal{L}_{\operatorname{loc}}^\infty(\Omega)$]
+Let $\Omega$ be a domain in $\R^n$. A function $f : \Omega \to \R$, defined almost everywhere with respect to Lebesgue measure on $\Omega$ is locally essentially bounded on $\Omega$ if for every compact set $K \subset \Omega$, $f \in \Linfty(\Omega)$. We denote the space of locally essentially bounded functions on $\Omega$ by $\mathcal{L}_{\operatorname{loc}}^\infty(\Omega)$.
+\end{definition}
+\begin{definition}[the space $\M(\Omega)$]
+Let $\Omega$ be a domain in $\R^n$. The space $\M(\Omega)$ is a subset of $\mathcal{L}_{\operatorname{loc}}^\infty(\Omega)$ consisting of functions whose closure of the set of points of discontinuity is a set of Lebesgue measure zero. 
+\end{definition}
+\begin{remark}
+We set $\M = \M(\R)$.
+\end{remark}
+\begin{theorem}[Universal Approximation Theorem for Unbounded-Width Networks, Theorem 1 in \cite{leshno_1993_multilayer}]
+Let $\sigma \in \M$. Set \[
+\Sigma_{n} = \operatorname{span} \{\vec{x} \to \sigma(\langle \vec{w}, \vec{x} \rangle + \theta) : \vec{w} \in \R^n, \theta \in \R \}.
+\]
+Then $\Sigma_{n}$ is dense in $\C(\R^n)$ if and only if $\sigma$ is not an algebraic polynomial almost everywhere.
+\end{theorem}
+Interestingly, all proofs of theorems in this setup are non-constructive, offering no insight into the necessary number of neurons to achieve the desired approximation accuracy.
+\section{Bounded width, arbitrary depth}
+\label{section:literature-review:bounded_width}
+
+Given the practical significance and convenient algebraic properties of ReLU, a lot of recent research focused on the multi-layer, width-bounded neural networks with ReLU activations. Contrary to the proofs of approximation theorems from the previous section, proofs related to multi-layer networks with ReLU activations are often constructive. Moreover, those proofs often provide explicit lower and upper bounds on layer widths which are necessary and sufficient for an approximation of the desired accuracy. However, the advantage of constructive proofs relies on very technical constructions, such as the Register Model (Proposition 4.2) from \cite{kidger_2020_universal}. 
+The first such a result is Theorem 1, published in \cite{lu} from 2017.
+
+\begin{theorem}[Universal Approximation Theorem for Width-Bounded ReLU in L$^p$, Theorem 1 in \cite{lu}]
+For any Lebesgue-integrable function $f : \R^n \to \R$ and any $\epsilon > 0$, there exists a fully-connected neural network with ReLU activation function, denoted by $\mathcal{A}$, with width $d_m \leq n + 4$, such that the function $F_{\mathcal{A}}$ represented by this network satisfies $\norm{f - F_{\mathcal{A}}}_1 < \epsilon$.
+\end{theorem}
+
+The following recent result from published in \cite{park_2020_minimum} generalizes Theorem 1 in \cite{lu} to a wider class of $\Lp$ spaces. Moreover, it characterizes the universal approximation in terms of the input dimension $d_x$ and the output dimension $d_y$.
+
+\begin{theorem}[Universal Approximation Theorem for Width-Bounded ReLU in L$^p$, Theorem 1 in \cite{park_2020_minimum}]
+For any $p \in [1, \infty)$, ReLU networks of width $w$ are dense in $L^p(\R^{d_x}, \R^{d_y})$ if and only if $w \geq \max \{ d_x + 1, d_y \}$.
+\end{theorem}
+It turns out that a very similar result holds for $\C(K, \R^{d_y})$, for a compact set $K \subset \R^{d_x}$.
+\begin{theorem}[Universal Approximation Theorem for Width-Bounded ReLU + Step networks in L$^p$, Theorem 3 in \cite{park_2020_minimum}]
+ ReLU + Step networks of width $w$ are dense in $\C(K, \R^{d_y})$ if and only if $w \geq \max \{ d_x + 1, d_y \}$, for every compact set $K \subset \R^{d_x}$.
+\end{theorem}
+
+When it comes to continuous functions on compact sets, one of the most recent results is Theorem 3.2 in \cite{kidger_2020_universal}.
+Before discussing this result, we will introduce some notation necessary for its statement.
+\begin{definition}[$\mathcal{N}\mathcal{N}_{n, m, k}^p$, Definition 3.1 in \cite{kidger_2020_universal}]
+Let $\rho : \R \to \R$ and $n, m, k \in \N$. Then let $\mathcal{N}\mathcal{N}_{n, m, k}^p$ represent the class of functions $\R^n \to \R^m$ described by feedforward neural networks with $n$ neurons in the input layer, $m$ neurons in the output layer, and an arbitrary number of hidden layers, each with $k$ neurons with activation function $\rho$. Every neuron in the output layer has the identity activation function.
+\end{definition}
+\begin{theorem}[Universal Approximation Theorem for Width-Bounded networks in $\C(X)$, Theorem 3.2 in \cite{kidger_2020_universal}]
+ Let $\rho : \R \to \R$ be any nonaffine continuous function which is continuously differentiable at at least one point, with nonzero derivative at that point. Let $K \subseteq \R^n$ be compact. Then $\mathcal{N}\mathcal{N}_{n,m,n+m+2}^\rho$ is dense in $\mathcal{C}(K; \R^m)$ with respect to the uniform norm.
+\end{theorem}
+\begin{proposition}[Proposition 4.11 in \cite{kidger_2020_universal}]
+Let $\rho : \R \to \R$ be any nonaffine polynomial. Let $K \subseteq \R^n$ be compact. Then $\mathcal{N}\mathcal{N}_{n,m,n+m+2}^\rho$ is dense in $\mathcal{C}(K; \R^m)$ with respect to the uniform norm.
+\end{proposition}
+
+In this thesis, the focus is on single-layer, feedforward neural networks.
+The purpose of this thesis is to present a variety of universal approximation theorems, based on Cybenko's argument published in \cite{cybenko_1989_approximation}.
+
+We will begin with a simple proof of the universal approximation theorem for $\exp$ activation function and the space of continuous functions on a compact subset of $\R^n$, with respect to the uniform norm. The proof will be based on \nameref{thm:anal:stone-weierstrass}. Using Cybenko's method, we will generalize this result to a wider class of practically relevant activation functions, namely sigmoidal activation functions. The function space will be the space of continuous functions on the unit hypercube. The proof will be based on the relationship of (non)density in the normed linear space and its dual space. After this discussion, we will consider a different function space. More precisely, we will generalize previous results to the space of Lebesgue square-integrable and integrable functions on compact sets. We will conclude with a generalization to measurable functions, not necessarily of compact support, and we will study the universality in probabilistic sense. This setup will be thoroughly discussed, combining arguments from \cite{cybenko_1989_approximation} and \cite{hornik}.
+
+Since the proofs of the results we are about to establish are non-constructive, we will conclude with an experimental study of the relationship between established theoretical results and practical applications. The practical application we will consider is the classification on \textit{Fashion MNIST}.

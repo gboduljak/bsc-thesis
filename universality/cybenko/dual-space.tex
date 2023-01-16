@@ -1,0 +1,116 @@
+\subsection{Density and the dual space}
+\label{subsection:universality:cybenko:3}
+
+In this section, we will focus on a real normed linear space $\mathcal{X}$ and its \textbf{non-dense} linear subspace $\mathcal{U}$. The density is understood with respect to the topology induced by the norm $\norm{\cdot}$ on $\mathcal{X}$. It turns out that the fact $\mathcal{U}$ is not dense implies the existence of a non-trivial bounded linear functional which vanishes on $\mathcal{U}$.
+\begin{lemma}[Separation functional lemma]
+\label{lemma:univ:sepfunclemma}
+Let $\mathcal{U}$ be a \textbf{non-dense} linear subspace of a real normed linear space $\mathcal{X}$.
+Then there exists a bounded linear functional $L$ on $\mathcal{X}$ such that $L \neq 0$ on $\mathcal{X}$ and $L_{| \mathcal{U}} = 0$.
+\end{lemma}
+\begin{proof-idea*}
+To prove the lemma, we will give an explicit construction of the desired functional. We will begin with a subspace of $\mathcal{X}$, denoted by $\mathcal{T}$ where the construction of a candidate functional is more evident and the verification of required properties is relatively easy. The extension of the construction to the entire space $\mathcal{X}$ will follow from the \nameref{thm:funct:hahn-banach}. 
+\begin{theorem*}[Hahn-Banach Theorem]
+Let $X$ be a real vector space, with a sublinear functional $\rho$ defined on $X$.
+Suppose that $W$ is a linear subspace of $X$ and $f_W$ a linear functional on $W$ satisfying
+\begin{equation}
+    f_W(w) \leq \rho(w), w \in W.
+\end{equation}
+Then $f_W$ has an extension $f$ on $X$ such that 
+\begin{equation}
+    f(x) \leq \rho(x), x \in X.
+\end{equation}
+\end{theorem*}
+\begin{proof}
+See \nameref{thm:funct:hahn-banach} in Appendix.
+\end{proof}
+\end{proof-idea*}
+
+\begin{proof}
+Since $\mathcal{U}$ is not dense in $\mathcal{X}$, there exists $\vec{x_0} \in \mathcal{X}$ and there exists $\delta > 0$ such that \begin{equation}
+    \label{ineqn:univ:seplemma:assumption}
+    \norm{\vec{x_0} - \vec{u}} \geq \delta, \text{ for every } \vec{u} \in \mathcal{U}.
+\end{equation}
+\setcounter{step}{0}
+\begin{step}[Construction of a suitable linear subspace $\mathcal{T}$]
+To define the desired functional, we restrict our attention to a subset $\mathcal{T} \subseteq \mathcal{X}$
+defined by \begin{equation*}
+    \mathcal{T} = \left \{ \vec{u} + \lambda \vec{x_0} : \lambda \in \R, \vec{u} \in \mathcal{U} \right \}.
+\end{equation*}
+We claim that $\mathcal{T}$ is a linear subspace of $\mathcal{X}$. We begin by proving that every element in $\mathcal{T}$ has unique representation. To prove this, suppose that for $\vec{t} \in \mathcal{T}$, we have two representations, \begin{equation}
+    \label{eqn:univ:seplemma:eqn1}
+    \vec{t} = \vec{u} + \alpha \vec{x_0} = \vec{v} + \beta \vec{x_0}, 
+\end{equation}
+where $\vec{u}, \vec{v} \in \mathcal{U}$ and $\alpha, \beta \in \R$. Rearranging \ref{eqn:univ:seplemma:eqn1} gives \begin{align}
+    \label{eqn:univ:seplemma:rearranged}
+    \vec{u} - \vec{v} &= (\beta - \alpha) \vec{x_0}.
+\end{align}
+By \ref{ineqn:univ:seplemma:assumption}, $\vec{x_0} \not \in \mathcal{U}$. Since $\vec{u} - \vec{v} \in \mathcal{U}$, the only possible solution to \ref{eqn:univ:seplemma:rearranged} is $\vec{u} - \vec{v} = \vec{0} = (\beta - \alpha) \vec{x_0}$. This forces $\vec{u} = \vec{v}$ and $\alpha = \beta$. Thus, the representation of elements in $\mathcal{T}$ is indeed unique. Since $\mathcal{U}$ is linear, $\vec{0} \in \mathcal{U}$ and we may choose $\lambda = 0$ to deduce $\vec{0} \in \mathcal{T}$. Since $\mathcal{U}$ is closed under addition and scalar multiplication, so is $\mathcal{T}$.
+\end{step} 
+\begin{step}[Construction of a desired functional on $\mathcal{T}$]
+Now define $L : \mathcal{T} \to \R$ by \begin{equation*}
+    L (\vec{t}) = L (\vec{u} + \lambda \vec{x_0}) = \lambda \delta.
+\end{equation*}
+Since the representation of elements in $\mathcal{T}$ is unique, $L$ is well defined. We claim that $L$ is a bounded linear functional on $\mathcal{T}$. Let $\alpha \in \R$ and $\vec{t_1}, \vec{t_2} \in \mathcal{T}$ and suppose that $\vec{t_1} = \vec{u_1} + \lambda_1 \vec{x_0}, \vec{t_2} = \vec{u_2} + \lambda_2 \vec{x_0} \in \mathcal{T}$,
+for $\vec{u_1}, \vec{u_2} \in \mathcal{U}, \lambda_1, \lambda_2 \in \R$. Now \begin{align*}
+    L (\vec{t_1} + \vec{t_2}) &= L (\vec{u_1} + \vec{u_2} + (\lambda_1 + \lambda_2) \vec{x_0}) & \\
+                              &=  (\lambda_1 + \lambda_2) \delta = \lambda_1 \delta + \lambda_2 \delta &\\
+                              & = L(\vec{t_1}) + L(\vec{t_2}), & \\
+    L( \alpha \vec{t_1}) &= L (\alpha \vec{u_1} + \alpha \lambda_1 \vec{x_0})  & \\
+                         &= \alpha \lambda_1 \delta   & \\
+                         &= \alpha L(\vec{t_1}).
+\end{align*}
+Hence, $L$ is linear on $\mathcal{T}$. We will show that for every $\vec{t} \in \mathcal{T}$, $L(\vec{t}) \leq \norm{\vec{t}}$. Write $\vec{t} = \vec{u} + \lambda \vec{x_0}$. If $\lambda = 0$ then $L(\vec{t}) = 0 \leq \norm{\vec{t}}$. Now suppose $\lambda \neq 0$. Notice that if $\vec{u} \in \mathcal{U}$, then $\frac{\vec{u}}{\lambda} 
+\in \mathcal{U}$. Since $\vec{x_0} + \frac{\vec{u}}{\lambda} \in \mathcal{T}$, by \ref{ineqn:univ:seplemma:assumption},  \begin{align}
+    \label{ineqn:univ:seplemma:ineqn2}
+    \norm{\vec{x_0} + \frac{\vec{u}}{\lambda}} \geq \delta > 0.
+\end{align}
+By \ref{ineqn:univ:seplemma:ineqn2}, $\frac{\delta}{\norm{\vec{x_0} + \frac{\vec{u}}{\lambda} }} \leq 1$. Since $\frac{1}{\lambda} (\lambda \vec{x_0} + \vec{u}) = \vec{x_0} + \frac{1}{\lambda} \vec{u}$, we have \begin{equation}
+    \label{ineqn:univ:seplemma:ineqn1}
+    | \lambda | \delta \leq \norm{\vec{u} + \lambda \vec{x_0}}.
+\end{equation}
+By \ref{ineqn:univ:seplemma:ineqn1}, \begin{align*}
+    L(\vec{t}) = L (\vec{u} + \lambda \vec{x_0}) = \lambda \delta \leq |\lambda| \delta \leq \norm{\vec{u} + \lambda \vec{x_0}} = \norm{\vec{t}}.
+\end{align*}
+\end{step}
+\begin{step}[Extension to $\mathcal{X}$]
+By \nameref{thm:funct:hahn-banach} applied with the norm $p(\vec{x}) = \norm{\vec{x}}$, the constructed linear functional $L$ can be extended to a linear functional $\widetilde{L} : \mathcal{X} \to \R$ such that $\widetilde{L} (\vec{x}) \leq \norm{\vec{x}}$, for every $\vec{x} \in \mathcal{X}$. This implies $\norm{\widetilde{L}} \leq 1$ so $\widetilde{L}$ is bounded. By definition of $L$ and the fact $\widetilde{L}_{| \mathcal{T}} = L$,
+\begin{align*}
+    \widetilde{L} (\vec{u})  &= L (\vec{u} + 0 \cdot \vec{x_0}) = 0 \cdot \delta = 0, & \\
+    \widetilde{L}(\vec{x_0}) = L (\vec{x_0}) &= L (\vec{0} + 1 \cdot \vec{x_0}) = 1 \cdot \delta > 0.
+\end{align*}
+This implies $\widetilde{L}_{| \mathcal{U}} = 0$ and $\widetilde{L} \neq 0$ on $\mathcal{X}$.
+\end{step}
+\end{proof}
+The \nameref{lemma:univ:sepfunclemma} is a quite general result that guarantees the existence of a separation functional vanishing on a non-dense linear subspace of some normed linear space. Unfortunately, this result does not reveal any structure of the desired functional.
+\newpage 
+However, in the context of a normed linear space $\mathcal{C}([0,1]^n)$, there is a natural correspondence between bounded linear functionals on  $\mathcal{C}([0,1]^n)$ and finite signed Borel measures on $[0,1]^n$. This is a consequence of a result known as the \nameref{thm:fcs:rrt-bounded}, stated below.
+\begin{theorem*}[Riesz Representation Theorem for bounded linear functionals on $\C(X)$]
+Let $X$ be a compact metric space and $I$ be a bounded linear functional on $\C(X)$. Then there exists the unique finite signed regular measure $\mu$ on $\B(X)$ such that
+\begin{equation}
+    I (f) = \int_{X} f \,d\mu, \text{    for every $f \in \C(X)$}.
+\end{equation}
+\end{theorem*}
+\begin{proof}
+See \nameref{thm:fcs:rrt-bounded}.
+\end{proof}
+We will apply \nameref{thm:fcs:rrt-bounded} to reveal the structure of a functional given by \nameref{lemma:univ:sepfunclemma}.
+\begin{lemma}
+\label{lemma:contr}
+Let $\mathcal{U}$ be a \textbf{non-dense} linear subspace of a normed linear space $\mathcal{C}([0,1]^n)$.
+Then there exists the unique finite signed regular measure $\mu$ on $\B([0,1]^n)$ such that \begin{align*}
+    \int_{[0,1]^n} h \, d \mu  = 0, \text{ for every $h \in \mathcal{U}$,}
+\end{align*}
+but $\mu \neq 0$.
+\end{lemma}
+\begin{proof}
+By \nameref{lemma:univ:sepfunclemma} applied to $\mathcal{X} = \mathcal{C}([0,1]^n)$ equipped with the sup-norm, there exists a bounded linear functional on $\mathcal{C}([0,1]^n)$, denoted by $L : \mathcal{C}([0,1]^n) \to \R$, such that $L \neq 0$ on $\mathcal{C}([0,1]^n)$ and $L_{| \mathcal{U}} = 0$. By \nameref{thm:fcs:rrt-bounded}, there exists the unique finite signed regular measure $\mu$ on $\B([0,1]^n)$ such that
+\begin{align}
+    \label{eqn:univ:sepmeasure:ineqn1}
+    L (f) = \int_{[0,1]^n} f \, d\mu \text{, for every $f \in\mathcal{C}([0,1]^n)$.}
+\end{align}
+Combining \ref{eqn:univ:sepmeasure:ineqn1} and the fact $L_{| \mathcal{U}} = 0$ gives
+\begin{align*}
+    L (h) = 0 =  \int_{[0,1]^n} h \, d\mu, \text{ for every } h \in \mathcal{U}.
+\end{align*}
+Since $L \neq 0$ on $\mathcal{C}([0,1]^n)$, by \ref{eqn:univ:sepmeasure:ineqn1}, $\mu \neq 0$.
+\end{proof}

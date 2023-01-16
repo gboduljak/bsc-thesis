@@ -1,0 +1,62 @@
+
+\subsection{Density in $\Lp$}
+
+We begin this section by proving a small lemma.
+\begin{lemma}[$\Lp$ convergence lemma]
+\label{lemma:lp:convg}
+Let  $(\Omega, \mathcal{F}, \mu)$ be a measure space and suppose that $1 \leq p < \infty$.
+If $f_n \rightarrow f$ pointwise, $|f_n| \leq g$ and $g \in \Lp(\Omega)$, then $f \in \Lp(\Omega)$ and  $f_n \rightarrow f$ in $\Lp(\Omega)$.
+\end{lemma}
+\begin{proof}
+Consider $|f - f_n|^p$. By continuity, $|f - f_n|^p \to 0$ pointwise. Since $|f_n| \leq g$, $|f| = \lim_{n \to \infty} |f_n| \leq g$. Since $g \in \Lp(\Omega)$, $f \in \Lp(\Omega)$ by monotonicity of the integral. We have $| f - f_n |^p \leq (|f| + |f_n|)^p \leq (2 g)^p$.
+Since $g \in \Lp(\Omega)$, $2g \in \Lp(\Omega)$. Hence $(2 g)^p \in \Lone(\Omega)$. By \nameref{thm:dct}, 
+\begin{align*}
+     \lim_{n \to \infty} \norm{f - f_n}_p = \lim_{n \to \infty} \int_\Omega  |f - f_n|^p \,d\mu = \int_\Omega  \lim_{n \to \infty}  |f - f_n|^p \,d\mu = 0.
+\end{align*}
+\end{proof}
+
+\begin{theorem}[Density of simple functions in $\Lp$]
+\label{thm:lp:density}
+Let  $(\Omega, \mathcal{F}, \mu)$ be a measure space and suppose that $1 \leq p \leq \infty$.
+The simple functions belonging to $\Lp(\Omega)$ are dense in $\Lp$.
+\end{theorem}
+
+\begin{proof}
+
+Suppose $p < \infty$ and $f \in \Lp(\Omega)$ and $f \geq 0$. Since $f$ is measurable, there exists a monotonically nondecreasing sequence of nonnegative simple functions $\{ \phi \}_{n=1}^{\infty}$ such that $\phi_n \uparrow f$. We will show $\lim_{n \to \infty} \norm{f - \phi_n}_p = 0$. 
+
+To begin, we claim that $\phi_n \in \Lp(\Omega)$ for every $n \in \N$.
+Since $0 \leq \phi_{n} \leq \phi_{n + k}$ for every $n, k \in \N$ and $\lim_{k \to \infty} \phi_{n + k} = \lim_{n \to \infty} \phi_n = f$, we have
+\begin{align}
+    \label{ineqn:lp:density:simple}
+    0 \leq \phi_n \leq \lim_{k \to \infty} \phi_{n + k} = f, \text{ for every $n \in \N$.}
+\end{align}
+By monotonicity of the integral, $0 \leq \norm{\phi_n}_p \leq \norm{f}_p < \infty$, for every $n \in \N$.
+Hence $\phi_n \in \Lp(\Omega)$ for every $n \in \N$. Since $\phi_n \uparrow f$ and \ref{ineqn:lp:density:simple}, by \nameref{lemma:lp:convg},   $\lim_{n \to \infty} \norm{f - \phi_n}_p = 0$, as desired.
+
+Now consider $f \in \Lp(\Omega)$. Write $f = f^{+} - f^{-}$. By the previous case, there exist sequences of simple functions $\{ \phi \}_{n=1}^{\infty}, \{ \psi \}_{n=1}^{\infty}$ such that $\phi_n \in \Lp(\Omega), \psi_n \in \Lp(\Omega)$ and $\phi_n \rightarrow f^{+}$ in $\Lp(\Omega)$ and $\psi_n \rightarrow f^{-}$ in $\Lp(\Omega)$. Clearly, $\phi_n - \psi_n \in \Lp(\Omega)$ and $\phi_n - \psi_n$ is simple. We have
+\begin{align*}
+    0 \leq \norm{f - (\phi_n - \psi_n)}_p 
+                                   &=\norm{f^{+} - f^{-} - (\phi_n - \psi_n)}_p \\
+                                   &\leq \norm{f^{+} - \phi_n}_p + \norm{f^{-} - \psi_n}_p. \text{ by \nameref{ineqn:lp:minkowski}} 
+\end{align*}
+Since $\phi_n \rightarrow f^{+}$ in $\Lp(\Omega)$ and $\psi_n \rightarrow f^{-}$ in $\Lp(\Omega)$, $\lim_{n \to \infty} \norm{f - (\phi_n - \psi_n)}_p = 0$.
+
+If $f \in \Linfty(\Omega)$, $f$ is equivalent to a bounded measurable function. Then there exists a sequence of simple functions converging to $f$ uniformly and hence in $\norm{\cdot}_\infty$ norm.
+\end{proof}
+
+We discuss another density result.
+
+\begin{theorem}[Density of compactly supported functions in $\Lp$]
+\label{thm:lp:densitycc}
+Let  $(\Omega, \mathcal{F}, \mu)$ be a measure space and suppose that $1 \leq p \leq \infty$. Suppose that $\Omega$ is also a locally compact Hausdorff space.
+Then continuous compactly supported functions on $\Omega$ are dense in $\Lp$.
+\end{theorem}
+
+\begin{proof}
+By \nameref{thm:lp:density}, it is sufficient to prove that a continuous, compactly supported function can approximate a simple function in $\Lp$. Let $\varphi$ be a simple function in $\Lp(\Omega)$ and $\epsilon > 0$. By \nameref{thm:measure:lusin}, there exists a continuous function $g : \Omega \to \R$ such that $\supp g$ is compact, $\mu(\{ \omega : g(\omega) \neq \varphi(\omega) \}) < \epsilon $ and $|g| \leq \norm{\varphi}_\infty$. Now, \begin{align*}
+    \norm{g - \varphi}_p &= \left (\int_\Omega | g - \varphi |^p \, d\mu \right )^{\frac{1}{p}} = \left (\int_{g \neq \varphi} | g - \varphi |^p \, d\mu + \int_{g = \varphi} | g - \varphi |^p \, d\mu  \right )^{\frac{1}{p}} & \\
+        &\leq \left ( \int_{g \neq \varphi} | g - \varphi|^p  \, d\mu\right)^{\frac{1}{p}} \leq \left ( \int_{g \neq \varphi} 2^p \norm{\varphi}_\infty^p \, d\mu \right)^{\frac{1}{p}} \leq 2 \norm{\varphi}_\infty \epsilon^{\frac{1}{p}}.
+\end{align*}
+Since $\epsilon$ was arbitrary, the proof is complete.
+\end{proof}

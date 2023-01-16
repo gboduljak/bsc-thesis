@@ -1,0 +1,98 @@
+\newpage
+\begin{figure}[H]
+    \centering
+    \begin{minted}[fontsize=\footnotesize]{python}
+def train(model,
+          train_loader,
+          val_loader,
+          epochs: int,
+          model_name: str,
+          lr=1e-3):
+
+    ...
+    optimizer = Adam(model.parameters(), lr=lr)
+    train_loss_fn = nn.CrossEntropyLoss()
+    ...
+    iteration = 0
+    for epoch in range(epochs):
+        for images, labels in train_loader:
+            # Transfer the batch to relevant device
+            images, labels = images.to(device), labels.to(device)
+            # Setup batch
+            batch_images = Variable(images.view(images.size(0), -1))
+            batch_labels = Variable(labels)
+            # Forward pass
+            outputs = model(batch_images)
+            # Compute train loss
+            loss = train_loss_fn(outputs, batch_labels)
+            # Clear previous gradients to ensure batch gradients are independent
+            optimizer.zero_grad()
+            # Compute gradients
+            loss.backward()
+            # Apply optimisation step
+            optimizer.step()
+            iteration += 1
+            
+            if not (iteration % 100):
+                (train_loss,
+                 train_accuracy) = evaluate_accuracy(model, train_loader)
+                (val_loss, val_accuracy) = evaluate_accuracy(model, val_loader)
+                # Maintain the best weight configuration so far
+                if (not best_val_acc) or (val_accuracy > best_val_acc):
+                    best_val_acc = val_accuracy
+                    best_val_loss = val_loss
+                    torch.save(model.state_dict(), f'{model_name}.pth')
+
+                train_losses.append(train_loss)
+                train_accs.append(train_accuracy)
+                val_losses.append(val_loss)
+                val_accs.append(val_accuracy)
+                iterations_list.append(iteration)
+                
+                # Print training state after every 500 batches
+                if not (iteration % 500):
+                    print(
+                        ...
+                    )
+    # Construct training history object
+    ...
+    \end{minted}
+    \caption{The most important parts of the training loop implementation}
+    \label{fig:experiments:clssification:implementation:loop}
+\end{figure}
+\newpage
+\begin{figure}[H]
+    \centering
+    \begin{minted}[fontsize=\footnotesize]{python}
+def run_experiment(experiment_config: dict):
+    epochs = experiment_config['epochs']
+    batch_size = experiment_config['batch_size']
+    layers_config = experiment_config['layers_config']
+    model_name = experiment_config['name']
+
+    torch.manual_seed(42)
+    nn = FashionNNMultiHiddens(layers_config)
+
+    ...
+
+    train_loader = DataLoader(train_set, batch_size=batch_size)
+    val_loader = DataLoader(val_set, batch_size=batch_size)
+
+    history = train(nn, train_loader, val_loader, epochs, model_name)
+    best_val_acc = history['best_val_acc']
+    best_val_loss = history['best_val_loss']
+
+    with torch.no_grad():
+        display_loss_plot(history['iterations_list'], history['train_losses'],
+                          history['val_losses'])
+        display_accuracy_plot(history['iterations_list'],
+                              history['train_accs'], history['val_accs'])
+        print('--------------best model--------------')
+        print('validation accuracy: {:.2f}%'.format(best_val_acc))
+        print(f'validation loss: {best_val_loss}')
+        display_per_class_accuracy(nn, val_loader)
+        print_confusion_matrix(nn, val_loader)
+    \end{minted}
+    \caption{The most important parts of the experiment run}
+    \label{fig:experiments:clssification:implementation:run}
+\end{figure}

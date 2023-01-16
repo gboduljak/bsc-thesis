@@ -1,0 +1,78 @@
+\subsection{Universality}
+
+\subsubsection{\nameref{section:universality:continuous:cybenko}}
+\label{subsubsection:appendix:universality:continuous:cybenko}
+The proof of Lemma \ref{lemma:discrim:vanishhyper} is based on the proof of Lemma 1 in \cite{cybenko_1989_approximation} and the proof of Lemma 2.2.3 in \cite{calin_2020_deep}.
+The proof of Lemma 2.2.3 in \cite{calin_2020_deep} contains the following possibly incorrect argument. \cite{calin_2020_deep} establishes that $F$ vanishes on indicators of intervals. Then the following conclusion is made.
+\begin{displayquote}[\citetitle{calin_2020_deep} \cite{calin_2020_deep}, Lemma 2.2.3 (p.34)]
+"\ldots it follows from linearity that $F$ vanishes on any indicator function. Applying the linearity again, we obtain that $F$ vanishes on simple functions, \[
+    F \left (\sum_{i = 1}^n \alpha_i \chi_{J_i} \right) = \sum_{i = 1}^n \alpha_i F (\chi_{J_i}) = 0,
+\]
+for any $\alpha_j \in \R$ and $J_i$ intervals. Since simple functions are dense in $\Linfty(\R)$, it follows that $F=0$."
+\end{displayquote}
+Firstly, it is worth noting the important difference between step functions and simple functions. It is not the case that step functions and simple functions are the same families. In our context, simple functions are linear combinations of indicators of Borel sets in $\R$, while step functions are linear combinations of intervals on $\R$. It is the case that intervals are contained in $\B(\R)$, but not every Borel set is an interval. Hence proving that $F$ vanishes on indicators of intervals does not directly prove that $F$ vanishes on indicators of all Borel sets.
+However, the quoted argument presented in \cite{calin_2020_deep} can be justified with a reference to the following result addressing density of step functions in $\Lp$.
+\pagebreak
+\begin{proposition}[Density of step functions in $\Lp$, Proposition 3.4.3 in \cite{cohn_2013_measure}]
+Suppose that $[a,b]$ is a closed bounded interval and that $p$ satisfies $1 \leq p < \infty$. Then the subspace of $\Lp([a,b], \B([a,b]), \lambda)$ determined by 
+the step functions on $[a,b]$ is dense in $\Lp([a,b], \B([a,b]), \lambda)$.
+\end{proposition}
+
+\begin{remark}
+According to the following discussion in \cite{cohn_2013_measure}, Proposition 3.4.3 holds for  $\Lp(\R, \B(\R), \lambda)$.
+\begin{displayquote}[\citetitle{cohn_2013_measure} \cite{cohn_2013_measure}, p.102]
+"Let us call a function on $\R$ a step function if for each interval $[a,b]$ its restriction to $[a,b]$ is a step function.
+Analogue of Proposition 3.4.3 holds for $\Lp(\R, \B(\R), \lambda)$ if we replace the set of step functions on $[a,b]$ with the set of step functions on $\R$ which vanish outside some bounded interval."
+\end{displayquote}
+The proof of Proposition 3.4.3 relies on the regularity of Lebesgue measure and it is nontrivial. For instance, its extension to $\Lp(\R, \B(\R), \lambda)$ was not presented in the textbook. However, it seems that this result has been taken for granted in \cite{calin_2020_deep} without a reference. However, \cite{cybenko_1989_approximation} provided a reference for the similar density result.
+\end{remark}
+
+The original part of the proof in this thesis is the use of \nameref{thm:measure:lambda-pi}. \nameref{thm:measure:lambda-pi} was not used in the proof of Lemma 1 in  \cite{cybenko_1989_approximation} nor in the proof of Lemma 2.2.3 in \cite{calin_2020_deep}. The proof of Lemma 1 in \cite{cybenko_1989_approximation} proves that $F$ vanishes on indicators of Borel sets in the following way. \cite{cybenko_1989_approximation} establishes that $F$ vanishes on indicators of intervals and appeals to the result similar to Proposition 3.4.3 in \cite{cohn_2013_measure} to deduce that $F$ vanishes on indicators of Borel sets in $\R$. The proof in this thesis uses  \nameref{thm:measure:lambda-pi} to directly prove that $F$ vanishes on Borel sets, assuming it vanishes on indicators of intervals. The use of \nameref{thm:measure:lambda-pi} is a standard method in measure theory. For instance, it was discussed in \textit{Essentials in Analysis and Probability}.
+
+The proof of Proposition \ref{prop:discrim:boundedmeasdiscrim} is based on the proof of Proposition 2.2.4 in \cite{calin_2020_deep}. 
+However, the proof of Proposition 2.2.4 is addressing continuous sigmoidal function and the proof in this thesis is addressing bounded measurable sigmoidal functions. The proof of Proposition 2.2.4 invokes \nameref{thm:dct}, implicitly assuming the theorem for signed measures. However, this theorem is often stated only for measures. This technical detail is discussed in detail in the proof of Proposition \ref{prop:discrim:boundedmeasdiscrim}. 
+
+The proof of \nameref{lemma:univ:sepfunclemma} is a combination of proofs of Lemma 9.3.1 in \cite{calin_2020_deep} and Lemma 9.3.2 in \cite{calin_2020_deep}. The original part of the proof of \nameref{lemma:univ:sepfunclemma} is a discussion of a few omitted technical details in \cite{calin_2020_deep}. For instance, it is proved that the representation of elements in subspace $\mathcal{T}$ is unique. This is not discussed in the proof of  Lemma 9.3.1 in \cite{calin_2020_deep}. This detail is important because it guarantees that the definition of the functional $L$ is well-defined. The proof of well-definedness is missing in \cite{calin_2020_deep}. Similarly, \cite{calin_2020_deep} does not discuss a case when $\lambda$ = 0. This detail is important because we argue that $\frac{1}{\lambda} \vec{u} \in \mathcal{T}$. When $\lambda = 0$, the vector $\frac{1}{\lambda} \vec{u}$ is not well-defined. The proof in \cite{calin_2020_deep} also does not prove that $\mathcal{T}$ is a linear subspace.
+
+The proof of \nameref{thm:universality:continuousdiscrim} is the proof of Proposition 9.3.5 in \cite{calin_2020_deep}.
+
+\subsubsection{\nameref{section:universality:ltwo}}
+
+This section is based on Section 9.3.2 in \cite{calin_2020_deep}.
+
+Definition of $\Ltwo$-discriminatory activation function is based on Definition 9.3.10 in \cite{calin_2020_deep}. In this thesis, we use the implication $g = 0$ almost everywhere instead of $g$ identically zero, as in \cite{calin_2020_deep}. This difference can be attributed to a possible typo in \cite{calin_2020_deep}. It could also be the case that \cite{calin_2020_deep} treats functions in $\Ltwo$ as equivalence classes under $\lambda$ almost everywhere equality. This abuse of notation is often used in this thesis.
+
+The proof of Lemma \ref{lemma:universality:l2:vanishhyper} is based on the proof of Lemma 9.3.12 in \cite{calin_2020_deep}.
+Similarly to the proof of Lemma \ref{lemma:discrim:vanishhyper}, the argument in \cite{calin_2020_deep} possibly contains a logical flaw related to simple and step functions. On page 264, \cite{calin_2020_deep} establishes that $F$ vanishes on indicator functions. Then the following conclusion is made.
+\begin{displayquote}[\citetitle{calin_2020_deep} \cite{calin_2020_deep}, Lemma 9.3.12 (p.264)]
+"\ldots By linearity, $F$ vanishes on combinations of indicator functions, such as $\chi_A$, with $A$ \textbf{interval}, and then vanishes on finite sums of these types of functions, i.e, on \textbf{simple} functions."
+\end{displayquote}
+
+However, as discussed in \ref{subsubsection:appendix:universality:continuous:cybenko}, simple functions and step functions are not the same family. This problem can be resolved in the same way as in the case of Lemma \ref{lemma:discrim:vanishhyper} - by appealing to Proposition 3.4.3 in \cite{cohn_2013_measure}. The original part of the proof in this thesis is the use of \nameref{thm:measure:lambda-pi} instead of Proposition 3.4.3 in \cite{cohn_2013_measure}.
+
+The proof of Lemma \ref{lemma:universality:l2:stepdiscrim} is based on Example 9.3.14 in \cite{calin_2020_deep}.
+
+The proof of Lemma \ref{lemma:universality:l2:sigmoiddiscrim} is based on Example 9.3.15 in \cite{calin_2020_deep}.
+
+The proof of \nameref{thm:universality:ltwo:discrim} is based on the proof of Proposition 9.3.11 in \cite{calin_2020_deep}.
+
+\subsubsection{\nameref{section:universality:lone}}
+This section is based on \nameref{section:universality:ltwo}.
+
+\subsubsection{\nameref{section:universality:measurable:compact}}
+
+The proof of \nameref{thm:universality:cybenko:measurable} is the proof of Theorem 3 in \cite{cybenko_1989_approximation}.
+
+\subsubsection{\nameref{section:universality:measurable:probabilistic}}
+
+This section is based on Section 9.3.4 in \cite{calin_2020_deep}.
+
+Proposition \ref{proposition:universality:measure:modes_convergence} is Lemma 2.1 in \cite{hornik}. However, its proof is different.
+Proposition \ref{proposition:universality:measure:convg_compacta_implies_mu} is Proposition 9.3.21 in \cite{calin_2020_deep}.
+Theorem \ref{thm:universality:measure:uap:nnsdensecompacta} is Theorem 9.3.22 in \cite{calin_2020_deep}.
+Lemma \ref{lemma:universality:measure:uap:approx_characteristic} is my own.
+Lemma \ref{lemma:universality:measure:uap:approx_simple} is my own.
+
+Proposition \ref{proposition:universality:measure:continuous_dense_mn} is Proposition 9.3.23 in \cite{calin_2020_deep}. Its proof is based on the proof of Proposition 9.3.23 in \cite{calin_2020_deep}. However, the explicit construction of $g_i$ is replaced with an application of Proposition  \ref{lemma:universality:measure:uap:approx_simple}.
+
+The proof of \nameref{thm:universality:measure:uap:probabilistic} is proof of Theorem 9.3.24 in \cite{calin_2020_deep}.

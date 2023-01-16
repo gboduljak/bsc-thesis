@@ -1,0 +1,229 @@
+\subsection{Absolute continuity and Radon-Nikodym Theorem}
+In this section, we introduce the idea of the absolute continuity of a measure and prove the key result about the absolutely continuous measures - Radon-Nikodym Theorem.
+
+\begin{definition}[absolute continuity of a measure]
+\label{defn:hahn:abs_cont_measure}
+Let $(\Omega, \mathcal{F})$ be a measurable space and let $\mu, \nu$ be measures on $\mathcal{F}$.
+We say that $\nu$ is absolutely continuous with respect to $\mu$, denoted by $\nu \ll \mu$, if 
+\begin{align*}
+    \forall A \in \mathcal{F}, \mu(A) = 0 \implies \nu(A) = 0.
+\end{align*}
+\end{definition}
+
+\begin{definition}[absolute continuity of a signed measure]
+Let $(\Omega, \mathcal{F})$ be a measurable space. Suppose that $\nu$ is a signed measure on $\mathcal{F}$ and $\mu$ is a measure on $\mathcal{F}$. 
+We say that $\nu$ is absolutely continuous with respect to $\mu$ if its variation $|\nu|$ is absolutely continuous with respect to $\mu$, in the sense of Definition \ref{defn:hahn:abs_cont_measure}.
+\end{definition}
+
+\begin{example}
+\label{example:hahn:abs_cont_measure}
+Let $(\Omega, \mathcal{F}, \mu)$ be a measure space. Suppose that $g : \Omega \to \R$ is measurable and nonnegative.
+Define $\nu : \mathcal{F} \to [0, \infty]$ by
+\begin{equation}
+    \label{eqn:hahn:abs_cont_measure}
+    \nu(A) = \int_{A} g  \,d\mu, \text{ for every $A \in \mathcal{F}$}.
+\end{equation}
+By appealing to additivity of the integral and \nameref{thm:mct}, it is not difficult to show that $\nu$ is a measure on $\mathcal{F}$.
+Suppose that $A \in \mathcal{F}$ and $\mu(A) = 0$. Since the integral over a null set vanishes, $\nu(A) =  \int_{A} g  \,d\mu = 0$.  
+Hence, $\nu$ is absolutely continuous with respect to $\mu$.
+\end{example}
+The natural question is whether all absolutely continuous measures are in the form given by \ref{eqn:hahn:abs_cont_measure}.  \nameref{thm:radon-nikodym} gives conditions under which this is true and it can be seen as a partial converse to Example  \ref{example:hahn:abs_cont_measure}.
+\begin{theorem}[Radon-Nikodym Theorem for measures]
+\label{thm:radon-nikodym}
+Let $(\Omega, \mathcal{F})$ be a measurable space and let $\mu, \nu : \mathcal{F} \to [0, \infty]$ be $\sigma$-finite measures. If $\nu \ll \mu$, then there is a ($\mathcal{F}, \mathcal{B}(\mathbb{R}))$-measurable function $g : \Omega \to [0, \infty)$ such that 
+\begin{equation*}
+    \nu(A) = \int_{A} g  \,d\mu, \text{ for every $A \in \mathcal{F}$}.
+\end{equation*}
+The function $g$ is unique up to $\mu$-almost everywhere equality and $g \geq 0$.
+\end{theorem}
+\begin{proof-idea*}
+The proof of \nameref{thm:radon-nikodym} will be divided into three parts. In the first part, we will show that it is sufficient to prove the theorem for finite measures. In the second part, we demonstrate the existence of $g$ for the case of finite measures. In the last part, we will prove the $\mu$-almost everywhere uniqueness of $g$.
+\end{proof-idea*}
+\begin{proof}
+\setcounter{step}{0}
+\begin{step}[Reduction to spaces of a finite measure]
+It is sufficient to prove this result for \textbf{finite} measures.
+In order to justify this, suppose that the theorem holds for \textbf{finite} measures and consider $\mu, \nu$ as in the statement. By $\sigma$-finiteness of $\mu$, there exists a sequence of $\mathcal{F}$-measurable sets $\{ E_n \}_{n=1}^{\infty}$ such that each $\mu(E_n) < \infty$ and $\Omega = \bigcup_{n = 1}^{\infty} E_n$. By $\sigma$-finiteness of $\nu$, there exists a sequence of $\mathcal{F}$-measurable sets $\{ F_m \}_{m=1}^{\infty}$ such that each $\nu(F_m) < \infty$ and $\Omega = \bigcup_{m = 1}^{\infty} F_m$.
+Define $G_{n,m} = E_n \cap F_m.$ Clearly, $G_{n, m} \in \mathcal{F}$ and $\mu(G_{n,m}) < \infty$ and $\nu(G_{n,m}) < \infty$. We claim $\bigcup_{n = 1} ^{\infty} \bigcup_{m=1} ^{\infty} G_{n,m} = \Omega$. The inclusion $\bigcup_{n = 1} ^{\infty} \bigcup_{m=1} ^{\infty} G_{n,m} \subseteq \Omega$ is trivial. Suppose that $\omega \in \Omega$. Since $\Omega = \bigcup_{n = 1}^{\infty} E_n$, there exists $k \in \mathbb{N}$ such that $\omega \in E_k$. Similarly, there exists $l \in \mathbb{N}$ such that $\omega \in F_l$. Therefore, $\omega \in G_{k, l}$ so $\Omega \subseteq \bigcup_{n = 1} ^{\infty} \bigcup_{m=1} ^{\infty} G_{n,m}$. Hence $\Omega = \bigcup_{n = 1} ^{\infty} \bigcup_{m=1} ^{\infty} G_{n,m}$. 
+It is clear that the family $\{ G_{n, m} \}_{n, m \in \mathbb{N}}$ is countable so we may index it as $\{ G_n \}_{n \in \mathbb{N}}^{\infty}$. Now define the family $\{ H_n \}_{n \in \mathbb{N}}^{\infty}$ as follows
+\begin{subequations}\label{eqn:radon:constr_h_n}
+\begin{align*}
+    H_{1} &= G_1 \\
+    H_{2} &= G_2 \setminus G_1  \\
+    & \vdots  \\
+    H_{n} &= G_n \setminus \bigcup_{k = 1} ^ {n - 1} G_k .
+     \tag{\ref{eqn:radon:constr_h_n}} 
+\end{align*}
+\end{subequations}
+By construction, $H_{i} \cap H_{j} = \emptyset$ for every $i, j \in \mathbb{N}, i \neq j$. Clearly, $ \Omega = \bigcup_{n = 1} ^ {\infty} H_n$ and $H_n \in \mathcal{F}$. Since $H_n \subseteq G_n$, by monotonicity of measure, $\mu(H_n) < \infty$ and $\nu(H_n) < \infty$.
+Now for each $n \in \mathbb{N}$, consider the measurable space $(H_n, \mathcal{F}_{| H_n})$. Since $\nu \ll \mu$, $\nu_{| H_n} \ll \mu_{| H_n}$. By assumption that the theorem holds for finite measure spaces, there exists a ($\mathcal{F}_{| H_n}, \mathcal{B}(\mathbb{R}))$-measurable function $g_n : H_n \to [0, \infty)$ such that
+\begin{equation}
+\label{eqn:radon:g_n}
+    \nu(A \cap H_n) = \int_{A \cap H_n} g_n  \,d\mu, \text{ for every $A \in \mathcal{F}$}.
+\end{equation}
+Moreover, $g_n$ is unique up to $\mu$-almost everywhere equality and $g_n \geq 0$.
+We will construct a $(\mathcal{F}, \mathcal{B}(\mathbb{R}))$-measurable function $g : \Omega \to [0, \infty)$ such that
+\begin{equation*}
+    \nu(A) = \int_{A} g  \,d\mu, \text{ for every $A \in \mathcal{F}$}.
+\end{equation*}
+We may extend $g_n$ to $(\mathcal{F}, \mathcal{B}(\mathbb{R}))$-measurable function $h_n : \Omega \to [0, \infty)$ by setting $h_n = g_n \chi_{H_n}$. Now define:
+\begin{equation*}
+    g = \sum_{n = 1} ^ {\infty} h_n.
+\end{equation*}
+Since $h_n \geq 0$, $\sum_{k=1}^{n} h_k$ increases monotonically to $g$. Clearly, each $\sum_{k=1}^{n} h_k$ is  $(\mathcal{F}, \mathcal{B}(\mathbb{R}))$-measurable. Since $g$ is a pointwise limit of $(\mathcal{F}, \mathcal{B}(\mathbb{R}))$-measurable, monotonically increasing nonnegative functions, $g$ is $(\mathcal{F}, \mathcal{B}(\mathbb{R}))$-measurable and nonnegative. Since $\{H_n\}_{n=1}^{\infty}$ is a disjoint family, by definition of $h_n$ and $g$, 
+\begin{equation}
+\label{eqn:radon:g}
+    \int_{A \cap H_n} g \,d\mu = \int_{A \cap H_n} h_n  \,d\mu, \text{ for every $A \in \mathcal{F}$}.
+\end{equation}
+Let  $A \in \mathcal{F}$. Since $\{H_n\}_{n=1}^{\infty}$ partitions $\Omega$, we have $A = \bigcup_{n=1}^{\infty} (A \cap H_n)$.
+Now, 
+\begin{align*}
+    \nu(A) &= \nu(\bigcup_{n=1}^{\infty} (A \cap H_n)) = \sum_{n=1}^{\infty} \nu(A \cap H_n)  & \\
+                &= \sum_{n=1}^{\infty} \int_{A \cap H_n} g_n \,d\mu & \text{by \ref{eqn:radon:g_n}} & \\
+                &= \sum_{n=1}^{\infty} \int_{A \cap H_n} h_n \,d\mu & \text{since $h_n = g_n \chi_{H_n}$} & \\
+                &= \sum_{n=1}^{\infty} \int_{A \cap H_n} g \,d\mu & \\
+                &= \sum_{n=1}^{\infty} \int_{A} g \chi_{H_n} \,d\mu. & \text{by \ref{eqn:radon:g}}
+\end{align*}
+By additivity of the integral and the fact $\{H_n\}_{n=1}^{\infty}$ partitions $\Omega$, we can write
+\begin{subequations}\label{eqn:radon:reduction:mct_apply_target}
+\begin{align*}
+    \sum_{n=1}^{\infty} \int_{A} g \chi_{H_n}  \,d\mu &=  \lim_{N \to \infty} \sum_{n=1}^{N} \int_{A} g \chi_{H_n}  \,d\mu = \lim_{N \to \infty} \int_{A} \sum_{n=1}^{N} g \chi_{H_n} \,d\mu & \\ 
+        &= \lim_{N \to \infty} \int_{A}  g \chi_{\bigcup_{k=1}^{N} H_n}  \,d\mu.
+     \tag{\ref{eqn:radon:reduction:mct_apply_target}} 
+\end{align*}
+\end{subequations}
+Now consider $\phi_N = g \chi_{\bigcup_{k=1}^{N} H_n}$. Clearly, $\phi_N$ is $(\mathcal{F}, \mathcal{B}(\mathbb{R}))$-measurable. By construction of $\{H_n\}_{n=1}^{\infty}$ (\ref{eqn:radon:constr_h_n}), $\phi_N$ monotonically increases to $g$.
+Applying \nameref{thm:mct} to \ref{eqn:radon:reduction:mct_apply_target} gives 
+\begin{align*}
+     \nu(A) = \lim_{N \to \infty} \int_{A}  g \chi_{\bigcup_{k=1}^{N} H_n}  \,d\mu 
+                 = \int_{A} \lim_{N \to \infty}   g \chi_{\bigcup_{k=1}^{N} H_n}  \,d\mu
+                 = \int_{A}  g  \,d\mu.
+\end{align*}
+Therefore, it is sufficient to prove the theorem assuming that $\mu, \nu$ are finite.
+\end{step}
+
+\begin{step}[Existence for finite measure spaces]
+Consider
+\begin{equation*}
+    \mathcal{H} = \left \{ f : \Omega \to [0, \infty] : \text{$f$ is $(\mathcal{F}, \mathcal{B}( \overline{\mathbb{R}}))$ -measurable,} \int_{A} f \,d\mu  \leq \nu(A), \forall A \in \mathcal{F} \right \}. 
+\end{equation*}
+
+Clearly, $f = 0 \in \mathcal{H}$ so $\mathcal{H}$ is nonempty.
+We will show that there exists $g \in \mathcal{H}$ such that $\nu(A) = \int_{A} g \,d\mu$, for every $A \in \mathcal{F}$.
+We claim
+\begin{equation}
+    \label{eqn:radon:closure}
+    f, g \in \mathcal{H} \implies \operatorname{max(f, g)} \in \mathcal{H}.
+\end{equation}
+Let $f, g \in \mathcal{H}$ and let $A \in \mathcal{F}$. Set $F := \{ \omega \in A : f(\omega) > g(\omega) \}$, $G := \{ \omega \in A : f(\omega) \leq g(\omega) \}$. Since $F$ and $G$ partition $A$, we have
+\begin{equation*}
+    \int_{A} \operatorname{max(f, g)}\,d\mu = \int_{F} f \,d\mu + \int_{G} g \,d\mu \leq \nu(F) + \nu(G) = \nu(A).
+\end{equation*}
+Hence $\operatorname{max(f, g)} \in \mathcal{H}$. Now set
+\begin{equation}
+\label{eqn:radon:sup}
+    \alpha = \operatorname{sup} \left \{  \int_{\Omega} f \,d\mu  : f \in \mathcal{H} \right \}.
+\end{equation}
+For every $f \in \mathcal{H}$, $\int_{\Omega} f \,d\mu \leq \nu(\Omega)$ so $\alpha \leq \nu(\Omega) < \infty$. Therefore, $\alpha$ is finite. 
+By approximation property of $\operatorname{sup}$, there exists a sequence $\{ f_n \}_{n=1}^\infty$ in $\mathcal{H}$ such that
+\begin{equation}
+\label{eqn:radon:lim}
+    \lim_{n \to \infty} \int_\Omega f_n \,d\mu = \alpha.
+\end{equation}
+Now set $g_n = \operatorname{max}_{1 \leq k \leq n} f_k$. By $\ref{eqn:radon:closure}$, $g_n \in \mathcal{H}$. Clearly, $g_{n + 1} \geq g_{n} \geq 0, \forall n \in \mathbb{N}$. But then, $\int_\Omega g_{n} \,d\mu \leq \int_\Omega g_{n+1} \,d\mu$ so $\lim_{n \to \infty} \int_\Omega g_n \,d\mu$ exists. Since $g_n \in \mathcal{H}$, $\int_\Omega g_n \,d\mu \leq \alpha$. Therefore, $\lim_{n \to \infty} \int_\Omega g_n \,d\mu \leq \alpha$. By construction, $g_n \geq f_n \geq 0$. Hence, $\int_\Omega g_n \,d\mu \geq \int_\Omega f_n \,d\mu$. Now $\lim_{n \to \infty} \int_\Omega g_n \,d\mu \geq \lim_{n \to \infty} \int_\Omega f_n \,d\mu = \alpha$, by \ref{eqn:radon:lim}. We deduce
+\begin{equation}
+    \label{eqn:radon:alim}
+    \lim_{n \to \infty} \int_\Omega g_n \,d\mu = \alpha.
+\end{equation}
+Since $g_{n + 1} \geq g_{n} \geq 0, \forall n \in \mathbb{N}$, $g = \lim_{n \to \infty} g_n$ is well-defined and $(\mathcal{F}, \mathcal{B}( \overline{\mathbb{R}}))$-measurable. Clearly, $g \geq 0$. By \nameref{thm:mct} and \ref{eqn:radon:alim}, \begin{equation*}
+    \int_{\Omega} g \,d\mu = \lim_{n \to \infty} \int_\Omega g_n \,d\mu = \alpha.
+\end{equation*}
+Consider $A \in \mathcal{F}$. Since $g_n \in \mathcal{H}$, $\int_A g_n \,d\mu \leq \nu(A)$ so $ \lim_{n \to \infty} \int_A g_n \,d\mu \leq \nu(A)$. 
+\newpage
+By \nameref{thm:mct},
+\begin{equation*}
+    \int_{A} g \,d\mu = \lim_{n \to \infty} \int_A g_n \,d\mu \leq \nu(A).
+\end{equation*}
+We have shown $g \in \mathcal{H}$. It remains to show $\nu(A) = \int_{A} g \,d\mu, \forall A \in \mathcal{F}$.
+To prove this, define $\nu_0 : \mathcal{F} \to [0, \infty)$ by $\nu_0 := \nu(A) - \int_{A} g \,d\mu$. We will show $\nu_0 = 0$. Since $g \in \mathcal{H}$, $\nu_0$ is nonnegative. Since $\nu$ is a measure and $\emptyset$ is a null set, $\nu_0(\emptyset) = 0$.
+Since $\nu$ is a measure and \nameref{thm:mct} applies,  $\nu_0$ is countably additive and hence a measure. Since $\nu_0$ is a measure, to prove $\nu_0 = 0$, it is sufficient to show $\nu_0 (\Omega) = 0$. We will argue by contradiction. Suppose $\nu_0 (\Omega) > 0$. Since $\mu(\Omega) < \infty$, there exists $\epsilon > 0$ such that
+\begin{equation}
+    \label{eqn:radon:omega}
+    \nu_0(\Omega) > \epsilon \mu (\Omega).
+\end{equation}
+Now consider the signed measure $\nu_0 - \epsilon \mu$. Let $(P, N)$ be its \nameref{thm:hahn-jordan}. Since $P$ is a positive set for $\nu_0 - \epsilon \mu$, we have
+\begin{equation}
+    \label{ineqn:radon:contradict}
+    (\nu_0 - \epsilon \mu)(A \cap P) \geq 0 \implies \nu_0 (A \cap P) \geq \epsilon \mu (A \cap P), \forall A \in \mathcal{F}.
+\end{equation}
+Consider $A \in \mathcal{F}$ and  $(\mathcal{F}, \mathcal{B}( \overline{\mathbb{R}}))$-measurable function $g + \epsilon \chi_P$. We have
+\begin{align*}
+    \nu(A) &= \int_{A} g \,d\mu + \nu_0(A) \geq \int_{A} g \,d\mu + \nu_0(A \cap P)  & \\
+                &\geq \int_{A} g \,d\mu + \epsilon \mu (A \cap P) & \text{by \ref{ineqn:radon:contradict}} & \\
+                &= \int_{A} (g + \epsilon \chi_P) \,d\mu.
+\end{align*}
+Therefore, $g + \epsilon \chi_P \in \mathcal{H}$. We claim $\mu(P) > 0$. Suppose not. Then $\mu(P) = 0$. Since $\nu \ll \mu$, $\nu(P) = 0$. Then $\int_{P} g \,d\mu = 0$ so $\nu_0(P) = 0$. Since $\nu_0(P) = 0$, $(\nu_0 - \epsilon \mu) (P) = 0$. Since $P$ and $N$ partition $\Omega$ and $N$ is a negative set for $\nu_0 - \epsilon \mu$
+\begin{align*}
+    (\nu_0 - \epsilon \mu)(\Omega) &= (\nu_0 - \epsilon \mu) (P) + (\nu_0 - \epsilon \mu) (N)
+                                        \leq 0.
+\end{align*}
+This implies $\nu_0(\Omega) \leq \epsilon \mu (\Omega)$ and this is a contradiction to $\ref{eqn:radon:omega}$. Hence, $\mu(P) > 0$. Since $g \in \mathcal{H}$, $\int_{\Omega} g \,d\mu \leq \nu(\Omega) < \infty$. But then
+\begin{align}
+    \label{eqn:radon:finalcontr}
+    \int_{\Omega} (g + \epsilon \chi_P) \,d\mu = \int_{\Omega} g  \,d\mu  + \epsilon \mu(P) > \int_{\Omega} g \,d\mu = \alpha.
+\end{align}
+Since $g + \epsilon \chi_P \in \mathcal{H}$, \ref{eqn:radon:finalcontr} contradicts \ref{eqn:radon:sup}. Therefore, $\nu_0 = 0$. This means $\nu(A) = \int_{A} g \,d\mu, \forall A \in \mathcal{F}$. Since $g \geq 0$ and $\int_{\Omega} g \,d\mu < \infty$, $g$ is $\mu$-almost everywhere finite, so $g$ can be redefined to satisfy $g : \Omega \to [0, \infty)$. This proves existence of $g$. 
+\end{step}
+\clearpage
+\begin{step}[Uniqueness]
+Suppose that $g, h$ both satisfy the conclusion of the theorem. Then for every $A \in \mathcal{F}$, $\nu(A) = \int_A g \,d\mu = \int_A h \,d\mu$. Now define $G = \{ \omega \in \Omega : g (\omega) > h (\omega) \}, H = \{ \omega \in \Omega : g (\omega) < h (\omega) \}$.
+Clearly, $G, H \in \mathcal{F}$. Observe that $(g - h)^+ = (g - h) \chi_G$ and  $(g - h)^- = (h - g) \chi_H$ and
+\begin{align*}
+    \int_{\Omega} (g - h)^+ \,d\mu = \int_{\Omega} (g - h) \chi_G \,d\mu = \int_{G} g \,d\mu - \int_{G} h \,d\mu = 0, & \\
+    \int_{\Omega} (g - h)^- \,d\mu = \int_{\Omega} (h - g) \chi_H \,d\mu = \int_{H} h \,d\mu - \int_{H} g \,d\mu = 0.
+\end{align*}
+Since $(g - h)^+ \geq 0, (g - h)^- \geq 0$, by Proposition \ref{proposition:measure:characterzerointergral_one_dir}, $(g - h)^+$ and $(g - h)^-$ vanish $\mu$-almost everywhere. But then, $(g - h)$ vanishes $\mu$-almost everywhere. We conclude $g = h$ $\mu$-almost everywhere, as desired.
+\end{step}
+\end{proof}
+
+The \nameref{thm:radon-nikodym} is a very powerful theorem. There are numerous applications of this theorem in probability theory.
+For instance, using \nameref{thm:radon-nikodym} it is possible to neatly justify the existence of conditional expectation (See Exercise 13.15 in \cite{bass2011real}). 
+
+It is possible generalize \nameref{thm:radon-nikodym} to finite signed measures.
+\begin{theorem}[Radon-Nikodym Theorem for signed measures]
+\label{thm:radon-nikodym-signed}
+Let $(\Omega, \mathcal{F})$ be a measurable space and let $\mu : \mathcal{F} \to [0, \infty]$ be $\sigma$-finite measures. Suppose that $\nu$ is a finite signed measure. If $\nu \ll \mu$, then there is a function $g \in \Lone(\Omega, \mathcal{F}, \mu)$ such that 
+\begin{equation*}
+    \nu(A) = \int_{A} g  \,d\mu, \text{ for every $A \in \mathcal{F}$}.
+\end{equation*}
+The function $g$ is unique up to $\mu$-almost everywhere equality.
+\end{theorem}
+\begin{proof-idea*}
+The proof of \nameref{thm:radon-nikodym-signed} is divided into two parts. In the first part, we will discuss the existence of the desired function. The existence will follow directly from the \nameref{thm:hahn-jordan} and \nameref{thm:radon-nikodym}. The second part will be about uniqueness.
+\end{proof-idea*}
+\begin{proof}
+\setcounter{step}{0}
+\begin{step}[Existence]
+Let $\nu = \nu^{+} - \nu^{-}$ be the \nameref{thm:hahn-jordan} of $\nu$. By definition of $\nu \ll \mu$, we have $|\nu| \ll \mu$. Since $\nu^{+} \leq | \nu |$ and $\nu^{-} \leq |\nu|$, we have $\nu^{+} \ll \mu$ and $\nu^{-} \ll \mu$.
+By \nameref{thm:radon-nikodym}, there exist measurable functions $g^{+} : \Omega \to [0, \infty)$ and $g^{-} : \Omega \to [0, \infty)$ such that for every $A \in \mathcal{F}$,
+\begin{equation}
+    \label{eqn:radon:signed_decomp}
+    \nu^{+}(A) = \int_{A} g^{+}  \,d\mu \text{ and }\nu^{-}(A) = \int_{A} g^{-} \,d\mu.
+\end{equation}
+Since $\nu$ is finite, $\nu^{+}$, $\nu^{-}$ are finite measures. Since $\nu^{+}(\Omega)$ and $\nu^{-}(\Omega) < \infty$, by \ref{eqn:radon:signed_decomp}, $g^{+},  g^{-} \in \Lone(\Omega, \mathcal{F}, \mu)$. Define $g : \mathcal{F} \to \R$ by $g = g^{+} - g^{-}$. We claim that $g$ is the desired function. Clearly, $g \in \Lone(\Omega, \mathcal{F}, \mu)$. \newpage 
+By linearity of the integral and \ref{eqn:radon:signed_decomp}, for every $A \in \mathcal{F}$, \begin{align*}
+    \nu (A) = \nu^{+}(A) - \nu^{-}(A) = \int_{A} g^{+}  \,d\mu - \int_{A} g^{-} \,d\mu = \int_{A} g \,d\mu.
+\end{align*}
+This proves the existence of the desired function $g$.
+\end{step}
+\begin{step}[Uniqueness]
+Suppose that $g, h$ both satisfy the conclusion of the theorem. Then for every $A \in \mathcal{F}$, $\nu(A) = \int_A g \,d\mu = \int_A h \,d\mu$. Now define $G = \{ \omega \in \Omega : g (\omega) > h (\omega) \}, H = \{ \omega \in \Omega : g (\omega) < h (\omega) \}$.
+Clearly, $G, H \in \mathcal{F}$. Observe that $(g - h)^+ = (g - h) \chi_G$ and  $(g - h)^- = (h - g) \chi_H$ and
+\begin{align*}
+    \int_{\Omega} (g - h)^+ \,d\mu = \int_{\Omega} (g - h) \chi_G \,d\mu = \int_{G} g \,d\mu - \int_{G} h \,d\mu = 0, & \\
+    \int_{\Omega} (g - h)^- \,d\mu = \int_{\Omega} (h - g) \chi_H \,d\mu = \int_{H} h \,d\mu - \int_{H} g \,d\mu = 0.
+\end{align*}
+Since $(g - h)^+ \geq 0, (g - h)^- \geq 0$, by Proposition \ref{proposition:measure:characterzerointergral_one_dir}, $(g - h)^+$ and $(g - h)^-$ vanish $\mu$-almost everywhere. But then, $(g - h)$ vanishes $\mu$-almost everywhere. We conclude $g = h$ $\mu$-almost everywhere, as desired.
+\end{step}
+\end{proof}
+For an application of this result, see the proof of \nameref{thm:lp:rrt}.

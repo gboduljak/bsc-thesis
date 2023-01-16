@@ -1,0 +1,60 @@
+\section{Introduction}
+
+To discuss the approximation power of neural networks, it is necessary to set up a theoretical framework that enables the quantification of approximation accuracy.
+Since neural networks are a class of functions, a sensible and common approach is to consider various function spaces and discuss the approximation within the context of a given metric. We begin with a definition of the universal approximator family.
+
+\begin{definition}
+Let $(\mathcal{X}, \delta)$ be a metric space. Let $\mathcal{H} \subseteq \mathcal{X}$. We say that $\mathcal{H}$ is an universal approximator family or simply that $\mathcal{H}$ is universal for the space $(\mathcal{X}, \delta)$ if $\mathcal{H}$ is $\delta$-dense in $\mathcal{X}$. Equivalently, in $\epsilon$ language,  $\mathcal{H}$ is universal in $\mathcal{X}$ if
+\[
+    \forall x \in \mathcal{X}, \forall \epsilon > 0, \exists h \in \mathcal{H} \text{ such that } \delta(x, h) < \epsilon.
+\]
+\end{definition}
+
+In this thesis, we will often set $\mathcal{X}$ to be some function space and $\delta$ to be some metric on the function space $\mathcal{X}$.
+We will also set $\mathcal{H}$ to be some family of neural networks, often parametrized by the activation function.
+\begin{example}
+We will denote the family of single-layer fully-connected neural networks with activation function $\sigma$ by $\mathcal{H}_\sigma$, where
+\[
+\mathcal{H}_{\sigma} = \left \{ \vec{x} \to \sum_{k=1}^{m} \alpha_k \sigma{\left (\langle \vec{w_k}, \vec{x} \rangle + \beta_k \right)} : m \in \N, \alpha_1 \ldots \alpha_m, \beta_1 \ldots \beta_m \in \R, \vec{w_k} \in \R^n \right \}. 
+\]
+\end{example}
+\begin{example}
+A classic example of a metric space with its universal approximator family is the space of real-valued continuous functions on $[0,1]$, denoted by $\C([0,1])$ and $\mathcal{H}$ as a family of Bernstein polynomials. This is discussed in detail in \nameref{thm:anal:bernstein-approx}. This family and space play an essential role in the proof of \nameref{thm:anal:stone-weierstrass}, which will be used to prove that $\mathcal{H}_{\exp}$ is dense in $\C(K)$, where $K$ is a compact set in $\R^n$.
+\end{example}
+
+The key results in subsequent sections will be the universal approximation theorems - results about the universality of $\mathcal{H}_\sigma$ under various conditions in the following function spaces.
+\begin{example}
+Let $K$ be a compact set in $\R^n$, where $\R^n$ is equipped with the standard topology.
+Let $\mathcal{X} = \mathcal{C}(K)$, equipped with the sup metric $\delta_\infty$
+\[
+    \delta_\infty(f, g) = \sup_{\vec{x} \in K} \{ | f(\vec{x}) - g(\vec{x}) | \}.
+\]
+This metric arises from the sup norm $\norm{f}_\infty = \sup_{\vec{x} \in K} \{ | f(\vec{x}) |\}$.
+The proof $\delta_\infty$ is indeed a metric and $\norm{.}_{\infty}$ is a norm is an Example 10.6 in \cite{wade_2014_introduction}.
+\end{example}
+\begin{example}
+Let $K$ be a compact set in $\R^n$, where $\R^n$ is equipped with the standard topology. Let $1 \leq p < \infty$.
+Let $\mathcal{X} = \Lp(K)$, where $\Lp(K)$ consists of equivalence classes of Borel measurable functions $f : K \to \R$ such that
+\begin{align*}
+    \int_{K} |f (\vec{x})| ^ p \,d\vec{x} < \infty,
+\end{align*}
+where two measurable functions are equivalent if they are equal almost everywhere, with respect to Lebesgue measure on $\R^n$.
+For the sake of simplicity, we will simply refer to representative functions of those equivalence classes instead of equivalence classes themselves.
+The space $\Lp(K)$ is equipped with a norm \[
+    \norm{f}_p = \left ( \int_{K} |f (\vec{x})| ^ p \,d\vec{x} \right )^{\frac{1}{p}}.
+\]
+The fact $ \norm{\cdot}_p $ is indeed a norm is a consequence of \nameref{ineqn:lp:minkowski} and Proposition \ref{proposition:measure:characterzerointergral_two_dir}. 
+\end{example}
+\begin{example}
+The last and the most general function space we will consider is the space $\mathcal{M}^n$, consisting of equivalence classes of Borel-measurable functions $f : \R^n \to \R$  where two measurable functions are equivalent if they are equal almost everywhere, with respect to a probability measure $\mu$ on $(\R^n, \mathcal{B}(\R^n))$.
+For the sake of simplicity, we will simply refer to representative functions of those equivalence classes instead of equivalence classes themselves.
+\end{example}
+In this chapter, we will discuss the universal approximation capabilities of neural network family $\mathcal{H}_\sigma$ in various contexts. Those results are grouped in sections briefly discussed below.
+\begin{description}
+\item[\nameref{section:universality:continuous:stone-weierstrass}] In this section, we will focus on the normed linear space $\C(K)$, where $K$ is a compact set in $\R^n$. We will show that the family $\mathcal{H}_{\exp}$ is universal in $\C(K)$ using the \nameref{thm:anal:stone-weierstrass}.
+\item[\nameref{section:universality:continuous:cybenko}] In this section, we will focus on the normed linear space $\C([0,1]^n)$, where $[0,1]^n$ denotes the unit hypercube in $\R^n$. This section is a generalization of the previous section to more practically relevant activation functions such as the logistic sigmoid. We will introduce an idea of discriminatory activation functions and use it to show that the family $\mathcal{H}_{\sigma}$ is universal in $\C([0,1]^n)$, where $\sigma$ is a continuous sigmoidal activation function. Although this result is a generalization of the result from the previous section, the argument will be significantly different and more sophisticated, based on paper \cite{cybenko_1989_approximation}.
+\item[\nameref{section:universality:ltwo}] In this section, we will focus on the normed linear space $\Ltwo([0,1]^n)$. We will introduce the idea of $\Ltwo([0,1]^n)$ discriminatory activation function and use it to show that $\mathcal{H}_{\sigma}$ is universal in $\Ltwo([0,1]^n)$, where $\sigma$ is a continuous sigmoidal activation function. We will use an argument very similar to the Cybenko's method used to establish that $\mathcal{H}_{\sigma}$ is universal in $\C([0,1]^n)$. We will show that the most common $\C([0,1]^n)$-discriminatory activation functions remain $\Ltwo([0,1]^n)$-discriminatory.
+\item[\nameref{section:universality:lone}]  In this section, we will focus on the normed linear space $\Lone([0,1]^n)$. We will introduce the idea of $\Lone([0,1]^n)$-discriminatory activation function and use it to show that $\mathcal{H}_{\sigma}$ is universal in $\Ltwo([0,1]^n)$, where $\sigma$ is a $\Lone([0,1]^n)$-discriminatory activation function. We will use an argument very similar to one used to establish that $\mathcal{H}_{\sigma}$ is universal in $\Ltwo([0,1]^n)$.
+\item[\nameref{section:universality:measurable:compact}] In this section, we will consider real-valued, Borel measurable functions with a compact domain in $\R^n$. We will show that $\H_\sigma$ remains universal in this setting, under slightly weakened conditions. The argument will be an application of the fact $\mathcal{H}_{\sigma}$ is universal in $\C([0,1]^n)$, where $\sigma$ is a continuous sigmoidal activation function.
+\item[\nameref{section:universality:measurable:probabilistic}] In this section, we will focus on the space $\M^n$. We will begin by introducing metrics on $\M^n$ which are equivalent to convergence in probability measure $\mu$ on $(\R^n, \B(\R^n))$. We will develop theoretical results which will enable us to apply the fact  $\mathcal{H}_{\sigma}$ is universal in $\C([0,1]^n)$, where $\sigma$ is a continuous sigmoidal activation function. The key result in this section will be a proof of \nameref{thm:universality:measure:uap:probabilistic}.
+\end{description}

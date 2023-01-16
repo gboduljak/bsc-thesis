@@ -1,0 +1,42 @@
+\newpage
+\subsection{The Universal Approximation Theorem for $\C([0,1]^n)$ }
+\label{subsection:universality:cybenko:4}
+\begin{theorem}[The Universal Approximation Theorem for continuous functions]
+\label{thm:universality:continuousdiscrim}
+Let $\mathcal{H}_{\sigma}$ denote the family of single-layer, fully-connected neural networks with any continuous discriminatory activation function, given by \begin{align*}
+\mathcal{H}_{\sigma} = \left \{ \vec{x} \to \sum_{k=1}^{m} \alpha_k \sigma{\left (\langle \vec{w_k}, \vec{x} \rangle + \beta_k \right)} : m \in \N, \alpha_1 \ldots \alpha_m, \beta_1 \ldots \beta_m \in \R, \vec{w_k} \in \R^n \right \}.
+\end{align*}
+The family $\mathcal{H}_{\sigma}$ is dense in $\C([0,1]^n)$.
+\end{theorem}
+\begin{proof-idea*}
+We will argue by contradiction and apply Lemma \ref{lemma:contr}.
+\end{proof-idea*}
+\begin{proof}
+Since $\sigma$ is continuous, the family $\mathcal{H}_{\sigma}$ is a linear subspace of $C([0,1]^n)$. To prove that the family $\mathcal{H}_{\sigma}$ is dense in $\C([0,1]^n)$, we will argue by contradiction. Suppose that $\mathcal{H}_{\sigma}$ is not dense. By Lemma \ref{lemma:contr}, there exists the unique finite signed regular measure $\mu$ on $\B([0,1]^n)$ such that for every $ h \in \mathcal{\mathcal{H}_{\sigma}}$, \begin{align}
+    \label{eqn:discrim:uap-general:measure}
+    \int_{[0,1]^n} h \, d\mu = 0, \text{ but } \mu \neq 0.
+\end{align}
+By linearity of the integral and definition of the family $\mathcal{H}_{\sigma}$, \ref{eqn:discrim:uap-general:measure} is equivalent to
+\begin{align}
+    \label{eqn:discrim:uap-general:measure2}
+     \sum_{k=1}^{N} \alpha_k \int_{[0,1]^n} \sigma{\left (\langle \vec{w_k}, \vec{x} \rangle + \beta_k \right)}  \, d\mu(\vec{x}) = 0, \forall N \in \N, \vec{w_k} \in \R^n, \alpha_k, \beta_k \in \R.
+\end{align}
+Let $\vec{w} \in \R^n$, $b \in \R$ be arbitrary.
+By \ref{eqn:discrim:uap-general:measure2}, \begin{align}
+    \label{eqn:discrim:uap-general:measure3}
+     \int_{[0,1]^n} \sigma{\left (\langle \vec{w}, \vec{x} \rangle + b \right)}  \, d\mu(\vec{x})  = 0.
+\end{align}
+Since $\sigma$ is discriminatory for $\mu$ and \ref{eqn:discrim:uap-general:measure3} holds for arbitrary configuration of weights $\vec{w}$ and a bias $b$, $\mu$ is identically zero. However, by \ref{eqn:discrim:uap-general:measure}, $\mu \neq 0$. This is a contradiction.
+We conclude $\mathcal{H}_{\sigma}$ is indeed dense, as required.
+\end{proof}
+As a corollary of Theorem \ref{thm:universality:continuousdiscrim}, we present the original \nameref{thm:universality:cybenko}.
+\begin{theorem}[Cybenko's Universal Approximation Theorem, \cite{cybenko_1989_approximation}]
+\label{thm:universality:cybenko}
+Let $\mathcal{H}_{\sigma}$ denote the family of single-layer, fully-connected neural networks with any continuous sigmoidal activation function, given by \begin{align*}
+\mathcal{H}_{\sigma} = \left \{ \vec{x} \to \sum_{k=1}^{m} \alpha_k \sigma{\left (\langle \vec{w_k}, \vec{x} \rangle + \beta_k \right)} : m \in \N, \alpha_1 \ldots \alpha_m, \beta_1 \ldots \beta_m \in \R, \vec{w_k} \in \R^n \right \}.
+\end{align*}
+The family $\mathcal{H}_{\sigma}$ is dense in $\C([0,1]^n)$.
+\end{theorem}
+\begin{proof}
+By Proposition \ref{prop:discrim:contsigmoidalarediscrim}, any continuous sigmoidal function is discriminatory. The result follows from \nameref{thm:universality:continuousdiscrim}.
+\end{proof}

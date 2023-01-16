@@ -1,0 +1,91 @@
+
+\section{Regression case study}
+
+In this example, we will study a generic regression problem. In later sections, we will present theoretical guarantees for the logistic sigmoid. Hence, in this example we will use the logistic sigmoid activation in every hidden layer, except in the last layer. Since the network is designed to solve a regression problem,
+we use identity activation function in the last layer and the last layer consists of a single neuron. In this section, we will apply Proposition \nameref{eqn:introduction:proposition:backward:naive} to derive a complete set of backpropagation equations for this problem.
+\begin{figure}[pt!]
+	\centering
+	\begin{tikzpicture}[shorten >=1pt]
+		\tikzstyle{unit}=[draw,shape=circle,minimum size=1.15cm]
+		\tikzstyle{output}=[draw,shape=circle,minimum size=1.15cm,scale=0.9]
+		\tikzstyle{hidden}=[draw,shape=circle,fill=black!25,minimum size=1.15cm]
+ 		\tikzstyle{lasthidden}=[draw,shape=circle,fill=black!25,minimum size=1.15cm,scale=0.8]
+
+		\node[unit](x0) at (0,3.5){$1$};
+		\node[unit](x1) at (0,2){$x_1$};
+		\node at (0,1){\vdots};
+		\node[unit](xd) at (0,0){$x_{n_{0}}$};
+ 
+		\node[hidden](h10) at (3,4){$1$};
+		\node[hidden](h11) at (3,2.5){$f_{1}^{(1)}$};
+		\node at (3,1.5){\vdots};
+		\node[hidden](h1m) at (3,-0.5){$f_{n_{1}}^{(1)}$};
+ 
+		\node(h22) at (5,0){};
+		\node(h21) at (5,2){};
+		\node(h20) at (5,4){};
+		
+		\node(d3) at (6,0){$\ldots$};
+		\node(d2) at (6,2){$\ldots$};
+		\node(d1) at (6,4){$\ldots$};
+ 
+		\node(hL12) at (7,0){};
+		\node(hL11) at (7,2){};
+		\node(hL10) at (7,4){};
+		
+		\node[hidden](hL0) at (9,4){$1$};
+		\node[lasthidden](hL1) at (9,2.5){$f_1^{(L-1)}$};
+		\node at (9,1.5){\vdots};
+		\node[lasthidden](hLm) at (9,-0.5){$f_{n_{(L-1)}}^{(L-1)}$};
+ 
+		\node[output](y1) at (12,2){$f_{1}^{(L)}$};
+ 
+		\draw[->] (x0) -- (h11);
+		\draw[->] (x0) -- (h1m);
+ 
+		\draw[->] (x1) -- (h11);
+		\draw[->] (x1) -- (h1m);
+ 
+		\draw[->] (xd) -- (h11);
+		\draw[->] (xd) -- (h1m);
+ 
+		\draw[->] (hL0) -- (y1);
+		\draw[->] (hL1) -- (y1);
+		\draw[->] (hLm) -- (y1);
+ 
+		\draw[->,path fading=east] (h10) -- (h21);
+		\draw[->,path fading=east] (h10) -- (h22);
+		
+		\draw[->,path fading=east] (h11) -- (h21);
+		\draw[->,path fading=east] (h11) -- (h22);
+		
+		\draw[->,path fading=east] (h1m) -- (h21);
+		\draw[->,path fading=east] (h1m) -- (h22);
+		
+		\draw[->,path fading=west] (hL10) -- (hL1);
+		\draw[->,path fading=west] (hL11) -- (hL1);
+		\draw[->,path fading=west] (hL12) -- (hL1);
+		
+		\draw[->,path fading=west] (hL10) -- (hLm);
+		\draw[->,path fading=west] (hL11) -- (hLm);
+		\draw[->,path fading=west] (hL12) -- (hLm);
+		
+		\draw [decorate,decoration={brace,amplitude=10pt},xshift=-4pt,yshift=0pt] (-0.5,4) -- (0.75,4) node [black,midway,yshift=+0.6cm]{input layer};
+		\draw [decorate,decoration={brace,amplitude=10pt},xshift=-4pt,yshift=0pt] (2.5,4.5) -- (3.75,4.5) node [black,midway,yshift=+0.6cm]{$1^{\text{st}}$ hidden layer};
+		\draw [decorate,decoration={brace,amplitude=10pt},xshift=-4pt,yshift=0pt] (8.5,4.5) -- (9.75,4.5) node [black,midway,yshift=+0.6cm]{$(L-1)^{\text{th}}$ hidden layer};
+		\draw [decorate,decoration={brace,amplitude=10pt},xshift=-4pt,yshift=0pt] (11.5,2.5) -- (12.75,2.5) node [black,midway,yshift=+0.6cm]{output layer};
+	\end{tikzpicture}
+	\caption[Network graph for a $(L+1)$-layer fully-connected neural network for regression.]{Network graph for a $(L+1)$-layer fully-connected neural network for regression}
+	\label{fig:introduction:regression:regression_nn}
+\end{figure}
+\begin{lemma}
+Suppose $\{ (\vec{x}_k, y_k) \}_{k=1}^n$ is the training set. If $\mathcal{L}_k$ is the square loss corresponding to $(\vec{x}_k, y_k)$ then \[
+    \frac{\partial \mathcal{L}_k}{\partial \vec{f}^{(L)}} = 2 (\vec{f}^{(L)} - y_k).
+\]
+\end{lemma}
+
+\begin{lemma}
+Suppose $\{ (\vec{x}_k, y_k) \}_{k=1}^n$ is the training set. If $\mathcal{L}_k$ is the square loss corresponding to $(\vec{x}_k, y_k)$ then \[
+    \frac{\partial \mathcal{L}_k}{\partial \vec{f}^{(L)}} = 2 (\vec{f}^{(L)} - y_k).
+\]
+\end{lemma}

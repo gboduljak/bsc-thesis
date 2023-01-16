@@ -1,0 +1,121 @@
+\section{Universal approximation of measurable functions on compact sets}
+\label{section:universality:measurable:compact}
+The focus in this section remains on the unit hypercube $[0,1]^n$ in $\R^n$. We will work with the measure space $([0,1]^n, \B([0,1]^n), \lambda_{|[0,1]^n})$, where $\lambda_{|[0,1]^n}$ is the restriction of Lebesgue measure on $\R^n$ to $[0,1]^n$. We begin the discussion about approximation of real-valued, measurable functions on $[0,1]^n$ with the following theorem.
+\begin{theorem}[Cybenko's Universal Approximation Theorem for measurable functions, \cite{cybenko_1989_approximation}]
+\label{thm:universality:cybenko:measurable}
+Let $\mathcal{H}_{\sigma}$ denote the family of single-layer fully-connected neural networks with any continuous sigmoidal activation function, given by \begin{align*}
+\mathcal{H}_{\sigma} = \left \{ \vec{x} \to \sum_{k=1}^{m} \alpha_k \sigma{\left (\langle \vec{w_k}, \vec{x} \rangle + \beta_k \right)} : m \in \N, \alpha_1 \ldots \alpha_m, \beta_1 \ldots \beta_m \in \R, \vec{w_k} \in \R^n \right \}.
+\end{align*}
+Suppose that $f : [0,1]^n \to \R$ is Borel measurable and let $\epsilon > 0$. There exists a network $h \in \mathcal{H}_{\sigma}$ and a set $K \subseteq [0,1]^n$ such that \[
+    \delta_{\infty}(f_{| K}, h) < \epsilon
+\]
+where $\lambda(K) > 1 - \epsilon$.
+\end{theorem}
+Informally, for every Borel measurable function $f$, there exists a fully-connected neural network $h \in \mathcal{H}_{\sigma}$ approximating $f$ to a desired error, except possibly on sets of arbitrarily small measure.
+
+\begin{proof-idea*}
+We will apply \nameref{thm:measure:lusin}.
+\begin{theorem*}[Lusin's Theorem, Theorem 7.4.4 in \cite{cohn_2013_measure}]
+Let $X$ be a locally compact Hausdorff space and let $\mathcal{A}$ be a $\sigma$-algebra that includes $\B(X)$. Let $\mu$ be a regular measure on $(X, \mathcal{A})$ and suppose $f : X \to \R$ is measurable. If $A \in \mathcal{A}$ and satisfies $\mu(A) < \infty$ and if $\epsilon > 0$, then there is a compact set $K \subseteq A$ such that $\mu(A \setminus K) < \epsilon$ and $f_{|K}$ is continuous. Moreover, there is a function $g \in \C(X)$ that agrees with $f$ on $K$.
+\end{theorem*}
+Lusin's Theorem will provide us with a compact set $K$ and a continuous function $g : [0,1]^n \to \R$  which agrees with $f$ on $K$. The result will follow from \nameref{thm:universality:cybenko}.
+\end{proof-idea*}
+
+\begin{proof}
+Since $[0,1]^n$ is a compact metric space, it is locally compact and Hausdorff. 
+By \nameref{thm:measure:lusin}, there exists a compact set $K \subseteq [0,1]^n$ such that $\lambda([0,1]^n \setminus K) < \epsilon$ and a continuous function $g : [0,1]^n \to \R$ such that $f(\vec{x}) = g(\vec{x}) \text{ for every $\vec{x}$} \in K.$ By \nameref{thm:universality:cybenko}, there exists a neural network $h \in \mathcal{H}_{\sigma}$ such that
+$\delta_{\infty}(g, h) < \epsilon$. Since $f_{| K} = g$, we have $\delta_{\infty}(f_{| K}, h) < \epsilon$. Since $\lambda([0,1]^n \setminus K) < \epsilon$, $\lambda(K) > 1 - \epsilon$.
+\end{proof}
+
+\begin{remark}
+The consequences of this result are briefly discussed in subsection \ref{subsection:universality:measure:relationship}.
+\end{remark}
+\begin{remark}
+\nameref{thm:universality:cybenko:measurable} also holds for any compact set in $\R^n$.
+\end{remark}
+
+\section{Universal approximation of measurable functions in probabilistic sense}
+\label{section:universality:measurable:probabilistic}
+
+\subsection{Introduction}
+Until this section, we focused on the approximation power of neural networks on a compact domain. We focused on spaces of continuous functions and Lebesgue spaces. However, another practically important space is the space of measurable functions whose domain is often unrestricted. An example of such a space would be the space of Borel measurable functions from $\R^n$ to $\R$. Often, neural networks are used to directly or indirectly learn a probability distribution of some random variable. Since random variables are defined as measurable functions, it is sensible and important to investigate approximation properties that neural networks possess when the approximation space is the space of measurable functions. 
+
+In this section, we will focus on the space of all Borel measurable functions from $\R^n$ to $\overline{\R}$, denoted by $\M^n$.
+We will drop the assumption about the compactness of an approximation domain and consider the approximation on the entire $\R^n$, albeit in a probabilistic sense. Since measurable functions are not necessarily bounded, it is not immediately obvious how to equip $\M^n$ with a topology with respect to which we can discuss the approximation properties. 
+
+To address those issues, we will begin by introducing a few measure-theoretic assumptions that will enable us to construct a few useful metrics. In this section, we will focus on the approximation in the probabilistic sense, so let $\mu$ be a probability measure on the measurable space $(\R^n, \B(\R^n))$.
+\begin{description}
+\item[$\mu$-a.e. equivalence] When discussing the approximation in a probabilistic sense, it is reasonable not to distinguish between measurable functions $f, g \in \M^n$ if they are $\mu$-almost everywhere equivalent. Recall that two measurable functions $f, g \in \M^n$ are $\mu$-almost everywhere equivalent if \[ 
+    \mu (\{ \vec{x} \in \R^n : f (\vec{x}) \neq g(\vec{x})  \}) = 0.
+\]
+\newpage
+Furthermore, $\mu$-almost everywhere equivalence is compatible with the fact that Lebesgue integral cannot distinguish between two almost everywhere equivalent functions. It is not difficult to show that $\mu$-almost everywhere equivalence on $\M^n$ is in fact an equivalence relation. For the sake of simplicity, we will denote the space of equivalence classes under the $\mu$-almost everywhere equivalence also by $\M^n$. This abuse of notation is analogous to one often used in literature when discussing $\Lp(\R^n, \B(\R^n), \lambda)$.
+\item[$\mu$-a.e. finiteness] Another important and mostly technical assumption is the assumption about $\mu$-almost everywhere finiteness. Recall $f \in \M^n$ is $\mu$-almost everywhere finite if \[
+    \mu (\{ \vec{x} \in \R^n : | f(\vec{x}) | = \infty \}) = 0.
+\]
+In this section, we will assume that $\M^n$ consists of equivalence classes of $\mu$-almost everywhere equivalent functions that are also $\mu$-almost everywhere finite.
+\end{description}
+
+Under the assumptions above, we can equip $\M^n$ with a metric. A metric will help us formalize the notion of distance between measurable functions and the approximation error. There are many ways one can equip $\M^n$ with a metric. Since we want to discuss approximation in a probabilistic sense, we would like to link our metric to convergence in probability measure $\mu$. An example of such a metric is $\delta_\mu$ metric, where $\delta_\mu : \M^n \times \M^n \to \R$ is given by \[
+    \delta_\mu (f, g) = \inf \{ \epsilon > 0 : \mu (\{ \vec{x} \in \R^n : | f (\vec{x}) - g (\vec{x}) | > \epsilon \}) < \epsilon \}.
+\]
+By \textbf{$\mu$-a.e. finiteness} assumption, $f - g$ can be infinite only on sets of probability measure zero. Another metric we will discuss and use in calculations is the $\rho_\mu$ metric, $\rho_\mu : \M^n \times \M^n \to \R$ given by \[
+    \rho_\mu (f, g) = \mathbb{E} [\min(| f - g |, 1)] = \int_{\R^n} \min(| f - g |, 1) \, d\mu.
+\]
+\begin{remark}
+Observe that since $(\R^n, \B(\R^n), \mu)$ is a finite measure space, $\rho_\mu$ is finite for every $f, g \in \M^n$. 
+In literature, $\delta_\mu$ metric is also known as \textbf{Ky Fan metric}.
+\end{remark}
+\begin{remark}
+Proofs that $\delta_\mu$ and $\rho_\mu$ are indeed metrics are discussed in detail in the subsection \nameref{subsection:universality:measure:modes_of_convergence}.
+\end{remark}
+\begin{remark}
+In the subsequent sections, we will use the following shortened notation  \[
+    \{ | f - g| > \epsilon \} = \{ \vec{x} \in \R^n : | f(\vec{x}) - g(\vec{x}) | > \epsilon \}.
+\]
+Also, we will denote by $f \wedge g$ the function $\min(f,g)$.
+\end{remark}
+We will briefly discuss the connection between metrics $\delta_\mu$ and $\rho_\mu$ to the convergence in probability measure $\mu$. Firstly, recall the definition of convergence in measure $\mu$. 
+
+\begin{definition}[convergence in measure]
+Let $(\Omega, \mathcal{F}, \mu)$ be a measure space. Let $\{ f_m \}_{m=1}^\infty$ be a sequence of $\mathcal{F}$-measurable, $\overline{\R}$-valued functions and suppose that $f$ is $\mathcal{F}$-measurable. We say that $f_m \to f$ in measure $\mu$ if for every $\epsilon > 0$, \[ 
+    \mu(\{ \omega \in \Omega : | f_m (\omega) - f(\omega) | > \epsilon \}) \to 0 \text{ as $m \to \infty.$}
+\]
+\end{definition}
+Interestingly, $\delta_\mu$ and $\rho_\mu$ are equivalent metrics. Consequently, they induce the same topology on $\M^n$. This fact is stated precisely as \nameref{proposition:universality:measure:modes_convergence}, stated below.
+
+\begin{proposition*}[Characterisation of convergence in probability, Lemma 2.1 in \cite{hornik}]
+Let $\{ f_m \}_{m=1}^\infty$ be a sequence of functions in $\M^n$ and let $f \in \M^n$. Then the following statements are equivalent:
+\begin{enumerate}[label=(\alph*),noitemsep]
+\item $\delta_\mu (f_m, f) \to 0$ as $m \to \infty$;
+\item $\mu (\{ | f_m - f | > \epsilon \}) \to 0$ as $m \to \infty$;
+\item $\rho_\mu (f_m, f) \to 0$ as $m \to \infty$.
+\end{enumerate}
+\end{proposition*}
+\begin{remark}
+As a consequence of \nameref{proposition:universality:measure:modes_convergence}, to prove convergence in probability measure $\mu$, it is sufficient and in fact equivalent to prove convergence in either $\delta_\mu$ or $\rho_\mu$. Thanks to the existence of $\delta_\mu$ and $\rho_\mu$, the arguments addressing the convergence in measure $\mu$ will be much easier to read and understand. They will often reduce to exact computation or an estimation of the integral $\rho_\mu$. 
+\end{remark}
+The main goal of this section is the statement and the proof of \nameref{thm:universality:measure:uap:probabilistic}, stated below.
+\begin{theorem*}[The Probabilistic Universal Approximation Theorem]
+Let $\mathcal{H}_{\sigma}$ denote the family of single-layer fully-connected neural networks with any continuous sigmoidal activation function $\sigma$, given by \begin{align*}
+\mathcal{H}_{\sigma} = \left \{ \vec{x} \to \sum_{k=1}^{m} \alpha_k \sigma{\left (\langle \vec{w_k}, \vec{x} \rangle + \beta_k \right)} : m \in \N, \alpha_1 \ldots \alpha_m, \beta_1 \ldots \beta_m \in \R, \vec{w_k} \in \R^n \right \}.
+\end{align*}
+Then $\mathcal{H}_{\sigma}$ is $\delta_\mu$-dense in $\M^n$.
+\end{theorem*}
+To prove this theorem, we will need to develop a few auxiliary results, organised in the subsections described below.
+\begin{description}
+\item[\nameref{subsection:universality:measure:modes_of_convergence}] In this subsection, we will prove that $\delta_\mu$ and $\rho_\mu$ are indeed metrics on $\M^n$. Apart from this, we will link convergence on compacta to convergence in measure $\mu$ via Proposition \ref{proposition:universality:measure:convg_compacta_implies_mu}.
+\item[\nameref{subsection:universality:measure:towards_probabilistic_uap}] In this subsection, we will build upon concepts developed in \nameref{subsection:universality:measure:modes_of_convergence}. We will begin this subsection by discussing density of neural networks on compacta, 
+in the sense of Theorem \ref{thm:universality:measure:uap:nnsdensecompacta}. To prove  Theorem \ref{thm:universality:measure:uap:nnsdensecompacta}, we will apply \nameref{thm:universality:cybenko}. The key result in this subsection is the Proposition 
+\ref{proposition:universality:measure:continuous_dense_mn}, which guarantees that $\mathcal{C}(\R^n)$ is $\rho_\mu$-dense in $\M^n$.
+\item[\nameref{subsection:universality:measure:probabilistic_uap}] In this subsection, we will prove the \nameref{thm:universality:measure:uap:probabilistic}.
+The key idea will be to combine density of neural networks on compacta, 
+in the sense of Theorem \ref{thm:universality:measure:uap:nnsdensecompacta} with the Proposition 
+\ref{proposition:universality:measure:continuous_dense_mn}.
+\item[\nameref{subsection:universality:measure:relationship}] In this subsection, we will discuss the application of \nameref{thm:universality:cybenko:measurable} to classification problems.
+\end{description}
+
+\input{universality/measurable/modes-of-convergence}
+\input{universality/measurable/towards-uap}
+\input{universality/measurable/uap}
+\input{universality/measurable/relationship}

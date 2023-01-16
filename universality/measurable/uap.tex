@@ -1,0 +1,34 @@
+\subsection{The Probabilistic Universal Approximation Theorem}
+\label{subsection:universality:measure:probabilistic_uap}
+We are ready to prove \nameref{thm:universality:measure:uap:probabilistic}.
+\begin{theorem}[The Probabilistic Universal Approximation Theorem]
+\label{thm:universality:measure:uap:probabilistic}
+Let $\mathcal{H}_{\sigma}$ denote the family of single-layer fully-connected neural networks with any continuous sigmoidal activation function $\sigma$, given by \begin{align*}
+\mathcal{H}_{\sigma} = \left \{ \vec{x} \to \sum_{k=1}^{m} \alpha_k \sigma{\left (\langle \vec{w_k}, \vec{x} \rangle + \beta_k \right)} : m \in \N, \alpha_1 \ldots \alpha_m, \beta_1 \ldots \beta_m \in \R, \vec{w_k} \in \R^n \right \}.
+\end{align*}
+Then $\mathcal{H}_{\sigma}$ is $\delta_\mu$-dense in $\M^n$.
+\end{theorem}
+\begin{proof}
+Let $f \in \M^n$ and let $\epsilon > 0$. By Corollary \ref{corollary:universality:measure:continuous_dense_mn}, there exists $g \in \C(\R^n)$ such that $\delta_\mu(f, g) < \frac{\epsilon}{2}$. By Theorem \ref{thm:universality:measure:uap:nnsdensecompacta}, there exists a sequence of neural networks $\{ h_m \}_{m=1}^\infty$ from $\mathcal{H}_\sigma$ such that $h_m \to g$ uniformly on every compact set $K \subset \R^n$. By Proposition \ref{proposition:universality:measure:convg_compacta_implies_mu}, $h_m \to g$ in $\delta_\mu$. Hence there exists $M \in \N$ such that $\delta_\mu(h_m, g) < \frac{\epsilon}{2}$, for every $m \geq M$. Since $\delta_\mu$ is a metric, applying estimates above yields \[
+  \delta_\mu(f, h_M) \leq \delta_\mu(f, g) + \delta_\mu(g, h_M) < \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon.
+\]
+\end{proof}
+\begin{remark}
+By \nameref{proposition:universality:measure:modes_convergence}, density in $\delta_\mu$ is equivalent to density in probability measure $\mu$.
+Informally, a neural network from $\mathcal{H}_{\sigma}$ can approximate any Borel function on $\R^n$ up to desired accuracy, except possibly on set of arbitrarily small probability measure. This interpretation is stated formally as the following corollary of \nameref{thm:universality:measure:uap:probabilistic}.
+\end{remark}
+
+\begin{corollary}
+Let $\mathcal{H}_{\sigma}$ denote the family of single-layer fully-connected neural networks with any continuous sigmoidal activation function $\sigma$, given by \begin{align*}
+\mathcal{H}_{\sigma} = \left \{ \vec{x} \to \sum_{k=1}^{m} \alpha_k \sigma{\left (\langle \vec{w_k}, \vec{x} \rangle + \beta_k \right)} : m \in \N, \alpha_1 \ldots \alpha_m, \beta_1 \ldots \beta_m \in \R, \vec{w_k} \in \R^n \right \}.
+\end{align*}
+Then for every $f \in \M^n$, for every $\epsilon > 0$, there exists $h \in \mathcal{H}_\sigma$ such that \[
+    \mu (\{ | f - h | > \epsilon \}) < \epsilon.
+\]
+\end{corollary}
+\begin{proof}
+By \nameref{thm:universality:measure:uap:probabilistic}, $\mathcal{H}_{\sigma}$ is $\delta_\mu$-dense in $\M^n$.
+By \nameref{proposition:universality:measure:modes_convergence}, density in $\delta_\mu$ is equivalent to density in probability measure $\mu$.
+The result follows directly from definition of convergence in measure.
+\end{proof}
+

@@ -1,0 +1,41 @@
+\section{Functional Analysis}
+\label{section:appendix:functional-analysis}
+In this section, we will recall key definitions from \textit{Linear Analysis}. We aim to prove \nameref{thm:funct:hahn-banach} and discuss analog of \nameref{thm:hahn-jordan} for bounded linear functionals. Although many definitions in this section can be expressed in a more general form, we focus on real normed linear spaces, since we were studying neural networks with real, possibly vector-valued output.
+
+\begin{definition}[bounded linear operator]
+Let $X, Y$ be normed linear spaces and let $T : X \to Y$ be a linear operator. We say $T$ is \textbf{bounded}
+if there exists a positive real number $M$ such that $\norm{T(x)}_Y \leq M \norm{x}_X$, for every $x \in X$.
+\end{definition}
+
+\begin{lemma}[Lemma 4.1 in \cite{rynne_2008_linear}]
+Let $X, Y$ be normed linear spaces and let $T : X \to Y$ be a linear operator. $T$ is bounded if and only if $T$ is uniformly continuous with respect to topologies induced by norms on $X$ and $Y$.
+\end{lemma}
+
+\begin{definition}[norm of a bounded linear operator]
+Let $X, Y$ be normed linear spaces and let $T : X \to Y$ be a bounded linear operator. We define the norm of $T$, denoted $\norm{T}$, by
+\begin{align*}
+    \norm{T} = \sup \{ \norm{T(x)}_Y : x \in X, \norm{x}_X \leq 1 \}.
+\end{align*}
+\end{definition}
+\begin{remark}
+Since $T$ is bounded, the norm $\norm{T}$ is finite. The proof it is indeed a norm is Lemma 4.15 in \cite{rynne_2008_linear}.
+\end{remark}
+
+\begin{definition}[linear functional]
+Let $X$ be a real vector space. A \textbf{linear functional} on $X$ is a linear operator $l : X \to \R$.
+\end{definition}
+\begin{definition}[algebraic dual space]
+Let $X$ be a real vector space. The algebraic dual space of $X$, denoted by $X^{\star}$ is a vector space of all linear functionals on $X$.
+\end{definition}
+\begin{definition}[topological dual space]
+Let $X$ be a real normed linear space. The topological dual space of $X$, denoted by $X^{'}$ is a vector space of all continuous linear functionals on $X$.
+\end{definition}
+\begin{definition}[sublinear functional]
+Let $X$ be a real vector space. A \textbf{sublinear functional} on $X$ is a function $\rho : X \to \R$ such that
+\begin{axioms}{SF}
+  \item \label{defn:func:sl:1} $\rho(x + y) \leq \rho(x) + \rho(y)$ for every $x, y \in X$;
+  \item \label{defn:func:sl:2} $\rho(\alpha x) = \alpha \rho(x) $  for every $x \in X, \alpha \in \R, \alpha \geq 0$.
+\end{axioms}
+\end{definition}
+\input{hahn-banach.tex}
+\input{decomposition-of-functionals.tex}

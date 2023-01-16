@@ -1,0 +1,26 @@
+\begin{lemma}
+\label{lemma:fcs:sepfn}
+Let $X$ be a compact metric space such that $K \subset G \subset X$, $K$ compact, $G$ open.
+Then there exists a function $h \in \mathcal{F}_{G}$ such that $h = 1$ on $K$.
+\end{lemma}
+\begin{proof}
+For $A \subseteq X$, define $d(\cdot, A) : X \to \R$ by \begin{align*}
+    d(x, A) := \inf_{y \in A} \{ d(x,y) \}.
+\end{align*}
+
+We will show $d$ is uniformly continuous. Let $y \in A$ and consider $x, z \in X$. By Reverse Triangle Inequality, $|d(x, y) - d(z, y)| \leq d(x,z)$. This is equivalent to \begin{align*}
+    d(z, y) - d(x, z) \leq d(x,y) \leq d(z,y) + d(x,z).
+\end{align*}
+Since $y$ was arbitrary in $A$, by above, $d(z,A) - d(x, z) \leq d(x,A) \leq d(z, A) + d(x,z)$ which is equivalent to $|d(x, A) - d(z, A)| \leq d(x, z)$.
+
+We will show $x \in A \iff d(x, A) = 0$. If $x \in A$, by definition of $d$, $d(x,A) = 0$.
+Conversely, suppose $d(x,A) = 0$. By definition of $d(x, A)$, there exists a sequence $x_n \in A$ such that $x_n \to x$. Since $A$ is closed, $A$ contains all its limit points so $x \in A$, as claimed. 
+
+Since $K$ is compact and $X$ is a metric space, $K$ is closed. Since $G$ is open, $X \setminus G$ is closed. Define $f : X \to [0,1]$ by 
+\begin{align*}
+    f(x) := \frac{d(x,X \setminus G)}{d(x,K) + d (x, X \setminus G)}.
+\end{align*}
+We will show $f$ is a desired function. If $x \in K$, $f(x) = 1$. If $x \in X \setminus G$, $f(x) = 0$.
+Since $f$ is a composition of continuous functions, $f$ is continuous, except possibly at $x$ such that $d(x,K) + d (x, X \setminus G) = 0$. We claim such an $x$ does not exist. Suppose there exists $x$ such that $d(x,K) + d (x, X \setminus G) = 0$. Then $d(x,K) = 0$ and $d(x, X \setminus G) = 0$. But then $x \in K \cap (X \setminus G) = \emptyset$. This is a contradiction. Hence $d(x,K) + d (x, X \setminus G) \neq 0$ for every $x \in X$ and $f$ is continuous on $X$.
+Since $f = 0$ on $X \setminus G$, $\supp f \subseteq G$. Since $\supp f$ is closed and $G$ is open, $\supp f \subset G$, as claimed.
+\end{proof}

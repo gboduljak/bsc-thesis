@@ -1,0 +1,34 @@
+
+\subsection{Measure Theory Construction Theorems}
+
+\begin{theorem}[Monotone Class Theorem]
+
+\end{theorem}
+
+\subsection{Stone-Weierstrass Theorem for locally compact spaces}
+
+\begin{definition}[vanishing at infinity]
+Let $X$ be a locally compact topological space. A continuous function $f : X \to \R$ vanishes at infinity if for every $\epsilon > 0$, there exists a compact set $K \subset X$ such that $|f| < \epsilon$ on $X \setminus K$. We denote the algebra of real-valued continuous functions on $X$ that vanish at infinity by $\mathcal{C}_0(X)$.
+\end{definition}
+
+\begin{remark}
+It is still possible to equip $\mathcal{C}_0(X)$ with the supremum norm and consequently with a $d_\infty$ metric.
+Hence the notion of uniform density still applies.
+\end{remark}
+\begin{definition}[vanishing nowhere]
+Let $\mathcal{A}$ be a subalgebra of $\mathcal{C}_0(X)$. We say $\mathcal{A}$ vanishes nowhere if not all elements of $\mathcal{A}$ vanish simultaneously at a point. In other words, for every $x \in X$, there exists $f \in \mathcal{A}$ such that $f(x) \neq 0$.
+\end{definition}
+
+\begin{theorem}[Stone-Weierstrass Theorem for locally compact Hausdorff spaces]
+\label{thm:top:stone-weierstrass:lch}
+Suppose that $X$ is a locally compact Hausdorff space and $\mathcal{A}$ is a subalgebra of $\mathcal{C}_0(X)$. If $\mathcal{A}$ separates points of $X$ and vanishes nowhere, then $\mathcal{A}$ is uniformly dense in $\mathcal{C}_0(X)$.
+\end{theorem}
+
+We will apply  \nameref{thm:top:stone-weierstrass:lch} in the special case of $\R^n$. Thus, it is useful to introduce the following corollary.
+
+\begin{corollary}[Stone-Weierstrass Theorem for $\mathcal{C}_0(\R^n)$]
+\label{thm:cor:stone-weierstrass:lchrn}
+Suppose that $X$ is a locally compact Hausdorff space and $\mathcal{A}$ is a subalgebra of $\mathcal{C}_0(X)$. If $\mathcal{A}$ separates points of $X$ and vanishes nowhere, then $\mathcal{A}$ is uniformly dense in $\mathcal{C}_0(X)$.
+\end{corollary}
+\begin{proof} Since $\R^n$ is a metric space, $\R^n$ is Hausdorff. Clearly, every point of $\R^n$ belongs to a closed ball of radius 1 centred at that point. By Heine-Borel Theorem, that ball is compact. Therefore $\R^n$ is locally compact. The claim follows directly from \nameref{thm:top:stone-weierstrass:lch}.
+\end{proof}

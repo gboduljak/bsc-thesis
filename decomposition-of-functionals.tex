@@ -1,0 +1,114 @@
+\subsection{Hahn-Jordan decomposition for bounded linear functionals on $\C(X)$}
+In this section, we will discuss an interesting result about the decomposition of linear functionals.
+It turns out that linear functionals admit similar decomposition as measures.
+\begin{theorem}[Hahn-Jordan decomposition for bounded linear functionals on $\C(X)$]
+\label{thm:funct:hahn-jordan-cx}
+Let $X$ be a topological space. If $I$ is a bounded linear functional on $\C(X)$, then there exist two positive linear functionals $I^+, I^-$ on $\C(X)$ such that $I = I^+ - I^-$.
+\end{theorem}
+\begin{proof}
+\setcounter{step}{0}
+\begin{step}[Construction for non-negative functions]
+
+Let $\mathcal{H}_{X}^+$ be the set of all non-negative functions in $\C(X)$. For $f \in \mathcal{H}_{X}^+$, define the set $\Phi(f)$ by
+\begin{equation*}
+    \Phi(f) = \{ I(g) : g \in \C(X), 0 \leq g \leq f \}.
+\end{equation*}
+Now define the function $\widetilde{I} : \mathcal{H}_{X}^+ \to \R$ by $\widetilde{I}(f) = \sup \Phi(f)$.
+Firstly, we observe that $0 \in \Phi(f)$. Since $I$ is linear, $I(0) = 0$ so $\widetilde{I}(f) \geq 0$.
+
+Consider $g \in \Phi(f)$. Since $0 \leq g \leq f$ and $I$ is a bounded linear functional, we have $| I(g) | \leq \norm{ I } \norm{g}_{\infty} \leq \norm{ I } \norm{f}_{\infty}$. Consequently, 
+\begin{equation}
+    \label{decomp:widetilde-varphi}
+    0 \leq \widetilde{I}(f) \leq \norm{ I } \norm{f}_{\infty}.
+\end{equation}
+We claim that $\widetilde{I}$ is linear on $\mathcal{H}_{X}^+$.
+We will show that for $\lambda \geq 0$, $\widetilde{I}(\lambda f) = \lambda \widetilde{I}(f)$. Consider $\lambda = 0$. Since $\widetilde{I}(0) = 0$, the claim holds.
+Now suppose $\lambda > 0$. Then
+\begin{align*}
+    \widetilde{I}(\lambda f) &= \sup \{ I(g) : g \in \C(X), 0 \leq g \leq \lambda f \} & \\
+    &= \sup \{ I(g) : g \in \C(X), 0 \leq \frac{1}{\lambda} g \leq f \}  & \\
+    &= \sup \{ I(\lambda h) : h \in \C(X), 0 \leq h \leq f \} & \text{by substitution $h = \frac{1}{\lambda} g$}\\
+    &= \sup \{ \lambda I(h) : h \in \C(X), 0 \leq h \leq f \} & \text{by linearity of $I$} \\
+    &= \lambda \sup \{ I(h) : h \in \C(X), 0 \leq h \leq f \} & \\
+    &= \lambda \widetilde{I}(f).
+\end{align*}
+Now consider $f, h \in \mathcal{H}_{X}^+$. Let $g_1 \in \Phi(f)$, $g_2 \in \Phi(h)$.
+Then $0 \leq g_1 \leq f$, $0 \leq g_2 \leq h$. Hence $0 \leq g_1 + g_2 \leq f + h$ so $I(g_1 + g_2) \in \Phi(f + h)$. This implies $I(g_1 + g_2) \leq \widetilde{I} (f + h)$.  
+By linearity of $I$, we have
+\begin{align*}
+    I(g_1 + g_2) = I(g_1) + I(g_2) \leq \widetilde{I} (f + h).
+\end{align*}
+Since $g_1$ and $g_2$ were arbitrary, $ \widetilde{I} (f) + \widetilde{I} (h) \leq \widetilde{I} (f + h)$. Conversely, suppose $\epsilon > 0$. By definition of $\widetilde{I}$ and \ref{decomp:widetilde-varphi}, we can choose $g \in C(X)$ such that $0 \leq g \leq f + h$ and 
+\begin{equation}
+    \label{decomp:prop}
+    \widetilde{I} (f + h) < I(g) + \epsilon.
+\end{equation}
+Set $g_1 = \min(f, g)$ and observe that $0 \leq g_1 \leq f$, $0 \leq g - g_1$. Since $0 \leq g_1 \leq f$, $I(g_1) \in \Phi(f)$.
+We claim $0 \leq g - g_1 \leq h$. Suppose not. Then there exists $x \in X$ such that
+\begin{equation}
+    \label{decomp:contradict}
+    g(x) - g_1(x) > h (x).
+\end{equation}
+By definition of $g_1$, $g_1(x) = g(x)$ or $g_1(x) = f(x)$.
+
+Suppose $g_1(x) = g(x)$. By \ref{decomp:contradict}, $h (x) < 0$. This is a contradiction to $h \in \mathcal{H}_{X}^+$. Hence $g_1(x) = f(x)$. By \ref{decomp:contradict}, $f(x) + h(x) < g(x)$. This contradicts the choice $I(g) \in \Phi(f + h)$ which implied $0 \leq g \leq f + h$. Hence $0 \leq g - g_1 \leq h$ so $I(g - g_1) \in \Phi(h)$.
+By linearity of $I$, $I(g) = I(g - g_1 + g_1) = I(g - g_1) + I(g_1)$.
+By \ref{decomp:prop}, 
+\begin{align*}
+    \widetilde{I} (f + h) &< I(g) + \epsilon & \\
+                                &= I(g - g_1) + I(g_1) + \epsilon & \\
+                                &\leq \widetilde{I} (h) + I(g_1) + \epsilon & \text{since $I(g - g_1) \in \Phi(h)$} \\
+                                &\leq \widetilde{I}(h) + \widetilde{I} (f) + \epsilon.  & \text{since $I(g_1) \in \Phi(f)$}
+\end{align*}
+Since $\epsilon$ was arbitrary, $\widetilde{I} (f + h) \leq \widetilde{I} (f) + \widetilde{I} (h)$. Hence $\widetilde{I} (f + h) = \widetilde{I} (f) + \widetilde{I} (h)$.
+\end{step}
+\begin{step}[Generalization to $\C(X)$]
+Using $\widetilde{I}$, we construct the desired decomposition of $I$ on $\C(X)$. To perform the decomposition, we define $\phi : \C(X) \to \R$ by
+\begin{align*}
+    \phi (f) = \widetilde{I}(f^+) - \widetilde{I}(f^-).
+\end{align*}
+We claim that $\phi$ is a positive linear functional. \newpage
+Let $f \in \C(X)$ and assume $f \geq 0$. Then $f^+ = f$ and $f^- = 0$.
+We have $\widetilde{I}(f^-) = \widetilde{I}(0) = 0$. Now $\phi(f) = \widetilde{I}(f^+) - \widetilde{I}(f^-) =  \widetilde{I}(f) \geq 0$, by \ref{decomp:widetilde-varphi}. Hence $\phi$ is positive.
+
+Now consider the linearity of $\phi$. Let $f, g \in \C(X)$. Write
+\begin{align*}
+    f = f^+ - f^- & \text{ where } f^+, f^- \in \mathcal{H}_{X}^+, \\
+    g = g^+ - g^- & \text{ where } g^+, g^- \in \mathcal{H}_{X}^+.
+\end{align*}
+By decompositions above, $f + g = (f^+ + g^+) - (f^- + g^-)$.
+We also have the decomposition $f + g = (f+g)^+ - (f+g)^-$. Combining those gives
+\begin{equation}
+    \label{decomp:widetildeapply}
+    (f^+ + g^+) + (f+g)^- = (f^- + g^-) + (f+g)^+.
+\end{equation}
+Applying $\widetilde{I}$ to \ref{decomp:widetildeapply} gives 
+\begin{equation*}
+   \widetilde{I}(f^+) + \widetilde{I}(g^+) + \widetilde{I}((f+g)^-) = \widetilde{I}(f^-) + \widetilde{I}(g^-) + \widetilde{I}((f+g)^+).
+\end{equation*}
+Rearranging gives
+\begin{equation}
+\label{decomp:linearity}
+\widetilde{I}((f+g)^+) - \widetilde{I}((f+g)^-) =  \widetilde{I}(f^+) - \widetilde{I}(f^-) + \widetilde{I}(g^+) -  \widetilde{I}(g^-).
+\end{equation}
+By definition of $\phi$ and \ref{decomp:linearity}, $\phi(f + g) = \phi(f) + \phi(g)$.
+
+It remains to prove that for every $\lambda \in \R$ and for every $f \in \C(X)$, $\phi(\lambda f) = \lambda \phi (f)$.  Consider $\lambda \geq 0$. By linearity of $\widetilde{I}$ on $\mathcal{H}_{X}^+$, we have
+\begin{align*}
+    \phi (\lambda f) &= \widetilde{I}((\lambda f)^+) - \widetilde{I}((\lambda f)^-) & \\
+                     &= \widetilde{I}(\lambda f^+) - \widetilde{I}(\lambda f^-) & \\
+                     &= \lambda \widetilde{I}(f^+) - \lambda \widetilde{I}(f^-)) & \\
+                     &= \lambda \left ( \widetilde{I}(f^+) - \widetilde{I}(f^-) \right )  & \\
+                     &= \lambda \phi(f).
+\end{align*}
+By definition, $(-\lambda f)^+ = \lambda f^-$ and $(-\lambda f)^- = \lambda f^+$. Now
+\begin{align*}
+    \phi (- \lambda f) &= \widetilde{I}((-\lambda f)^+) - \widetilde{I}((-\lambda f)^-) & \\
+                     &= \widetilde{I}(\lambda f^-) - \widetilde{I}(\lambda f^+) & \\
+                     &= \lambda \widetilde{I}(f^-) - \lambda \widetilde{I}(f^+)) & \\
+                     &= \lambda \left ( \widetilde{I}(f^-) - \widetilde{I}(f^+) \right ) & \\ 
+                     &= -\lambda \phi(f).
+\end{align*}
+We conclude $\phi$ is linear on $\C(X)$. Finally, we claim that the desired decomposition is $I = \phi - (\phi - I)$. We have shown that $\phi$ is a positive linear functional. We claim that $(\phi - I)$ is also a positive linear functional. Linearity of $(\phi - I)$ follows from the linearity of $\phi$ and $I$. We will show that   $(\phi - I)$ is positive. Suppose $f \in \mathcal{H}_{X}^+$. Clearly, $I(f) \in \Phi(f)$. Then $\phi(f) = \widetilde{I}(f) \geq I(f)$. Hence $\phi(f) - I(f) \geq 0$.
+\end{step}
+\end{proof}

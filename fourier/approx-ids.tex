@@ -1,0 +1,62 @@
+\subsection{Approximate identites}
+
+We begin by introducing the idea of an approximate identity with respect to the convolution. That is a family of functions that act as an identity with respect to the convolution, under limiting conditions. We will use the approximate identities to establish the \nameref{thm:fourier:inversionlone}. The following lemma justifies the name.
+
+\begin{lemma}[Approximate Identity Lemma]
+\label{lemma:fourier:approxident}
+Let $\varphi \in \Lone(\R^n)$ and suppose that $\int_{\R^n} \varphi(\vec{x}) d\vec{x} = 1$. For $\delta > 0$, define $\varphi_\delta : \R^n \to \mathbb{C}$ by $\varphi_\delta (\vec{x}) = \frac{1}{\delta^n} \varphi(\frac{\vec{x}}{\delta})$. 
+\begin{enumerate}[noitemsep]
+\item If $g$ is continuous with compact support, then $g \ast \varphi_\delta \to g$ pointwise as $\delta \to 0$.
+\item If $g$ is continuous with compact support, then $g \ast \varphi_\delta \to g$ in $\norm{\cdot}_1$ as $\delta \to 0$.
+\item If $f \in \Lone(\R^n)$ then $f \ast \varphi_\delta \to f$ in  $\norm{\cdot}_1$ as $\delta \to 0$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+By change of variables $\vec{x} = \frac{1}{\delta} \vec{y}$,
+\begin{align*}
+    \int_{\R^n} \varphi_{\delta} (\vec{y}) \,d\vec{y} &= \int_{\R^n} \frac{1}{\delta^n} \varphi(\vec{y}) \,d\vec{y}= \int_{\R^n} \varphi(\vec{x}) \,d\vec{x} = 1, & \\ 
+     \norm{\varphi_\delta}_1 &= \int_{\R^n} |\varphi_{\delta} (\vec{y})| \,d\vec{y} =  \int_{\R^n} |\varphi (\vec{t})| \,d\vec{t} = \norm{\varphi}_1.
+\end{align*}
+\setcounter{step}{0}
+\begin{step}[Proof of $1$]
+    Let $\vec{x} \in \R^n$. Then \begin{align*}
+        | (g \ast \varphi_\delta)(\vec{x}) - g(\vec{x}) | &=  \left | \int_{\R^n} (g (\vec{x} - \vec{y}) - g(\vec{x})) \varphi_\delta (\vec{y}) \,d\vec{y} \right | & \text{since $ \int_{\R^n} \varphi_{\delta} (\vec{y}) = 1$} & \\
+        &\leq  \left |  \int_{\R^n} (g (\vec{x} - \delta \vec{t}) - g(\vec{x})) \varphi (\vec{t}) \,d\vec{t}  \right |& \text{change of variables $\vec{t} = \frac{\vec{y}}{\delta} $} & \\
+        &\leq \int_{\R^n} \left | g (\vec{x} - \delta \vec{t}) - g(\vec{x}) \right | |\varphi(\vec{t})| \,d\vec{t}.
+    \end{align*}
+Since $g$ is continuous and compactly supported, $|g|$ is bounded above by $\norm{g}_\infty$ which is finite. Thus $\left | g (\vec{x} - \delta \vec{t}) - g(\vec{x}) \right | |\varphi| \leq 2 \norm{g}_\infty |\varphi|$. Since $\varphi \in \Lone(\R^n)$, $2 \norm{g}_\infty |\varphi| \in \Lone(\R^n)$. By \nameref{thm:dct} and continuity of $g$, \begin{align*}
+    0 \leq \lim_{\delta \to 0}| (g \ast \varphi_\delta)(\vec{x}) - g(\vec{x}) | \leq \int_{\R^n}  \lim_{\delta \to 0} \left | g (\vec{x} - \delta \vec{t}) - g(\vec{x}) \right | |\varphi(\vec{t})| \,d\vec{t} = 0.
+\end{align*}
+\end{step}
+
+\begin{step}[Proof of $2$]
+We proceed by direct calculation, 
+\begin{align*}
+    \int_{\R^n} | (g \ast \varphi_\delta) (\vec{x}) - g(\vec{x}) | \, d\vec{x}&= \int_{\R^n} \left |     \int_{\R^n} (g (\vec{x} - \vec{y}) - g(\vec{x})) \varphi_\delta(\vec{y}) \,d\vec{y}  \right | \, d\vec{x} & \\
+    &= \int_{\R^n} \left | \int_{\R^n} (g (\vec{x} -\delta \vec{t}) - g(\vec{x})) \varphi(\vec{t}) \,d\vec{t}  \right | \, d\vec{x}& \\
+    &\leq \int_{\R^n} \int_{\R^n} | g (\vec{x} - \delta \vec{t}) - g(\vec{x})| |\varphi(\vec{t}) | \, d\vec{x}\,d\vec{t} & \\ 
+    &\leq \int_{\R^n} |\varphi(\vec{t})| \left ( \int_{\R^n} |g (\vec{x} - \delta \vec{t}) - g(\vec{x})| \, d\vec{x}\right)d\vec{t}.
+\end{align*}
+Consider $G_\delta (\vec{t}) =  \int_{\R^n} |g (\vec{x} - \delta \vec{t}) - g(\vec{x})| \, d\vec{x}$. Now, $|g (\vec{x} - \delta \vec{t}) - g(\vec{x})| \leq |g(\vec{x} - \delta \vec{t})| + |g(\vec{x})| $.
+Now $\int_{\R^n} (|g(\vec{x} - \delta \vec{t})| + |g(\vec{x})|)d\vec{x}= 2 \norm{g}_1$.
+Since $g$ is compactly supported and $\lambda$ is regular, $\norm{g}_1 < \infty$. By \nameref{thm:dct}, $\lim_{\delta \to 0} G_\delta(\vec{t}) = \int_{\R^n} \lim_{\delta \to 0} |g (\vec{x} - \delta \vec{t}) - g(\vec{x})| \, d\vec{x}= 0$. Since for every $\vec{t} \in \R^n, | G_\delta (\vec{t}) | | \varphi(\vec{t})| \leq 2 \norm{g}_1 | \varphi(\vec{t})|$ and $\int_{\R^n} \varphi(\vec{x}) d\vec{x}= 1$, by \nameref{thm:dct}, \begin{align*}
+    0 \leq \lim_{\delta \to 0} \norm{ (g \ast \varphi_\delta) - g}_1 \leq  \int_{\R^n} |\varphi(\vec{t})| \lim_{\delta \to 0}  G_\delta(\vec{t}) \,d\vec{t} = 0.
+\end{align*}
+Thus, $ \lim_{\delta \to 0} \norm{ (g \ast \varphi_\delta) - g}_1 = 0$.
+\end{step}
+\begin{step}[Proof of $3$]
+    Let $\epsilon > 0$. By, \nameref{thm:lp:densitycc}, there exists compactly supported $g \in \Lone(\R^n)$ such that $\norm{f - g}_1 < \epsilon$. Set $h = f - g$. Then $\norm{h}_1 < \epsilon$. By \nameref{ineqn:lp:minkowski}, 
+    \begin{align}
+        \label{lemma:fourier:approxident:ineqn1}
+        \norm{(f \ast \varphi_\delta) - f }_1 = \norm{(h + g) \ast \varphi_\delta - (h + g)}_1 \leq  \norm{(g \ast \varphi_\delta) - g}_1 + \norm{(h \ast \varphi_\delta) - h}_1.
+    \end{align}
+    By \nameref{prop:fourier:convnorm}, $\norm{h \ast \varphi_\delta}_1 \leq \norm{h}_1 \norm{\varphi_\delta}_1$ and $\norm{\varphi_\delta}_1 = \norm{\varphi}_1$ so  \begin{align}
+        \label{lemma:fourier:approxident:ineqn2}
+         \norm{(h \ast \varphi_\delta) - h}_1 \leq \norm{h \ast \varphi_\delta}_1 + \norm{h}_1 \leq  \norm{h}_1 \norm{\varphi_\delta}_1 + \norm{h}_1 < \epsilon  (1 + \norm{\varphi}_1)
+    \end{align}
+    By Step 2, $\limsup_{\delta \to 0} \norm{(g \ast \varphi_\delta) - g}_1 = 0$. Combining \ref{lemma:fourier:approxident:ineqn1} and \ref{lemma:fourier:approxident:ineqn2} gives \begin{align*}
+        \limsup_{\delta \to 0} \norm{(f \ast \varphi_\delta) - f }_1  \leq \epsilon  (1 + \norm{\varphi}_1).
+    \end{align*}
+    Since $\epsilon$ was arbitrary, $\limsup_{\delta \to 0} \norm{(f \ast \varphi_\delta) - f }_1 = 0$. Thus, $f \ast \varphi_\delta \to f$ in $\norm{\cdot}_1$.
+\end{step}
+\end{proof}

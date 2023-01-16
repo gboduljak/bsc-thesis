@@ -1,0 +1,39 @@
+\section{Set Theory}
+
+The only axiomatic set-theoretic result relevant to this work is \nameref{lemma:set:zorn}.
+To state the \nameref{lemma:set:zorn}, we recall various ordering concepts.
+
+\begin{definition}[partial order]
+\label{defn:set:porder}
+Suppose that $\Omega$ is a nonempty set and $\prec$ is a binary relation on $\Omega$. We say
+$\prec$ is a partial order if:
+\begin{axioms}{P}
+  \item \label{defn:set:porder:P1} $x \prec x$ for every $x \in \Omega$;
+  \item \label{defn:set:porder:P2} if $x \prec y$ and $y \prec x$ then $x = y$;
+  \item \label{defn:set:porder:P3} if $x \prec y$ and $y \prec z$ then $x \prec z$.
+\end{axioms}
+If $\prec$ is a partial order, we say $\Omega$ is a partially ordered set.
+\end{definition}
+\begin{definition}[total order]
+\label{defn:set:torder}
+Suppose that $\Omega$ is a nonempty set and $\prec$ is a partial order on $\Omega$.
+If for every $x, y \in \Omega$ either $x \prec y$ or $y \prec x$, we say that $\prec$ is a total order and we say $\Omega$ is a totally ordered set.
+\end{definition}
+\begin{definition}[maximal element]
+\label{defn:set:maxelem}
+Suppose that $\Omega$ is a nonempty set and $\prec$ is a partial order on $\Omega$.
+Then $y \in \Omega$ is a maximal element of $\Omega$ if $y \prec x \implies y = x$.
+\end{definition}
+\begin{definition}[upper bound]
+\label{defn:set:upperbnd}
+Suppose that $\Omega$ is a nonempty set and $\prec$ is a partial order on $\Omega$.
+Let $\Theta \subseteq \Omega$. Then $y \in \Omega$ is an upper bound for $\Theta$
+if for every $x \in \Theta$, $x \prec y$.
+\end{definition}
+\begin{lemma}[Zorn lemma]
+\label{lemma:set:zorn}
+Let $\Omega$ be a nonempty, partially ordered set such that every totally ordered subset of $\Omega$ has an upper bound. Then there exists a maximal element in $\Omega$. 
+\end{lemma}
+\begin{remark}
+Zorn lemma is nontrivially equivalent to the \textbf{Axiom of Choice}.
+\end{remark}

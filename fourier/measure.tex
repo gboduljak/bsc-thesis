@@ -1,0 +1,27 @@
+\subsection{Fourier Transform of a measure}
+
+
+\begin{definition}
+Let $\mu$ be a finite signed measure on $\R^n$. We define the Fourier Transform of $\mu$ by
+\begin{align*}
+    \widehat{\mu}(\vec{u}) = \int_{\R^n} e^{i \langle \vec{u}, \vec{x} \rangle } \, d\mu(\vec{x}).
+\end{align*}
+\end{definition}
+\begin{remark}
+In probability theory, $\widehat{\mu}$ is known as a characteristic function. The following result, which is a nontrivial consequence of \nameref{prop:fourier:gaussian:ft} and \nameref{thm:anal:stone-weierstrass}, justifies that name.
+\end{remark}
+\begin{theorem}
+\label{thm:fourier:uniqmeasure}
+Let $\mu$ and $\nu$ be finite signed regular measures on $\B(\R^n)$. If for every $\vec{u} \in \R^n$, $\widehat{\mu}(\vec{u}) = \widehat{\nu}(\vec{u})$, then $\mu = \nu$.
+\end{theorem}
+\begin{proof}
+Omitted. See Exercise 16.6 in \cite{bass2011real}. The proof for probability measures is Theorem 14.1 in \cite{jacod_2004_probability}.
+\end{proof}
+\begin{corollary}
+\label{corr:fourier:uniqmeasure}
+Let $\mu$ be a finite signed regular measure on $\B(\R^n)$. If for every $\vec{u} \in \R^n$, $\widehat{\mu}(\vec{u}) = 0$, then $\mu = 0$.
+\end{corollary}
+
+\begin{proof}
+Define $\nu(A) = 0$ for every $A \in \B(\R^n)$. Clearly, $\widehat{\nu} = 0$. Since $\widehat{\mu} = \widehat{\nu} = 0$, by Theorem \ref{thm:fourier:uniqmeasure}, $\mu = \nu = 0$.
+\end{proof}

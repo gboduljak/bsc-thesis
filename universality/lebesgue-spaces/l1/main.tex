@@ -1,0 +1,44 @@
+\section{Universal approximation of integrable functions}
+\label{section:universality:lone}
+In this section, we will outline the generalization of the universal approximation results from $\Ltwo([0,1]^n)$ to $\Lone([0,1]^n)$. Since the majority of results developed for $\Ltwo([0,1]^n)$ translate to $\Lone([0,1]^n)$ with almost no change, we will focus on the notion of $\Lone$-discriminatory activation function and \nameref{thm:universality:lone:discrim}.
+\subsection{$\Lone$-discriminatory activation functions}
+\label{subsection:universality:lone:1}
+We will use a definition very similar to a definition of $\Ltwo([0,1]^n)$-discriminatory activation function.
+\begin{definition}[$\Lone$-discriminatory activation function]
+Let $\sigma : \R \to [0,1]$. We say $\sigma$ is $\Lone([0,1]^n)$-discriminatory if for every $g \in \Linfty([0,1]^n)$, \[
+    \int_{[0,1]^n} \sigma(\langle \vec{w}, \vec{x} \rangle + b) g(\vec{x}) \, d \vec{x} = 0, \text{ for every } \vec{w} \in \R^n, b \in \R
+\]
+implies $g = 0$ almost everywhere.
+\end{definition}
+\subsection{The Universal Approximation Theorem for $\Lone([0,1]^n)$}
+\label{subsection:universality:lone:2}
+\begin{theorem}[The Universal Approximation Theorem for integrable functions]
+\label{thm:universality:lone:discrim}
+Let $\mathcal{H}_{\sigma}$ denote the family of single-layer, fully-connected neural networks with any $\Lone([0,1]^n)$-discriminatory activation function $\sigma$, given by \begin{align*}
+\mathcal{H}_{\sigma} = \left \{ \vec{x} \to \sum_{k=1}^{m} \alpha_k \sigma{\left (\langle \vec{w_k}, \vec{x} \rangle + \beta_k \right)} : m \in \N, \alpha_1 \ldots \alpha_m , \beta_1 \ldots \beta_m \in \R, \vec{w_k} \in \R^n \right \}.
+\end{align*}
+Then $\mathcal{H}_{\sigma}$ is dense in $\Lone([0,1]^n)$.
+\end{theorem}
+\begin{proof-idea*} We will adapt the proof of \nameref{thm:universality:ltwo:discrim}.
+\end{proof-idea*}
+\begin{proof}
+Firstly, we argue that $\mathcal{H}_{\sigma}$ is actually in $\Lone([0,1]^n)$. By definition of $\Lone([0,1]^n)$-discriminatory activation function,
+$\sigma$ is bounded. Since $\lambda_{|[0,1]^n}$ is a finite measure,  $\mathcal{H}_{\sigma} \subset \Lone([0,1]^n)$.
+Assume, for the sake of contradiction, that  $\mathcal{H}_{\sigma}$ is not dense in $\Lone([0,1]^n)$. Since $\Lone([0,1]^n)$ is a normed linear space, $\mathcal{H}_{\sigma}$ is a vector subspace of $\Lone([0,1]^n)$.
+By \nameref{lemma:univ:sepfunclemma}, there exists a bounded linear functional $L$ on $\Lone([0,1]^n)$ such that $L \neq 0$ on $\Lone([0,1]^n)$ and $L_{|\mathcal{H}_{\sigma}} = 0$. By \nameref{thm:lp:rrt}, there exists $g \in \Linfty([0,1]^n)$ such that \begin{align}
+    \label{eqn:thm:universality:lone:discrim:0}
+    L (f) = \int_{[0,1]^n} f(\vec{x}) g(\vec{x}) \, d\vec{x}, \text{ for every $f \in \Lone([0,1]^n)$ and $\norm{L} = \norm{g}_\infty$}.
+\end{align}
+Since $L_{|\mathcal{H}_{\sigma}} = 0$, by \ref{eqn:thm:universality:lone:discrim:0},
+\begin{align}
+     \label{eqn:thm:universality:lone:discrim:1}
+     \int_{[0,1]^n} h(\vec{x}) g(\vec{x}) \, d\vec{x} = 0, \text{ for every $h \in \mathcal{H}_\sigma$}.
+\end{align}
+By \ref{eqn:thm:universality:lone:discrim:1}, 
+\begin{align}
+     \label{eqn:thm:universality:lone:discrim:2}
+     \int_{[0,1]^n} \sigma(\langle \vec{w}, \vec{x} \rangle + b) g(\vec{x}) \, d\vec{x} = 0, \text{ for every $\vec{w} \in \R^n$, $b \in \R$}.
+\end{align}
+Since $\sigma$ is $\Lone([0,1]^n)$-discriminatory activation function, \ref{eqn:thm:universality:lone:discrim:2} implies $g = 0$ almost everywhere.
+But then, $\norm{g}_\infty = 0$. By \ref{eqn:thm:universality:lone:discrim:0}, $\norm{L} = 0$. We conclude $L$ must be identically zero. But this is a contradiction since $L \neq 0$. Hence $\mathcal{H}_{\sigma}$ is dense in $\Lone([0,1]^n)$, as desired.
+\end{proof}

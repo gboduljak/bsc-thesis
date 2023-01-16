@@ -1,0 +1,8 @@
+\subsection{Relationship between measurable functions and classification}
+\label{subsection:universality:measure:relationship}
+We will briefly discuss the relationship between measurable functions and classification, using the argument from the discussion following Theorem 2 in \cite{cybenko_1989_approximation}.
+
+Let $\lambda$ denote the restriction of Lebesgue measure to $[0,1]^n$. Let $\{ P_k \}_{k=1}^m$ be a partition of $[0,1]^n$ into disjoint, $\lambda$-measurable subsets of $[0,1]^n$. We can view the classification problem on $[0,1]^n$ as a problem of approximating a classification function $f : [0,1]^n \to \{ 1, 2, \ldots, m \}$, given by \[ 
+    f (\vec{x}) = k \iff \vec{x} \in P_k.
+\]
+\nameref{thm:universality:cybenko:measurable} implies that neural networks with continuous sigmoidal activation functions can approximate classification functions to desired accuracy, except possibly on sets of arbitrarily small measure.

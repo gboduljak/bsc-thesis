@@ -1,0 +1,54 @@
+\subsection{Essential inequalities}
+In this section, we will discuss two essential and very useful inequalities - \nameref{ineqn:lp:holder} and \nameref{ineqn:lp:minkowski}. We will apply them to prove \nameref{thm:lp:inclusion}.
+
+\begin{definition}[Hölder conjugate]
+\label{defn:lp:holder_conj}
+Let $1 \leq p < \infty$. We define the Hölder conjugate $q$ of $p$ by:
+\begin{align*}
+    \frac{1}{p} + \frac{1}{q} = 1, \text{ if $1 < p < \infty$.}
+\end{align*}
+When $p = 1$ we define $q = \infty$.
+\end{definition}
+
+\begin{theorem}[Hölder inequality]
+\label{ineqn:lp:holder}
+Let  $(\Omega, \mathcal{F}, \mu)$ be a measure space and suppose that $1 \leq p < \infty$.
+Let $q$ be the \nameref{defn:lp:holder_conj} of $p$. If $f \in \Lp(\Omega)$ and $g \in \Lq(\Omega)$ then $fg \in \Lone(\Omega)$ with
+\begin{align*}
+    \int_\Omega | fg | \,d\mu \leq \norm{f}_p \norm{g}_q.
+\end{align*}
+\end{theorem}
+\begin{proof}
+See Proposition 3.3.2 in \cite{cohn_2013_measure}.
+\end{proof}
+The following result is an important consequence of \nameref{ineqn:lp:holder}.
+
+\begin{theorem}[Inclusion of $\Lp$ spaces of a finite measure]
+\label{thm:lp:inclusion}
+Let $(\Omega, \mathcal{F}, \mu)$ be a \textbf{finite} measure space and suppose that $1 \leq p_1 < p_2 \leq \infty$. Then $\mathcal{L}^{p_2}(\Omega) \subseteq \mathcal{L}^{p_1}(\Omega)$.
+\end{theorem}
+
+\begin{proof}
+Let $f \in \mathcal{L}^{p_2}(\Omega)$. Set $g = 1$. Since $\mu(\Omega) < \infty$, for $1 \leq p \leq \infty$, $g \in \Lp(\Omega)$. We need to show $\norm{f}_{p_1} < \infty$. We split in two cases - $p_2 < \infty$ and $p_2 = \infty$.
+
+Suppose $p_2 < \infty$. Set $p = \frac{p_2}{p_1}, q = 1 - p$. Then $p, q$ are \nameref{defn:lp:holder_conj}s. Observe that $(|f|^{p_1})^p = |f|^{p_2}$. Hence $|f|^{p_1} \in \Lp(\Omega)$. By \nameref{ineqn:lp:holder} and $f \in \mathcal{L}^{p_2}(\Omega)$, 
+\begin{align*}
+    \norm{f}_{p_1}^{p_1} = \int_\Omega |f|^{p_1} \cdot 1 \,d\mu \leq \left ( \int_\Omega (|f|^{p_1})^p  \,d\mu \right )^{\frac{1}{p}} \left ( \int_\Omega 1 \,d\mu \right )^{\frac{1}{q}} = \norm{f}_{p_2}^{p_1} \mu(\Omega)^{\frac{1}{q}} < \infty.
+\end{align*}
+
+Suppose $p_2 = \infty$. By Remark \ref{remark:lp:inftynorm}, $0 \leq |f|^{p_1} \leq \norm{f}_\infty^{p_1}$ $\mu$-a.e. Integrating gives
+\begin{align*}
+   \norm{f}_{p_1}^{p_1} \leq \int_\Omega |f|^{p_1} \,d\mu \leq  \int_\Omega \norm{f}_\infty^{p_1} \,d\mu =  \norm{f}_\infty^{p_1} \mu(\Omega) < \infty.
+\end{align*}
+\end{proof}
+
+\begin{theorem}[Minkowski Inequality]
+\label{ineqn:lp:minkowski}
+If $f, g \in \Lp(\Omega)$, where $1 \leq p \leq \infty$, then $f + g \in \Lp(\Omega)$ and
+\begin{align*}
+    \norm{f + g}_p \leq \norm{f}_p + \norm{g}_p.
+\end{align*}
+\end{theorem}
+\begin{proof}
+See Proposition 3.3.3 in \cite{cohn_2013_measure}.
+\end{proof}

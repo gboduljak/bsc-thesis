@@ -1,0 +1,77 @@
+\section{Classification on Fashion MNIST}
+\textit{Fashion MNIST}\cite{fashionmnist} is a dataset consisting of a training set of 60,000 examples and a test set of 10,000 examples.
+Each example in the dataset is a 28x28 grayscale image belonging to precisely one of 10 classes, presented in Table \ref{table:experiments:classification:fashion-mnist-labels}. 
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{0.8\textwidth} { 
+          | >{\centering\arraybackslash}X 
+          | >{\centering\arraybackslash}X | }
+         \hline
+         \textbf{label}& \textbf{description} \\
+         \hline
+         0 & T-shirt/top \\
+         \hline
+         1 & trouser  \\
+         \hline
+         2 & pullover  \\
+         \hline
+         3 & dress  \\
+         \hline
+         4 & coat  \\
+         \hline
+         5 & sandal  \\
+         \hline
+         6 & shirt  \\
+         \hline
+         7 & sneaker  \\
+         \hline
+         8 & bag  \\
+         \hline
+         9 & ankle boot  \\
+         \hline
+    \end{tabularx}
+    \caption{\textit{Fashion MNIST} labels}
+    \label{table:experiments:classification:fashion-mnist-labels}
+\end{table}
+The task for a machine learning algorithm is to classify a given 28x28 grayscale image into precisely one of 10 categories from Table \ref{table:experiments:classification:fashion-mnist-labels}.
+\textit{Fashion MNIST} was invented in 2017 as a replacement for \textit{MNIST}\cite{mnist}. \textit{MNIST}\cite{mnist} has been used as a benchmark for novel and existing algorithms. However, it turns out to be quite easy for modern algorithms and it is not representative of modern computer vision tasks. \textit{Fashion MNIST} is slightly more difficult, but still small enough for experimenting with limited computational resources. This makes it suitable for our purpose.
+\begin{figure}[H]
+\setlength\extrarowheight{2pt} % for a less-cramped "look"
+\centering
+\includegraphics[width=1\textwidth]{experiments/classification/garms-3.png}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\text{T-shirt/top}&\text{ankle boot}&\text{sandal}&\text{sandal}&\text{sneaker}&\text{ankle boot}&\text{trousers}&\text{T-shirt/top}&\text{shirt}&\text{coat}\\
+\hline
+\end{tabular}
+}
+\includegraphics[width=1\textwidth]{experiments/classification/garms-2.png}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\text{dress}&\text{trousers}&\text{coat}&\text{bag}&\text{coat}&\text{dress}&\text{T-shirt/top}&\text{pullover}&\text{coat}&\text{coat}\\
+\hline
+\end{tabular}
+}
+\includegraphics[width=1\textwidth]{experiments/classification/garms-1.png}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\text{sandal}&\text{dress}&\text{shirt}&\text{shirt}&\text{T-shirt/top}&\text{bag}&\text{sandal}&\text{pullover}&\text{trousers}&\text{shirt}\\
+\hline
+\end{tabular}
+}
+\caption{Some examples from \textit{Fashion MNIST}}
+\label{fig.1}
+\end{figure}
+
+\input{experiments/classification/model}
+\input{experiments/classification/experiments-methodology}
+\input{experiments/classification/optimiser}
+\input{experiments/classification/batch-size}
+\input{experiments/classification/single-layer}
+\input{experiments/classification/adding-a-layer}
+\input{experiments/classification/depth}
+\input{experiments/classification/interesting-observation}
+\input{experiments/classification/conclusion}

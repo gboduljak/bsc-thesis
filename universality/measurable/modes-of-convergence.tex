@@ -1,0 +1,222 @@
+\subsection{Metrics and modes of convergence}
+We begin this subsection with a proof that $\delta_\mu$ is indeed a metric on $\M^n$.
+\label{subsection:universality:measure:modes_of_convergence}
+\begin{proposition}
+\label{proposition:universality:measure:deltamumetric}
+$\delta_\mu$ is indeed a metric on $\M^n$.
+\end{proposition}
+\begin{proof-idea*}
+The proof is essentially a verification of properties a metric must satisfy. The key observation is that the statement $\delta_\mu(f, g) = 0$ is equivalent to $f = g$ $\mu$-almost everywhere. The justification of triangle inequality is not difficult, but relatively technical.
+\end{proof-idea*}
+\begin{proof}
+Clearly, $\delta_\mu \geq 0$. Symmetry of $\delta_\mu$ is obvious.
+\setcounter{step}{0}
+\begin{step}[$\delta_\mu(f, g) = 0 \iff f = g$ $\mu$-almost everywhere]
+Suppose that $f = g$ $\mu$-almost everywhere. We will show  $\delta_\mu(f, g) = 0$. Let $\epsilon > 0$. Since $f = g$ $\mu$-almost everywhere, $| f - g | = 0$ $\mu$-almost everywhere. Hence, there exists a set $M \in \B(\R^n)$ such that $\mu(M) = 0$ and $| f - g | > 0$ on $M$, while $| f - g | = 0$ on $\R^n \setminus M$. Since $\epsilon > 0$, by subadditivity of measure $\mu$,
+\begin{align}
+    \label{ineqn:universality:measure:deltamumetric:muae:-1}
+    \mu (\{ | f - g | > \epsilon \}) \leq \mu (\{ | f - g | > 0 \}) \leq \mu (M) = 0 < \epsilon.
+\end{align}
+Since $\delta_\mu$ is an infimum, by \ref{ineqn:universality:measure:deltamumetric:muae:-1}, $0 \leq \delta_\mu(f,g) < \epsilon$. Since $\epsilon$ was arbitrary, we conclude $\delta_\mu(f,g) = 0$.
+
+Conversely, suppose that $\delta_\mu (f, g) = 0$. We have \begin{align}
+    \label{ineqn:universality:measure:deltamumetric:muae:0}
+    \{ f \neq g \} = \{ | f - g | > 0 \} \subseteq \bigcup_{n = 1}^\infty  \left \{ |f - g| > \frac{1}{n} \right \}.
+\end{align}
+For every $n \in \N$, since $\delta_\mu(f,g) < \frac{1}{n}$ and $\delta_\mu(f,g)$ is an infimum, there exists $0 < \epsilon_n < \frac{1}{n}$ such that $\mu(\left \{ | f - g| > \epsilon_n \right \}) < \epsilon_n$. Since $\epsilon_n < \frac{1}{n}$, $\left \{ | f - g | > \frac{1}{n} \right \} \subseteq \{ | f - g | > \epsilon_n \}$ and so 
+\begin{align}
+    \label{ineqn:universality:measure:deltamumetric:muae:1}
+    \mu ( \left \{ |f - g| > \frac{1}{n} \right \}) \leq  \mu(\left \{ |f - g| > \epsilon_n \right \}) < \epsilon_n < \frac{1}{n}.
+\end{align}
+By \ref{ineqn:universality:measure:deltamumetric:muae:1}, $\lim_{n \to \infty} \mu ( \left \{ |f - g| > \frac{1}{n} \right \}) = 0$. Observe that \begin{align}
+    \label{ineqn:universality:measure:deltamumetric:muae:2}
+    \left \{ |f - g| > \frac{1}{n} \right \}\subseteq \left \{ |f - g| > \frac{1}{n + 1} \right \}, \text{ for every $n \in \N$.}
+\end{align}
+By \ref{ineqn:universality:measure:deltamumetric:muae:2}, \begin{align*}
+    \mu \left(  \bigcup_{n = 1}^\infty  \left \{ |f - g| > \frac{1}{n} \right \} \right ) = \lim_{n \to \infty} \mu ( \left \{ |f - g| > \frac{1}{n} \right \}) = 0.
+\end{align*}
+By \ref{ineqn:universality:measure:deltamumetric:muae:0}, $\mu (\{ f \neq g \}) = 0$.
+\end{step}
+\begin{step}[The triangle inequality]
+To prove triangle inequality, let $f, g, h \in \M^n$. Let $\alpha > 0$. Since $\delta_\mu(f, h)$ and $\delta_\mu(h, g)$ are infima, there exist $r_1, r_2 > 0$ such that
+\begin{align}
+    \label{ineqn:universality:measure:deltamumetric:triangle:1}
+    \delta_\mu(f, h) \leq r_1 < \delta_\mu(f, h) + \frac{\alpha}{2} \text{ and } 
+    \delta_\mu(h, g) \leq r_2 < \delta_\mu(h, g) + \frac{\alpha}{2},
+\end{align}
+satisfying \begin{align}
+    \label{ineqn:universality:measure:deltamumetric:triangle:2}
+    \mu (\left \{ | f - h | > r_1 \right \} ) < r_1 \text{ and } \mu (\left \{ | h - g | > r_2 \right \} ) < r_2 .
+\end{align}
+For every $\vec{x} \in \R^n$, if $| f(\vec{x}) - h(\vec{x}) | \leq r_1$ and $| h(\vec{x}) - g(\vec{x}) | \leq r_2$ then \[ 
+    | f(\vec{x}) - g(\vec{x}) | \leq  | f(\vec{x}) - h(\vec{x}) |  + | h(\vec{x}) - g(\vec{x}) | \leq r_1 + r_2.
+\]
+By contrapositive, \begin{align}
+    \label{ineqn:universality:measure:deltamumetric:triangle:3}
+    \left \{ | f - g | > r_1 + r_2 \right \} \subseteq \left \{ | f - h | > r_1 \right \} \cup \left \{ | h - g | > r_2 \right \}.
+\end{align}
+Applying subadditivity of $\mu$ to \ref{ineqn:universality:measure:deltamumetric:triangle:3} gives \begin{align}
+\label{ineqn:universality:measure:deltamumetric:triangle:4}
+    \mu (\left \{ | f - g | > r_1 + r_2 \right \}) \leq \mu (\left \{ | f - h | > r_1 \right \}) + \mu (\left \{ | h - g | > r_2 \right \}).
+\end{align}
+Applying \ref{ineqn:universality:measure:deltamumetric:triangle:2} and \ref{ineqn:universality:measure:deltamumetric:triangle:1} to \ref{ineqn:universality:measure:deltamumetric:triangle:4} gives \begin{align}
+\label{ineqn:universality:measure:deltamumetric:triangle:5}
+    \mu (\left \{ | f - g | > r_1 + r_2 \right \}) \leq r_1 + r_2 < \delta_\mu(f, h) + \delta_\mu(h, g) + \alpha.
+\end{align}
+Since $\delta_\mu(f,g)$ is an infimum, by \ref{ineqn:universality:measure:deltamumetric:triangle:5}, $\delta_\mu(f,g) \leq r_1 + r_2 < \delta_\mu(f, h) + \delta_\mu(h, g) + \alpha$. Since $\alpha$ was arbitrary, $\delta_\mu(f,g) \leq \delta_\mu(f, h) + \delta_\mu(h, g)$, as desired.
+\end{step}
+\end{proof}
+We continue with a proof that $\rho_\mu$ is indeed a metric on $\M^n$.
+\begin{proposition}
+\label{proposition:universality:measure:rhomumetric}
+$\rho_\mu$ is indeed a metric on $\M^n$.
+\end{proposition}
+\begin{proof}
+The symmetry and non-negativity of $\rho_\mu$ are obvious.
+\setcounter{step}{0}
+\begin{step}
+The fact $\rho_\mu(f, g) = 0$ is equivalent to $f = g$ $\mu$-almost everywhere follows directly from properties of Lebesgue integral of a non-negative function, namely Proposition \ref{proposition:measure:characterzerointergral_two_dir}. 
+\end{step}
+\begin{step}[The triangle inequality]
+Let $f, g, h \in \M^n$. By triangle inequality on $\R$, \begin{align}
+    \label{ineqn:universality:measure:rhomumetric:triangle:1}
+    |f(\vec{x}) - g(\vec{x})| \leq |f(\vec{x}) - h(\vec{x})| + |h(\vec{x}) - g(\vec{x})|, \text{ for every $\vec{x} \in \R^n$}.
+\end{align}
+By \ref{ineqn:universality:measure:rhomumetric:triangle:1}, 
+\begin{subequations}\label{ineqn:universality:measure:rhomumetric:triangle:2}
+\begin{align*}
+    |f(\vec{x}) - g(\vec{x})| \wedge 1 &\leq (|f(\vec{x}) - h(\vec{x})| + |h(\vec{x}) - g(\vec{x})|) \wedge 1, \text{ for every $\vec{x} \in \R^n $}, \\
+                                       &\leq |f(\vec{x}) - h(\vec{x})| \wedge 1 + |h(\vec{x}) - g(\vec{x})| \wedge 1, \text{ for every $\vec{x} \in \R^n $} .
+     \tag{\ref{ineqn:universality:measure:rhomumetric:triangle:2}} 
+\end{align*}
+\end{subequations}
+Integrating the inequality \ref{ineqn:universality:measure:rhomumetric:triangle:2} gives \begin{align*}
+    \rho_\mu(f,g) = \int_{\R^n} | f - g | \wedge 1 \, d\mu &\leq  \int_{\R^n} | f - h | \wedge 1 \, d\mu + \int_{\R^n} | h - g | \wedge 1 \, d\mu \\ &\leq \rho_\mu(f, h) + \rho_\mu(h,g).
+\end{align*}
+\end{step}
+\end{proof}
+The following proposition will provide us with a characterization of convergence in $\mu$ in terms of convergence in metrics $\delta_\mu$ and $\rho_\mu$.
+\begin{proposition}[Characterization of convergence in probability, Lemma 2.1 in \cite{hornik}]
+\label{proposition:universality:measure:modes_convergence}
+Let $\{ f_m \}_{m=1}^\infty$ be a sequence of functions in $\M^n$ and let $f \in \M^n$. Then the following statements are equivalent:
+\begin{enumerate}[label=(\alph*),noitemsep]
+\item $\delta_\mu (f_m, f) \to 0$ as $m \to \infty$;
+\item For every $\epsilon > 0$, $\mu (\{ | f_m - f | > \epsilon \}) \to 0$ as $m \to \infty$;
+\item $\rho_\mu (f_m, f) \to 0$ as $m \to \infty$.
+\end{enumerate}
+\end{proposition}
+\begin{proof-idea*}
+It is reasonable to attempt proving the implication chain $(a) \Longrightarrow (b) \Longrightarrow (c) \Longrightarrow (a)$.
+However, it turns out that proving $(c) \Longrightarrow (a)$ is relatively difficult, so we follow a slightly different method.
+The strategy is to prove that $(a)$ and $(b)$ are equivalent and separately prove that $(b)$ and $(c)$ are equivalent. The proof will be divided in four steps where each step will be a proof a single implication.
+\end{proof-idea*}
+\begin{proof}
+\setcounter{step}{0}
+\begin{step}[$a \Longrightarrow b$]
+Suppose $\delta_\mu (f_m, f) \to 0$ as $m \to \infty$. Let $\epsilon > 0$. Then there exists $M \in \N$ such that 
+\begin{align}
+     \label{ineqn:universality:measure:modes_convergence:ab_1}
+     \delta_\mu (f_m, f) = \inf \{ \alpha > 0 : \mu(\{ |f_m - f| > \alpha\}) < \alpha \} < \epsilon, \text{ for $m \geq M$.} 
+\end{align}
+By definition of $\delta_\mu$, there exists $0 < \alpha < \epsilon$ such that $\mu(\{ |f_m - f| > \alpha\}) < \alpha < \epsilon$,
+for $m \geq M$. Since $0 < \alpha < \epsilon$, $\left \{ |f_m - f| > \epsilon  \right \} \subseteq \left \{ |f_m - f| > \alpha \right \}$, so we have 
+\begin{align*}
+    \mu (\left \{ |f_m - f| > \epsilon  \right \} ) \leq \mu(\left \{ |f_m - f| > \alpha  \right \}) < \alpha \leq \epsilon, \text{ for $m \geq M$.}
+\end{align*}
+\end{step}
+\begin{step}[$b \Longrightarrow a$]
+Suppose that for every $\epsilon$, $ \mu (\left \{ |f_m - f| \geq \epsilon  \right \} ) \to 0 $ as $m \to \infty$. Then fix $\epsilon > 0$. Now there exists $M \in \N$ such that 
+\begin{align}
+     \label{ineqn:universality:measure:modes_convergence:ba_1}
+     \mu (\{ | f_m - f | > \epsilon \}) < \epsilon, \text{ for $m \geq M$.} 
+\end{align}
+Since $\delta_\mu$ is an infimum, by \ref{ineqn:universality:measure:modes_convergence:ba_1}, $\delta_\mu(f_m, f) \leq \epsilon$, for $m \geq M$.
+\end{step}
+\begin{step}[$b \Longrightarrow c$]
+Suppose that for every $\epsilon > 0, \mu (\{ | f_m - f | > \epsilon \}) \to 0$ as $m \to \infty$. Then there exists $M \in \N$ such that
+\begin{align}
+     \label{ineqn:universality:measure:modes_convergence:bc_1}
+     \mu (\left \{ | f_m - f | > \frac{\epsilon}{2} \right \}) < \frac{\epsilon}{2}, \text{ for every $m \geq M$.}
+\end{align}
+We have \begin{align*}
+    \int_{\R^n} |f_m -f| \wedge 1 \, d\mu &=  \int_{\left \{ |f_m - f| \leq \frac{\epsilon}{2} \right \}} |f_m -f| \wedge 1  \, d\mu + \int_{\left \{ |f_m - f| > \frac{\epsilon}{2} \right \}} |f_m -f| \wedge 1  \, d\mu \\
+                                          &\leq \int_{\R^n} \frac{\epsilon}{2} \, d\mu +   \int_{\left \{ | f_m - f | > \frac{\epsilon}{2} \right \}} 1 \, d\mu \\
+                                          &\leq \frac{\epsilon}{2} \mu(\R^n) + \mu (\left \{ | f_m - f | > \frac{\epsilon}{2}  \right \}) \\
+                                          &< \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon, \text{ for $m \geq M$, by \ref{ineqn:universality:measure:modes_convergence:bc_1}}. 
+\end{align*}
+Hence $\rho_\mu (f_m, f) < \epsilon$, for $m \geq M$.
+\end{step}
+\begin{step}[$c \Longrightarrow b$]
+Suppose $\rho_\mu (f_m, f) \to 0 $ as $m \to \infty$, so $\int_{\R^n} | f_m - f| \wedge 1 \, d\mu \to 0$ as $m \to \infty$. Let $\epsilon > 0$. To prove that $\mu(\{ |f_m - f| > \epsilon \}) \to 0$ as $m \to \infty$, it is sufficient to show that every subsequence $\mu(\{ |f_{m_k} - f| > \epsilon \}) $ has a subsubsequence $\mu(\{ |f_{m_{k_l}} - f| > \epsilon \})$ such that $\mu(\{ |f_{m_{k_l}} - f| > \epsilon \}) \to 0 $ as $l \to \infty$. Thus, let $\{ f_{m_k} \}_{k = 1}^\infty$ be an arbitrary subsequence of $\{ f_m \}_{m = 1}^\infty$. By \nameref{proposition:measure:ineqn:markov},
+\begin{align}
+    \label{eqn:universality:measure:modes_convergence:cb_1}
+    \mu(\{ | f_{m_k} - f| \wedge 1 > \epsilon \}) \leq \frac{1}{\epsilon} \int_{\R^n} |f_{m_k} - f| \wedge 1 \, d\mu.
+\end{align}
+Since  $\{ f_{m_k} \}_{k = 1}^\infty$ is a subsequence of $\{ f_m \}_{m = 1}^\infty$, \begin{align}
+    \label{eqn:universality:measure:modes_convergence:cb_2}
+    \lim_{k \to \infty} \int_{\R^n}  |f_{m_k} - f| \wedge 1 \, d\mu = \lim_{m \to \infty} \int_{\R^n} |f_{m} - f| \wedge 1 \, d\mu.
+\end{align}
+Taking $\lim_{k \to \infty}$ on both sides of \ref{eqn:universality:measure:modes_convergence:cb_1} and applying \ref{eqn:universality:measure:modes_convergence:cb_2} gives
+\begin{align}
+    \label{eqn:universality:measure:modes_convergence:cb_3}
+    \lim_{k \to \infty}   \mu(\{  |f_{m_k} - f| \wedge 1 > \epsilon \}) = 0.
+\end{align}
+Since $ |f_{m_k} - f| \wedge 1 \to 0$ in $\mu$ by \ref{eqn:universality:measure:modes_convergence:cb_3}, by \nameref{proposition:measure:convergence:mu_implies_subseqn_ae}, there exists a subsubsequence $|f_{m_{k_l}} - f| \wedge 1$ converging to $0$ $\mu$-almost everywhere. Thus, $|f_{m_{k_l}} - f| \to 0$ $\mu$-almost everywhere. By \nameref{proposition:measure:convergence:ae_implies_mu}, $|f_{m_{k_l}} - f|$ converges to $0$ in $\mu$. Therefore, $\mu(\{ |f_{m_{k_l}} - f| > \epsilon \} \to 0 $ as $l \to \infty$.
+\end{step}
+\end{proof}
+\begin{remark}
+Consequently, the convergence in probability measure is metrisable. By Proposition \ref{proposition:universality:measure:modes_convergence}, metrics $\delta_\mu$ and $\rho_\mu$ are equivalent. Moreover, they characterize the convergence in probability measure and induce the same topology on $\M^n$.
+\end{remark}
+ Before stating the next result, we will introduce the notation for closed balls in $\R^n$. Let $\vec{a} \in \R^n$ and $r > 0$. We denote the closed ball of radius $r$ centred at $\vec{a}$ by $B(\vec{a}, r) = \{ \vec{x} \in \R^n : \norm{\vec{x} - \vec{a}} \leq r \}.$ The following proposition provides a link between convergence on compacta and convergence in measure $\mu$.
+\begin{proposition}[Uniform convergence on compacta implies convergence in $\mu$]
+\label{proposition:universality:measure:convg_compacta_implies_mu}
+Let $\{ f_m \}_{m=1}^\infty$ be a sequence of functions in $\M^n$ that converges uniformly to $f \in \M^n$ on compacta. In other words, for every compact set $K \subset \R^n$, \[ 
+    \sup_{\vec{x} \in K} \{ | f_m (\vec{x}) - f(\vec{x}) | \} \to 0, \text{ as $m \to \infty$}.
+\]
+Then $\delta_\mu(f_m, f) \to 0$ as $m \to \infty$.
+\end{proposition}
+\begin{proof-idea*}
+We will appeal to \nameref{proposition:universality:measure:modes_convergence}. Instead of directly proving $\delta_\mu(f_m, f) \to 0$ as $m \to \infty$, 
+we will show $\rho_\mu(f_m, f) \to 0$ as $m \to \infty$. The main idea is to estimate the integral $\int_{\R^n} |f_m - f| \wedge 1 \, d\mu$ by integrating over a sufficiently large compact set $K$ where we can control the absolute value of the integrand and the complement of such a set. We will find such a compact set by writing $\R^n$ as an increasing union of compact sets, namely closed balls. The desired compact set will arise from continuity of $\mu$. After extracting the desired compact set, we will estimate above mentioned integrals and combine those estimates to complete the proof.
+\end{proof-idea*}
+\begin{proof}
+By Proposition \ref{proposition:universality:measure:modes_convergence}, it is equivalent to show that $\rho_\mu(f_m, f) \to 0$ as $m \to \infty$. We need to show that \[
+    \int_{\R^n} |f_m - f| \wedge 1 \, d\mu \to 0 \text{ as $m \to \infty$}.
+\]
+Let $\epsilon > 0$. We will estimate the integral $\int_{\R^n} |f_m - f| \wedge 1 \, d\mu$ by integrating over a sufficiently large compact set $K$ and its complement. We begin by constructing such a compact set $K$. For $k > 0$, consider $B(\vec{0}, k)$. By Heine-Borel Theorem, $B(\vec{0}, k)$ is compact. Note that $\R^n = \bigcup_{k=1}^\infty B(\vec{0}, k)$. Since for every $k \in \N$, $B(\vec{0}, k) \subset B(\vec{0}, k + 1)$, by continuity of the probability measure $\mu$, 
+\begin{align}
+    \label{eqn:universality:measure:convg_compacta_implies_mu:1}
+    \mu (\R^n) = 1 = \lim_{k \to \infty} \mu (B(\vec{0}, k)).
+\end{align}
+By \ref{eqn:universality:measure:convg_compacta_implies_mu:1}, there exists $k_0 \in \N$ such that \[
+1 - \frac{\epsilon}{2} < \mu (B(\vec{0}, k)) \leq 1, \text{ for every  $k \geq k_0$}.
+\]
+Set $K = B(\vec{0}, k_0)$. Then $\mu(K) > 1 - \frac{\epsilon}{2}$. Hence \begin{align}
+    \label{eqn:universality:measure:convg_compacta_implies_mu:2}
+    \mu (\R^n \setminus K) = \mu (\R^n) - \mu (K) < 1 - \left(1 - \frac{\epsilon}{2}\right) = \frac{\epsilon}{2}.
+\end{align}
+Write \begin{align}
+    \label{eqn:universality:measure:convg_compacta_implies_mu:int_decomp}
+    \int_{\R^n} | f_m - f | \wedge 1 \, d\mu =  \int_{K} | f_m - f | \wedge 1 \, d\mu  + \int_{\R^n \setminus K} | f_m - f | \wedge 1 \, d\mu. 
+\end{align}
+Consider $\int_{K} | f_m - f | \wedge 1 \, d\mu$. 
+\newpage 
+Since $\sup_{\vec{x} \in K} \{ | f_m (\vec{x}) - f(\vec{x}) \} \to 0$ as $m \to \infty$, there exists $M \in \N$ such that \begin{align}
+    \label{eqn:universality:measure:convg_compacta_implies_mu:3}
+    \sup_{\vec{x} \in K} \{ | f_m (\vec{x}) - f(\vec{x}) \} < \frac{\epsilon}{2}, \text{ for every $m \geq M$. }
+\end{align}
+Applying \ref{eqn:universality:measure:convg_compacta_implies_mu:3} gives
+\begin{subequations}\label{eqn:universality:measure:convg_compacta_implies_mu:4}
+\begin{align*}
+    \int_{K} | f_m - f | \wedge 1 \, d\mu &\leq  \int_{K} | f_m - f |  \, d\mu \leq \int_{K} \sup_{\vec{x} \in K} \{ | f_m (\vec{x}) - f(\vec{x}) | \}\, d\mu \\
+        &\leq \int_{\R^n} \frac{\epsilon}{2} \, d\mu = \frac{\epsilon}{2} \cdot \mu (\R^n) = \frac{\epsilon}{2}, \text{ for every $m \geq M$.}
+     \tag{\ref{eqn:universality:measure:convg_compacta_implies_mu:4}} 
+\end{align*}
+\end{subequations}
+Consider $\int_{\R^n \setminus K} | f_m - f | \wedge 1 \, d\mu$. Applying \ref{eqn:universality:measure:convg_compacta_implies_mu:2} gives \begin{align}
+    \int_{\R^n \setminus K} | f_m - f | \wedge 1 \, d\mu \leq  \int_{\R^n \setminus K}  1 \, d\mu = \mu(\R^n \setminus K) < \frac{\epsilon}{2}.
+\end{align}
+By \ref{eqn:universality:measure:convg_compacta_implies_mu:int_decomp} and \ref{eqn:universality:measure:convg_compacta_implies_mu:4}, \ref{eqn:universality:measure:convg_compacta_implies_mu:2}, we have \begin{align*}
+    \int_{\R^n} | f_m - f | \wedge 1 \, d\mu  < \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon, \text{ for every $m \geq M$. }
+\end{align*}
+\end{proof}

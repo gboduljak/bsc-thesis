@@ -1,0 +1,26 @@
+\begin{proof}
+Since $\mathcal{A}$ is an algebra, so is $\overline{\mathcal{A}}$ by \nameref{lemma:top:unifclosure}.
+Let $f \in \C(X)$ and let $\epsilon > 0$. Using the compactness of $X$ and closure properties of $\mathcal{A}$, we will construct the desired approximation of $f$.
+We will show that for every $s \in X$, there exists $h_s \in \overline{\mathcal{A}}$ such that for every $x \in X, h_s(x) < f(x) + \frac{\epsilon}{2}$.
+Suppose $s, t \in X$ such that $s \neq t$. Since $\mathcal{A}$ separates points of $X$, there exists $h \in A$ such that $h(s) \neq h(t)$. Define 
+\begin{align*}
+    f_{s, t} (x) := s \cdot \frac{h(x) - h(t)}{h(s) - h(t)} + t  \cdot \frac{h(x) - h(s)}{h(t) - h(s)}.
+\end{align*}
+Observe that $f_{s, t} (s) = s$ and $f_{s, t} (t) = t$. Clearly, $f_{s,t} \in \mathcal{A}$ so $f_{s,t} \in  \overline{\mathcal{A}}$. Define 
+\begin{align*}
+    V_{s, t} := \left \{ x :  x \in X, |f_{s,t}(x) - f(x)| < \frac{\epsilon}{2} \right \} =| f_{s,t} - f|^{-1} (-\infty, \frac{\epsilon}{2}).
+\end{align*}
+Since $f_{s, t} (s) = s$ and $f_{s, t} (t) = t$, $s, t \in V_{s, t}$. Since $f_{s,t} \in \C(X)$, $| f_{s,t} - f | \in \C(X)$. By continuity of $f_{s,t}$, $V_{s, t}$ is open since it is the preimage of an open interval. 
+
+Consider the family $\{ f_{s, t} \}_{t \in X}$.  Since $t \in V_{s,t}$, $\{V_{s,t} \}_{t \in X}$ is an open cover for $X$. By compactness of $X$, there exist $t_1, \ldots t_n$ such that $X = \bigcup_{k = 1}^{n} V_{s, t_k}$. Now define $h_s := \min_{1 \leq k \leq n} f_{s, t_{k}}$. By \nameref{lemma:top:closurelattice}, $h_s \in \overline{\mathcal{A}}$. We will show $h_s(x) < f(x) + \frac{\epsilon}{2}$, for every $x \in X$. Let $x \in X$. Then $x \in V_{s, t_j}$, for at least one $j$ such that $1 \leq j \leq n$. Now
+\begin{align*}
+    h_s(x) - f(x) &\leq f_{s, t_j} (x) - f(x)  & \text{by definition of $h_s$, for every $1 \leq k \leq n$} \\
+                  &\leq |f_{s, t_j} (x) - f(x)|  < \frac{\epsilon}{2} &  \text{since $x \in V_{s, t_{j}}$}.
+\end{align*}
+Hence $h_s(x) < f(x) + \frac{\epsilon}{2}$, as claimed.
+Set $W_s = \bigcap_{1 \leq k \leq n} V_{s, t_{k}}$. Since $s \in V_{s, t_{k}}$, $s \in W_s$. Since each $V_{s, t_k}$ is open, so is $W_s$. But then, the family $\{W_s \}_{s \in X}$ is an open cover for $X$. By compactness of $X$, there exist $s_1, \ldots s_m$ such that $X = \bigcup_{k = 1}^{m} W_{s_k}$. Define $g := \max_{1 \leq k \leq m} h_{s_k}$. By \nameref{lemma:top:closurelattice}, $g \in \overline{\mathcal{A}}$. Since $h_{s_k}(x) < f(x) + \frac{\epsilon}{2}$, \begin{equation}
+    \label{ineqn:top:stone:1}
+    g(x) < f(x) + \frac{\epsilon}{2}, \text{for every $x \in X$}.
+\end{equation} We will show $f(x) - \frac{\epsilon}{2} < g(x)$, for every $x \in X$. Let $x \in X$. Then $x \in W_{s_i}$, for at least one $i$ satisfying $1 \leq i \leq m$. But then, $y \in \bigcap_{1 \leq k \leq n} V_{s_i, t_{k}}$. So for every $j$ satisfying $1 \leq j \leq n$, $y \in V_{s_i, t_j}$ implying $| f_{s_i, t_j} (x) - f(x) | < \frac{\epsilon}{2}$. But then, $f(x) - \frac{\epsilon}{2} < f_{s_i, t_j} (x)$, for every $1 \leq j \leq n$. This implies $f(x) - \frac{\epsilon}{2} < h_{s_i}(x) \leq  \max_{1 \leq k \leq m} h_{s_k}(x) = g(x)$.
+By \ref{ineqn:top:stone:1} and just proved inequality, for every $x \in X$, $| f(x) - g(x) | < \frac{\epsilon}{2}$ so $\delta_\infty(f, g) \leq \frac{\epsilon}{2} < \epsilon$.
+\end{proof}

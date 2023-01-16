@@ -1,0 +1,13 @@
+\section{Universal approximation of square-integrable functions}
+\label{section:universality:ltwo}
+Another important function space is the space of Lebesgue square-integrable functions. Those functions often arise in signal processing and physics. They are often interpreted as signals of finite energy. We will focus on functions in $\Ltwo([0,1]^n)$ because $\Ltwo([0,1]^n)$ is a Hilbert space. Due to this fact, it is sensible to discuss the notion of orthogonality. The orthogonality will help us gain more intuition about $\Ltwo([0,1]^n)$-discriminatory functions.
+To establish the \nameref{thm:universality:ltwo:discrim}, we will use Cybenko's method. The argument will be divided into two main sections outlined below.
+\begin{description}
+\item[\nameref{subsection:universality:ltwo:1}] In this subsection, we will introduce the concept of a $\Ltwo([0,1]^n)$-discriminatory activation function. We will discuss a few examples of such functions and develop a lemma to identify discriminatory activation functions. This section will be very similar to \nameref{subsection:universality:cybenko:1}.
+\item[\nameref{subsection:universality:ltwo:2}] In this subsection, we will prove the \nameref{thm:universality:ltwo:discrim}. We will reuse a lot of theory developed in \nameref{subsection:universality:cybenko:3}.
+\end{description}
+\begin{remark}
+It is worth noting that results from this section can be generalized to $\Ltwo(K)$, where $K$ is any compact subset of $\R^n$. However, we consider $\Ltwo([0,1]^n)$ for the sake of simplicity and compatibility with \cite{cybenko_1989_approximation}.
+\end{remark}
+\input{universality/lebesgue-spaces/l2/discriminatory}
+\input{universality/lebesgue-spaces/l2/uap}

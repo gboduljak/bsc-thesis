@@ -1,0 +1,89 @@
+\newpage
+\section{Universal approximation of continuous functions via Stone-Weierstrass}
+\label{section:universality:continuous:stone-weierstrass}
+In this section, we will focus on the space $\C(K)$, where $K \subset \R^n$ is a compact set. We aim to show that the family $\mathcal{H}_{\exp}$ is dense in $\C(K)$. When it comes to the approximation of continuous functions on compact sets, it is natural to consider one of the famous theorems addressing this issue - \nameref{thm:anal:stone-weierstrass}. Before discussing the proof of \nameref{thm:universality:stone-weierstrass:uap}, we will present the \nameref{thm:anal:stone-weierstrass} and concepts required for its application.
+
+\begin{theorem*}[Stone-Weierstrass Theorem]
+Suppose that $X$ is a compact metric space. If $\mathcal{A}$ is an algebra in $\C(X)$ that separates points of $X$ and contains constants then $\mathcal{A}$ is uniformly dense in $\C(X)$.
+\end{theorem*}
+\begin{proof}
+See \nameref{thm:anal:stone-weierstrass}.
+\end{proof}
+\begin{remark}
+If $\mathcal{A}$ is uniformly dense in $\C(X)$, $\mathcal{A}$ is $\delta_\infty$-dense. In this context, uniform density is equivalent to density in $\delta_\infty$ metric. 
+\end{remark}
+
+Closely related to the \nameref{thm:anal:stone-weierstrass} is the idea of separating points of a topological (sub)space.
+\begin{definition*}[separation on $\C(X)$]
+A subset $\mathcal{A}$ of $\C(X)$ separates points of $X$ if and only if given $x, y \in X$ with $x \neq y$ there exists $f \in \mathcal{A}$ such that $f(x) \neq f(y)$.
+\end{definition*}
+Informally, $\mathcal{A}$ is powerful enough to distinguish different inputs by mapping them to different outputs, while preserving continuity. In our context, $\mathcal{A}$ will be a family of fully-connected neural networks with a single hidden layer and exponential activation function, denoted by $\mathcal{H}_{\exp}$. The main reason why we consider $\exp$ activation will become evident soon. Using the \nameref{thm:anal:stone-weierstrass}, we can elegantly prove the first fundamental result about the approximation power of single-layer fully-connected neural networks.
+\begin{theorem}[The Universal Approximation Theorem for $\exp$ activation]
+\label{thm:universality:stone-weierstrass:uap}
+Let $K \subset \R^n$ be a compact subset of $\R^n$, with respect to the standard topology on $\R^n$. Let $\mathcal{H}_{\exp}$ denote the family of single-layer fully-connected neural networks with $\exp$ activation function, given by \begin{align*}
+    \mathcal{H}_{\exp} = \left \{ \vec{x} \to \sum_{k=1}^{m} \alpha_k \exp{\left (\langle \vec{w_k}, \vec{x} \rangle \right)} : m \in \N, \alpha_1 \ldots \alpha_m \in \R, \vec{w_k} \in \R^n \right \}.
+\end{align*}
+The family $\mathcal{H}_{\exp}$ is uniformly dense in $\C(K)$.
+\end{theorem}
+\begin{proof-idea*}
+By looking at the statement of the result we aim to prove and the conditions of the \nameref{thm:anal:stone-weierstrass}, it is natural to aim to apply the \nameref{thm:anal:stone-weierstrass}. We will demonstrate that $\mathcal{H}_{\exp}$ satisfies the necessary conditions.
+\end{proof-idea*}
+\pagebreak
+\begin{proof}
+\setcounter{step}{0}
+\begin{step}[$\mathcal{H}_{\exp} \subset \mathcal{C}(K)$]
+This is obvious since a linear combination of continuous functions is still continuous.
+\end{step}
+\begin{step}[$\mathcal{H}_{\exp}$ is an algebra]
+Let $f, g \in \mathcal{H}_{\exp}$ and suppose \begin{align*}
+    f (\vec{x}) = \sum_{k = 1}^n  \alpha_k \exp{\left (\langle \vec{w_k}, \vec{x} \rangle \right)}, & \\
+    g(\vec{x}) =  \sum_{l = 1}^m  \beta_l \exp{\left (\langle \vec{v_l}, \vec{x} \rangle \right)},
+\end{align*}
+where $n, m \in \N, \alpha_1 \ldots \alpha_n \in \R, \beta_1 \ldots \beta_m \in \R, \vec{w_1} \ldots \vec{w_n} \in \R^n, \vec{v_1} \ldots \vec{v_m} \in \R^n$.
+Clearly, $f + g \in \mathcal{H}_{\exp}$. Clearly $c f \in \mathcal{H}_{\exp}$, for every $c \in \R$. We will show that $fg \in \mathcal{H}_{\exp}$. We have
+\begin{align*}
+    f (\vec{x}) g (\vec{x}) &= \left( \sum_{k = 1}^n  \alpha_k \exp{\left (\langle \vec{w_k}, \vec{x} \rangle \right)} \right) \left( \sum_{l = 1}^m  \beta_l \exp{\left (\langle \vec{v_l}, \vec{x} \rangle \right)} \right) & \\
+                            &= \sum_{k = 1}^n \sum_{l = 1}^m \alpha_k \beta_l \exp{\left (\langle \vec{w_k}, \vec{x} \rangle \right)} \exp{\left (\langle \vec{v_l}, \vec{x} \rangle \right)} & \\
+                            &= \sum_{k = 1}^n \sum_{l = 1}^m \alpha_k \beta_l \exp{\left (\langle \vec{w_k} + \vec{v_l}, \vec{x} \rangle \right)} \in \mathcal{H}_{\exp}.
+\end{align*}
+Hence $H_{\exp}$ is indeed an algebra on $\C(K)$.
+\end{step}
+
+\begin{step}[$\mathcal{H}_{\exp}$ contains constants]
+This is evident from definition of $\mathcal{H}_{\exp}$. Let $\alpha \in \R$. Then
+$ f (\vec{x}) = \alpha = \alpha  \exp{\left (\langle \vec{0}, \vec{x} \rangle \right)} \in \mathcal{H}_{\exp}$.
+\end{step}
+
+\begin{step}[$\mathcal{H}_{\exp}$ separates points of $K$]
+Let $\vec{u}, \vec{v} \in \R^n$ and suppose that $\vec{u} \neq \vec{v}$. Set $\vec{w} = \vec{u} - \vec{v}$. Define $f :K \to \R$ by  $f(\vec{x}) = \exp \left ( {\langle \vec{w}, \vec{x} \rangle } \right)$. Clearly, $f \in \mathcal{H}_{\exp}$.  We claim that $f$ separates $\vec{u}$ and $\vec{v}$. We have
+
+\begin{subequations}\label{eqn:universality:stone-weierstrass:uap:1}
+\begin{align*}
+    \frac{f(\vec{u}) }{f(\vec{v}) } &= \frac{ \exp \left ( {\langle \vec{w}, \vec{u} \rangle } \right)}{ \exp \left ( {\langle \vec{w}, \vec{v} \rangle } \right)} =  \exp \left ( {\langle \vec{w}, \vec{u} \rangle } - {\langle \vec{w}, \vec{v} \rangle }  \right) = \exp \left( {\langle \vec{w}, \vec{u} - \vec{v} \rangle }  \right) &\\
+        &=  \exp \left( \norm{\vec{u} - \vec{v}}^2 \right).
+     \tag{\ref{eqn:universality:stone-weierstrass:uap:1}} 
+\end{align*}
+\end{subequations}
+
+Since $\vec{u} \neq \vec{v}$, $\norm{\vec{u} - \vec{v}} \neq 0$. By \ref{eqn:universality:stone-weierstrass:uap:1}, $f(\vec{u}) \neq f(\vec{v})$. Since $\vec{u}, \vec{v}$ were arbitrary, $\mathcal{H}_{\exp}$ indeed separates points of $K$.
+\end{step}
+The result follows directly from \nameref{thm:anal:stone-weierstrass}.
+\end{proof}
+
+\begin{remark}
+To the author's knowledge, there has been no paper or textbook discussing this statement and proof addressing directly $\exp$ activation function. However, the statement and proof of the result above are a special case of the following theorem presented in \cite{hornik}. 
+\pagebreak
+\begin{theorem*}[Theorem 2.1 in \cite{hornik}]
+Let $K \subset \R^n$ be a compact subset of $\R^n$, with respect to the standard topology on $\R^n$. Let $\varphi : \R \to \R$ be any continuous nonconstant activation function. Let $\Sigma\Pi$ denote the family of functions $\R^n \to \R$ given by \[ 
+ \Sigma\Pi = \left \{ \vec{x} \to  \sum_{i=1}^m \alpha_i \prod_{j = 1}^{m_k} \sigma (\langle \vec{w}_{ji}, \vec{x}  \rangle + \beta_{ji} )  \right\},
+\]
+where $m \in \N, m_k \in \N, \vec{w}_{ji} \in \R^n, \alpha_i \in \R, \beta_{ji} \in \R$. Then $\Sigma\Pi$ is dense in $\C(K)$.
+\end{theorem*}
+\end{remark}
+
+It is worth discussing a few limitations of both statement and the proof of \nameref{thm:universality:stone-weierstrass:uap}. However elegant the argument is, we should be aware of its structural requirements from the family $\mathcal{H}_{\exp}$. Informally, any family satisfying the conditions of the \nameref{thm:anal:stone-weierstrass} resembles polynomials. More precisely, the algebraic closure under multiplication is a strong condition that many practically relevant activation functions do not guarantee. A clear counterexample is a neural network with a logistic sigmoid activation. This limitation will prevent us from easily generalizing the argument to more widely used and practically relevant activation functions.
+However, a generalization of such an argument was done in paper \cite{hornik}.
+
+In the next section, we will use a significantly different approach and argument style. Most of the work presented in the subsequent sections will be based on the relationship between the density of a family in a normed linear space and its dual space. This approach will enable us to support more widely used activation functions such as the logistic sigmoid.
+
+Apart from the structural requirement on the approximation family, the proof gave us no insight into the underlying structure of the neural network accomplishing the desired error. For example, the argument told us nothing about the number of neurons required to achieve the desired error. Unfortunately, even the subsequent sections will give us no insight into this important question which is still an open research area.

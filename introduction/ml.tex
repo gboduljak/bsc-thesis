@@ -1,0 +1,59 @@
+\section{Machine Learning}
+\label{section:introduction:machine-learning}
+In this section, we will introduce the standard machine learning concepts following the viewpoint of the statistical learning theory. Although this project is not concerned with issues studied in the statistical learning theory, definitions developed in that field are often useful to formalize common problems studied in machine learning, such as classification and regression. Definitions that will be presented are modifications of ones presented in \cite{shalevshwartz_2014_understanding}.
+
+\subsection{Standard machine learning terminology}
+\label{subsection:ml:terminology}
+Let $\mathcal{X}$ be the set of inputs, also called observations.
+Let $\mathcal{Y}$ be the finite set of outputs, also called labels.
+
+\begin{definition}[a training set]
+A training set is a finite subset of $ \mathcal{X} \times \mathcal{Y}$, often denoted by $S$,
+\begin{equation*}
+    S = \{ (x_1, y_1), \ldots, (x_n, y_n) \} \subseteq \mathcal{X} \times \mathcal{Y}.
+\end{equation*}
+\end{definition}
+
+\begin{definition}[a learning algorithm]
+A learning algorithm $\mathcal{A}$ is a map: 
+\begin{equation*}
+    \mathcal{A} : \bigcup_{n \in \mathbb{N}} (\mathcal{X} \times \mathcal{Y})^n \to \mathcal{Y}^\mathcal{X}.
+\end{equation*}
+\end{definition}
+
+\begin{remark}
+The input of a learning algorithm is a training set $S$. The range of a learning algorithm is a set of functions which can be learned, denoted by $\mathcal{F}$. 
+\end{remark}
+
+\begin{definition}[a hypothesis]
+A function $h : \mathcal{X} \to \mathcal{Y}$ is called a \textbf{hypothesis}.
+\end{definition}
+
+\begin{remark}
+The output of a learning algorithm $\mathcal{A}$ given the training set $S$ is the hypothesis $h_S = \mathcal{A}(S)$.
+\end{remark}
+
+\subsection{An important probabilistic assumption}
+
+Elements of a training set $S$, $(x_i, y_i)$, are treated as outcomes of random variables $(X_i, Y_i)$ which are independently and identically distributed according to an unknown distribution $\mathcal{D}$ over $\mathcal{X} \times \mathcal{Y}$. It is often assumed that the underlying $\sigma$-algebra is the product $\sigma$-algebra of Borel $\sigma$-algebras with respect to usual topologies. The joint distribution of a training set $S$ is often denoted by $\mathcal{D}^n$.
+
+\subsection{Machine learning tasks}
+
+The main goal of a learning algorithm is to find the optimal hypothesis $h$ with respect to the suitably chosen \textbf{loss function} $L : \mathcal{Y} \times \mathcal{Y} \to \mathbb{R}$. The purpose of the loss function $L$ is to measure the error between $h(x)$ and the expected true $y$ corresponding to $x$. The quantity of the central interest is \textbf{generalization error}.
+
+\begin{definition}[generalization error]
+\textbf{Generalization error} of the hypothesis $h$ is given by
+\begin{equation*}
+    E (h) = \mathbb{E}_{(x, y) \sim \mathcal{D}} [ L(y, h(x)) ] = \int_{\mathcal{X} \times \mathcal{Y}} L (y, h(x))  \,d\mathcal{D}(x, y)\\.
+\end{equation*}
+\end{definition}
+\begin{remark}
+In statistical learning literature, a generalization error is also known as a risk. In machine learning context, the term generalization error is more prevalent.
+\end{remark}
+
+The central machine learning problem solved by learning algorithms is finding the hypothesis $h$ minimising the generalization error.
+The main difficulty is the fact that the probability distribution $D$ is unknown and the only information given to the learning algorithm is a training set $S$. In other words, the learning algorithm $\mathcal{A}$ is tasked to produce a hypothesis function $h_S$ given only $S$, which can be a very small subset of $\mathcal{X} \times \mathcal{Y}$. Depending on whether $\mathcal{Y}$ is continuous or discrete, a learning algorithm is solving either a regression or a classification problem. Although this distinction seems unnecessary, regression and classification problems are fundamentally different from statistical perspective. This is often reflected in the choice of the loss function. 
+
+\subsection{Model selection}
+Given the dataset, there are usually multiple candidate hypotheses. Candidate hypotheses often arise from different learning algorithms. Sometimes, hypotheses are also parameterized and the same learning algorithm can produce different hypotheses, each corresponding to a particular parameter set. 
+Model selection is a problem of selecting the best hypothesis from the set of candidate hypotheses, given the data. Usually, the best model is defined as the model achieving the smallest generalization error. Since the generalization error is often computationally intractable, the generalization error of each candidate hypothesis is estimated from the data which was not used to train the model. This dataset is often known as a validation or a test set. However, there are many ways to estimate the generalization error. An alternative approach is k-fold cross-validation. \newpage In \nameref{chapter:experiments}, we will use a validation set to estimate generalization error.

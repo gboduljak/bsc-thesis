@@ -1,0 +1,29 @@
+\newpage
+\section{Universal approximation of continuous functions via Cybenko's method}
+\label{section:universality:continuous:cybenko}
+
+In this section, we will focus on the approximation in the space $\C([0,1]^n)$, where $[0,1]^n$ denotes the $n$-dimensional unit hypercube. It is worth noting that most of the results established in this section generalize to any compact subset of $\R^n$. However, we focus on $[0,1]^n$ for the sake of compatibility with \cite{cybenko_1989_approximation}. We will discuss one of the most famous results regarding the approximation power of single-layer, fully-connected neural networks. The main result of this section is the following theorem, proved by G. Cybenko in the paper \cite{cybenko_1989_approximation} from 1989.
+\begin{theorem*}[Cybenko, 1989]
+Let $\mathcal{H}_{\sigma}$ denote the family of single-layer fully-connected neural networks with the logistic sigmoid activation function, given by \begin{align*}
+\mathcal{H}_{\sigma} = \left \{ \vec{x} \to \sum_{k=1}^{m} \alpha_k \sigma{\left (\langle \vec{w_k}, \vec{x} \rangle + \beta_k \right)} : m \in \N, \alpha_1 \ldots \alpha_m , \beta_1 \ldots \beta_m \in \R, \vec{w_k} \in \R^n \right \}.
+\end{align*}
+The family $\mathcal{H}_{\sigma}$ is dense in $\C([0,1]^n)$.
+\end{theorem*}
+\begin{remark}
+We will prove a slightly more general version.
+\end{remark}
+
+The proof of this theorem introduces a few novel concepts, such as the notion of discriminatory activation function and a generalization of the logistic sigmoid. Apart from those concepts, the proof relies on standard results from the functional analysis, \nameref{thm:funct:hahn-banach} and \nameref{thm:fcs:rrt-bounded}. To establish the stated theorem, we will develop the necessary concepts in order very similar to \cite{cybenko_1989_approximation}. The structure of the argument is outlined below.
+
+\begin{description}[noitemsep]
+\item[\nameref{subsection:universality:cybenko:1}] In this subsection, we will introduce the concept of a discriminatory activation function. We will discuss a few examples of such functions and develop a lemma to identify discriminatory activation functions.
+\item[\nameref{subsection:universality:cybenko:2}] In this subsection, we will discuss a generalization of the logistic sigmoid. Functions belonging to this generalized family are examples of discriminatory activation functions.
+\item[\nameref{subsection:universality:cybenko:3}] In this subsection, we will explore the relationship between density in a normed linear space and its dual space. The analysis will use methods from functional analysis and measure theory.
+\item[\nameref{subsection:universality:cybenko:4}] We will state the main theorem and present an elegant proof based on results developed in the previous three subsections. 
+\item[\nameref{subsection:universality:cybenko:5}] We will generalize \nameref{thm:universality:cybenko} to $\C([0,1]^n, \R^m)$.
+\end{description}
+
+\input{universality/cybenko/discriminatory}
+\input{universality/cybenko/dual-space}
+\input{universality/cybenko/uap}
+\input{universality/cybenko/vector-valued}

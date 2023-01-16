@@ -1,0 +1,225 @@
+\section{Gradient descent and backpropagation algorithm}
+One of the most important ideas in machine learning is expressing the learning problem as an optimization problem. In this thesis, we will discuss only the supervised learning approach.
+In the supervised setting, we define a \textbf{loss function}, which is a function measuring the error between predictions of the model given the input and correct label corresponding to the input on which the model was evaluated. 
+Assuming fixed neural network topology and a fixed choice of activation functions per layer, in the language of subsection \ref{subsection:ml:terminology}, neural networks are a family of hypothesis functions, parameterized by weights and biases. The purpose of the backpropagation learning algorithm is to find the configuration of weights and biases corresponding to the minimal loss on the training set, using the method of gradient descent. Gradient descent is a first-order, iterative optimization algorithm based on the following fact from analysis in $\R^n$.
+\begin{claim}
+If the multivariable differentiable function $\vec{f}: \R^n \to \R$ is defined and differentiable in a neighbourhood of $\vec{a} \in \R^n$, then $\vec{f}$ decreases fastest at $\vec{a}$ in direction $-\nabla f(\vec{a})$ from $\vec{a}$.
+\end{claim}
+In gradient descent, the claim above is applied to the loss function. In this context, the loss function is a function of parameters of the neural network. The loss function is evaluated on the entire training set or its subset. Those parameters are $L$ layer weight matrices $\{ \vec{W}_l \}_{l=1}^L$ and $L$ layer bias vectors $\{ \vec{b}_l \}_{l=1}^L$.
+Gradient descent iteratively refines the current configuration of weights and biases by moving in the direction in the parameter space suggested by the claim above. This heuristic is expressed as equations \ref{eqn:introduction:backprop:unvectorised_eqn_W_t} and \ref{eqn:introduction:backprop:unvectorised_eqn_b_t}, discussed on the next page.
+\newpage
+In our context, gradient descent is implemented by the following iterative process, repeated for a fixed number of steps or until convergence,
+\begin{subequations}
+\begin{align}
+    w_{ij}^{(l)} [t + 1] &= w_{ij}^{(l)} [t] - \eta \frac{\partial \mathcal{L} }{\partial w_{ij}^{(l)}[t]} \label{eqn:introduction:backprop:unvectorised_eqn_W_t} \\ 
+    b_{j}^{(l)} [t + 1] &= b_{j}^{(l)} [t] - \eta  \frac{\partial \mathcal{L} }{\partial b_{j}^{(l)}[t]}, \label{eqn:introduction:backprop:unvectorised_eqn_b_t} 
+\end{align}
+\end{subequations}
+where $\eta > 0$ is a small constant known as \textbf{the learning rate}. The index $[t]$ indicates the current training step.
+Equations \ref{eqn:introduction:backprop:unvectorised_eqn_W_t} and \ref{eqn:introduction:backprop:unvectorised_eqn_b_t} can be expressed in the following vectorised form.
+\begin{subequations}
+\begin{align}
+    \vec{W}^{(l)}[t + 1] &= \vec{W}^{(l)}[t] - \eta \frac{\partial \mathcal{L}}{\partial \vec{W}^{(l)}[t]}, \label{eqn:introduction:backprop:vectorised_eqn_W_t} \\ 
+    \vec{b}^{(l)}[t + 1] &= \vec{b}^{(l)}[t] - \eta \frac{\partial \mathcal{L}}{\partial \vec{b}^{(l)}[t]}. \label{eqn:introduction:backprop:vectorised_eqn_b_t}
+\end{align}
+\end{subequations}
+There are indeed many ways to initialize weights and biases. The initialization of weights and biases may significantly affect the gradient descent performance, especially in the case of sigmoidal activation functions. An example of a problem related to the initialization of weights and biases is the problem of \textit{vanishing gradients}. We will briefly discuss initialization methods presented in \cite{glorot_understanding} and \cite{he_2015_delving}. However, many different methods exist and are used in practice. For sigmoidal and symmetric activation functions, a common initialization method is \textit{ Xavier/Glorot initialization} \cite{glorot_understanding},
+\begin{align*}
+     w_{ij}^{(l)} [0] \sim \mathcal{U} \left (-\sqrt{\frac{6}{n_{(l)} + n_{(l - 1)}}}, \sqrt{\frac{6}{n_{(l)} + n_{(l - 1)}}}  \right ).
+\end{align*}
+When it comes to rectified activation functions, more prevalent initialization method is \textit{He initialization} \cite{he_2015_delving},
+\begin{align*}
+     w_{ij}^{(l)} [0] \sim \mathcal{N} \left (0, \sqrt{\frac{2}{n_{(l-1)}}} \right).
+\end{align*}
+Biases are often zero-initialized. Due to the structure of feed-forward neural networks and nonlinearity induced by activation functions, minimizing the training set loss is often not a convex optimization problem. Hence the gradient-based optimization presented above may not converge to a global minimum (if it exists) or even converge at all. However, this method works surprisingly well in practice and it recently became a topic of active research. 
+For instance, \cite{li_2018_visualizing} has recently provided a method to visualize loss surfaces of modern neural networks. Using those visualizations, the paper provided a possible explanation of the trainability of modern deep networks. Until recently, it was thought that gradient-based optimization may struggle with local optima and saddle points. Although this is theoretically possible, it seems that optimizers work well in practice. \newpage Many of the latest papers often use more sophisticated gradient-based optimizers. Those optimizers are designed to mitigate common problems related to gradient-based optimization, such as the performance on plateaus. Such optimizers are Adam, Nadam, Nesterov Accelerated Gradient, Adagrad, Adadelta, and RMSProp. For a comprehensive overview of those methods see \cite{ruder_2017_an}.
+\subsection{Stochastic and batch gradient descent}
+Since the training set can often be quite large, it quickly becomes computationally infeasible to compute gradients $\frac{\partial \mathcal{L}}{\partial \vec{W}^{(l)}[t]}, \frac{\partial \mathcal{L}}{\partial \vec{b}^{(l)}[t]}$. This problem arises if the loss function $\mathcal{L}$ is evaluated on the entire training set. A very common solution to this problem is to use stochastic gradient descent or batch gradient descent. Batch gradient descent procedure divides the training of the network into epochs. In each epoch, a small sample is sampled from the training set. This sampled subset of the training set is called a training \textbf{batch}. The loss function is evaluated with respect to the batch and equations \ref{eqn:introduction:backprop:vectorised_eqn_W_t}, \ref{eqn:introduction:backprop:vectorised_eqn_b_t} are also computed with respect to the batch. Stochastic gradient descent is a name for batch gradient descent when a training batch consists of precisely one training example.
+
+\subsection{Loss functions}
+To discuss loss functions, let $\vec{f} : \R^{n_{(0)}} \to \R^{n_{(L)}}$ be an $L$-layer fully-connected neural network parameterized by $L$ weight matrices $\{ \vect{W}^{(l)}  \}_{l=1}^{L}$, bias vectors $\{  \vect{b}^{(l)} \}_{l=1}^{L}$ and choices of activation functions $\{ \sigma^{(l)} \}_{l=1}^{L}$. Suppose $\{ (\vec{x}_k, \vec{y}_k) \}_{k=1}^n$ is the training set. The choice of the loss function depends on the type of a problem that the network $\vec{f}$ is designed to solve.
+The mean square error is widely-used for regression problems. In this setting, the output layer often has identity activation.
+\begin{definition}[mean square error loss]
+The square loss corresponding to the single training item $ (\vec{x}_k, \vec{y}_k)$ is given by 
+\begin{align*}
+    \mathcal{L}_{k}(\{ \vec{W}^{(l)} \}_{l=1}^{L},\{ \vec{b}^{(l)} \}_{l=1}^{L}) = \frac{1}{2} \norm{\vec{f}(\vec{x}_k) - \vec{y_k}}^{2}_2 = \frac{1}{2} \sum_{j = 1}^{n_{(L)}} (f^{(L)}_{j}(\vec{x}_k) - y_{k_{j}})^{2}.
+\end{align*}
+The mean square loss of the training set is given by
+\begin{align*}
+    \mathcal{L}(\{ \vec{W}^{(l)} \}_{l=1}^{L},\{ \vec{b}^{(l)} \}_{l=1}^{L}) &= \frac{1}{n} \sum_{k = 1}^n  \mathcal{L}_{k}(\{ \vec{W}^{(l)} \}_{l=1}^{L},\{ \vec{b}^{(l)} \}_{l=1}^{L} ) \\ 
+    &= \frac{1}{2n} \sum_{k = 1}^n  \norm{\vec{f}(\vec{x}_k) - \vec{y_k}}^{2}_2 \\
+    &=  \frac{1}{2n} \sum_{k = 1}^n \sum_{j = 1}^{n_{(L)}} (f^{(L)}_{j}(\vec{x}_k) - y_{k_{j}})^{2}.
+\end{align*}
+\end{definition}
+\pagebreak
+We will briefly discuss neural networks for multi-class classification. In this setting, we usually design a neural network such that its output layer width matches the number of different classes. Hence, each output layer neuron represents a class.
+Although it is possible to use the mean square error loss to train neural networks for classification, it is often a better idea to use the categorical cross-entropy loss. Categorical cross-entropy loss is a loss function designed for classification problems. In classification setting, this loss is theoretically superior to the mean squared error. For instance, it is tightly connected to Kullback-Leibler divergence between true class distribution and the class distribution the model is designed to learn. The cross-entropy loss is particularly effective when the last layer of the neural network implements \textit{softmax}\cite{bridle_training} activation function.
+\begin{definition}[categorical cross-entropy loss]
+The cross entropy loss corresponding to $(\vec{x}_k, \vec{y}_k)$ is given by 
+\begin{align*}
+    \mathcal{L}_{k}(\{ \vec{W}^{(l)} \}_{l=1}^{L},\{ \vec{b}^{(l)} \}_{l=1}^{L}) = - \sum_{j=1}^{n_{(L)}} y_{k_{j}} \ln{{f}^{(L)}_j(\vec{x}_k) }.
+\end{align*}
+The cross entropy loss of the training set is given by
+\begin{align*}
+    \mathcal{L}(\{ \vec{W}^{(l)} \}_{l=1}^{L},\{ \vec{b}^{(l)} \}_{l=1}^{L}) &= \sum_{k = 1}^n \mathcal{L}_{k}(\{ \vec{W}^{(l)} \}_{l=1}^{L},\{ \vec{b}^{(l)} \}_{l=1}^{L} ) \\ 
+                                                                             &= \sum_{k = 1}^n \sum_{j=1}^{n_{(L)}} y_{k_{j}} \ln{f^{(L)}_j(\vec{x}_k) }.
+\end{align*}
+\end{definition}
+\section{Backward pass}
+In this section, we will show how to systematically compute gradients \ref{eqn:introduction:backprop:vectorised_eqn_W_t} and \ref{eqn:introduction:backprop:vectorised_eqn_b_t} of any differentiable loss function for any fully-connected neural network. For the sake of brevity, we will denoted the $l$th layer of a neural network by $\vec{f}^{(l)}$.
+\begin{proposition}[Backpropagation equations]
+\label{proposition:introduction:backward:naive}
+Let $\vec{f} : \R^{n_{(0)}} \to \R^{n_{(L)}}$ be a differentiable, fully-connected neural network of $L$ layers, parameterized by $L$ weight matrices $\{ \vect{W}^{(l)}  \}_{l=1}^{L}$, bias vectors $\{  \vect{b}^{(l)} \}_{l=1}^{L}$ and choices of activation functions $\{ \sigma^{l} \}_{l=1}^{L}$.
+Let $\mathcal{L}$ be a differentiable loss function for a single example $(\vec{x}, \vec{y})$, so $\vec{f}^{(0)} = \vec{x}$. Then
+\begin{subequations}
+\begin{align}
+    \frac{\partial \mathcal{L}}{\partial w_{ij}^{(l)}} &= \delta_j^{l} \cdot f_{i}^{(l-1)}, \text{ for every $1 \leq i \leq n_{(l-1)}$}, 1 \leq j \leq n_{(l)},  \label{eqn:introduction:proposition:backward:naive:partial_L_partial_wij} \\
+    \frac{\partial \mathcal{L}}{\partial b_{j}^{(l)}}  &= \delta_j^{l}, \text{ for every } 1 \leq j \leq n_{(l)}, 1 \leq l \leq L,  \label{eqn:introduction:proposition:backward:naive:partial_L_partial_b_j} \\
+    \delta_i^{(l-1)} &= \left (\sum_{j=1}^{n_{(l)}}  \delta_j^{(l)} w_{ij}^{(l)} \right) \cdot \left(\sigma^{(l-1)}\right){'} ( a_{i}^{(l-1)}), \text{ for } 1 \leq i \leq n_{(l-1)},  1 \leq l \leq L,  \label{eqn:introduction:proposition:backward:naive:delta_l_minus_1}  \\ 
+    \delta_i^{(L )} &= \frac{\partial \mathcal{L}}{\partial f_{i}^{(L)}} \cdot \left(\sigma^{(L)}\right){'} ( a_{i}^{(L)}), \text{ for } 1 \leq i \leq n_{(L)}. \label{eqn:introduction:proposition:backward:naive:delta_L}  
+\end{align}
+\end{subequations}
+\end{proposition}
+\begin{proof}
+\setcounter{step}{0}
+\begin{step}[Computation of $\frac{\partial \mathcal{L}}{\partial w_{ij}^{(l)}}, \frac{\partial \mathcal{L}}{\partial b_{i}^{(l)}}$]
+Let $\mathcal{L}$ be a loss function, as in the statement. We are interested in quantitites $\frac{\partial \mathcal{L}}{\partial w_{ij}^{(l)}}$ \text{ and } $\frac{\partial \mathcal{L}}{\partial b_{i}^{(l)}}$. Consider single weight $w_{ij}^{(l)}$. By Definition \ref{defn:nn}, the weight $w_{ij}^{(l)}$ connects $i$th neuron in $(l - 1)$th layer to $j$th neuron in $(l)$th layer. By \ref{eqn:introduction:forward:explicit:a}, the weight $w_{ij}^{(l)}$ contributes only to $a_j^{(l)}$ and no other component of $\vec{a}^{(l)}$. Now consider a single bias component $b_{j}^{(l)}$. By \ref{eqn:introduction:forward:explicit:a}, the bias component $b_{j}^{(l)}$ contributes only to $a_j^{(l)}$ and no other component of $\vec{a}^{(l)}$. Thus, by the Chain Rule, \begin{align}
+    \label{eqn:introduction:backward:partial_c_partial_wij_bj}
+    \frac{\partial \mathcal{L}}{\partial w_{ij}^{(l)}} = \frac{\partial \mathcal{L}}{\partial a_{j}^{(l)}} \cdot  \frac{\partial a_{j}^{(l)}}{\partial w_{ij}^{(l)}} \text{ and }     \frac{\partial \mathcal{L}}{\partial b_{j}^{(l)}} = \frac{\partial \mathcal{L}}{\partial a_{j}^{(l)}} \cdot  \frac{\partial a_{j}^{(l)}}{\partial b_{j}^{(l)}}.
+\end{align}
+Consider $\frac{\partial a_{j}^{(l)}}{\partial w_{ij}^{(l)}}$ and $\frac{\partial a_{j}^{(l)}}{\partial b_{j}^{(l)}}$. By \ref{eqn:introduction:forward:explicit:a}, \begin{align}
+    \label{eqn:introduction:backward:partial_alpha_j_partial_wij_bj}
+    \frac{\partial a_{j}^{(l)}}{\partial w_{ij}^{(l)}} &= \frac{\partial}{\partial w_{ij}^{(l)}} \left (  \sum_{k = 1}^{n_{(l-1)}} w_{kj}^{(l)} f_{k}^{(l-1)} + b^{(l)}_j \right ) = f_{i}^{(l-1)}, \\
+    \frac{\partial a_{j}^{(l)}}{\partial b_{j}^{(l)}} &= \frac{\partial}{\partial b_{j}^{(l)}} \left (  \sum_{k = 1}^{n_{(l-1)}} w_{kj}^{(l)} f_{k}^{(l-1)} + b^{(l)}_j \right ) = 1.
+\end{align}
+Substituting \ref{eqn:introduction:backward:partial_alpha_j_partial_wij_bj} into \ref{eqn:introduction:backward:partial_c_partial_wij_bj} gives \begin{align}
+    \label{eqn:introduction:backward:partial_c_partial_wij_bij_2}
+    \frac{\partial \mathcal{L}}{\partial w_{ij}^{(l)}} = \frac{\partial \mathcal{L}}{\partial a_{j}^{(l)}} \cdot f_{i}^{(l-1)}, \text{ and }
+    \frac{\partial \mathcal{L}}{\partial b_{j}^{(l)}} = \frac{\partial \mathcal{L}}{\partial a_{j}^{(l)}}.
+\end{align}
+\end{step}
+For the sake of simplicity, set $\delta_j^{(l)} = \frac{\partial \mathcal{L}}{\partial a_{j}^{(l)}}$.
+Then by \ref{eqn:introduction:backward:partial_c_partial_wij_bij_2}
+\begin{align}
+    \frac{\partial \mathcal{L}}{\partial w_{ij}^{(l)}} = \delta_j^{l} \cdot f_{i}^{(l-1)}  \text{ and }
+    \frac{\partial \mathcal{L}}{\partial b_{j}^{(l)}}  = \delta_j^{l}.
+\end{align}
+By \ref{eqn:introduction:backward:partial_c_partial_wij_bij_2}, to compute $\frac{\partial \mathcal{L}}{\partial w_{ij}^{(l)}}, \frac{\partial \mathcal{L}}{\partial b_{j}^{(l)}}$, it remains to compute $\delta_j$.
+
+\begin{step}[Computation of $\delta_j$]
+We begin with $\delta_L$. By the Chain Rule, \begin{align*}
+    \delta_i ^{(L)} = \frac{\partial \mathcal{L}}{\partial f_{i}^{(L)}} \cdot \frac{\partial f_{i}^{(L)}}{\partial a_{i}^{(L)}}, \text{ for $1 \leq i \leq n_{(L)}$}.
+\end{align*}
+Now consider $\frac{\partial f_{i}^{(L)}}{\partial a_{i}^{(L)}}$. Differentiating \ref{eqn:introduction:forward:explicit:f} yields \begin{align}
+    \frac{\partial f_{i}^{(L)}}{\partial a_{i}^{(L)}}= \frac{\partial}{\partial a_{i}^{(L)}} \left ( \sigma^{(L)}(a_{i}^{(L)}) \right ) =  (\sigma^{(L)})^{'}(a_{i}^{(L)}).
+\end{align}
+We will express $\delta_i^{(l-1)} $ in terms of $\delta_j^{(l)}$. By \ref{eqn:introduction:forward:explicit:a} and \ref{eqn:introduction:forward:explicit:f}, for every $1 \leq i \leq n_{(l-1)}$, $a_i^{(l - 1)}$ contributes to the value of every $a_j^{(l)}$ via $f_i^{(l-1)}$ and only via $f_i^{(l-1)}$. This relationship can be easily seen in Figure \ref{fig:introduction:backprop:between-successive-layers}. By the Chain Rule, for every  $1 \leq l \leq L$, for every $1 \leq i \leq n_{(l-1)}$, 
+\begin{subequations}\label{eqn:introduction:backward:delta_i}
+\begin{align*}
+   \delta_i^{(l-1)} = \frac{\partial \mathcal{L}}{\partial a_{i}^{(l - 1)}} &= \sum_{j=1}^{n_{(l)}} \frac{\partial \mathcal{L}}{\partial a_{j}^{(l)}} \cdot \frac{\partial a_{j}^{(l)}}{\partial a_{i}^{(l-1)}} \\  &= \sum_{j=1}^{n_{(l)}} \delta_j^{(l)}   \cdot \frac{\partial a_{j}^{(l)}}{\partial a_{i}^{(l-1)}}. \tag{\ref{eqn:introduction:backward:delta_i}}
+\end{align*}
+\end{subequations}
+
+\noindent\begin{minipage}{0.25\textwidth}% adapt widths of minipages to your needs
+\begin{tikzpicture}[x=2.7cm,y=1.6cm]
+  \def\NI{5} % number of nodes in input layers
+  \def\NO{4} % number of nodes in output layers
+  \def\yshift{0.4} % shift last node for dots
+  
+  % INPUT LAYER
+  \foreach \i [evaluate={\c=int(\i==\NI); \y=\NI/2-\i-\c*\yshift; \index=(\i<\NI?int(\i):"n_{(l-1)}");}]
+              in {1,...,\NI}{ % loop over nodes
+    \node[node in,outer sep=0.6] (NI-\i) at (0,\y) {$f_{\index}^{(l-1)}$};
+  }
+  
+  % OUTPUT LAYER
+  \foreach \i [evaluate={\c=int(\i==\NO); \y=\NO/2-\i-\c*\yshift; \index=(\i<\NO?int(\i):"n_{(l)}");}]
+    in {\NO,...,1}{ % loop over nodes
+    \ifnum\i=1 % high-lighted node
+      \node[node hidden]
+        (NO-\i) at (1,\y) {$a_{\index}^{(l)}$};
+      \foreach \j [evaluate={\index=(\j<\NI?int(\j):"n_{(l-1)}");}] in {1,...,\NI}{ % loop over nodes in previous layer
+        \draw[connect,white,line width=1.2] (NI-\j) -- (NO-\i);
+        \draw[connect,mygray!40] (NI-\j) -- (NO-\i)
+          node[pos=0.50,mydarkgray] {\contour{black}{$w_{1,\index}$}};
+      }
+    \else % other light-colored nodes
+      \node[node,gray!20!black!80,draw=mygray!10,fill=mygray!5]
+        (NO-\i) at (1,\y) {$a_{\index}^{(l)}$};
+      \foreach \j in {1,...,\NI}{ % loop over nodes in previous layer
+        %\draw[connect,white,line width=1.2] (NI-\j) -- (NO-\i);
+        \draw[connect,mygray!20] (NI-\j) -- (NO-\i);
+      }
+    \fi
+  }
+  
+  % DOTS
+  \path (NI-\NI) --++ (0,1+\yshift) node[midway,scale=1.2] {$\vdots$};
+  \path (NO-\NO) --++ (0,1+\yshift) node[midway,scale=1.2] {$\vdots$};
+\end{tikzpicture}
+\captionof{figure}{between two successive layers $f^{(l-1)}$ and $f^{(l)}$.}
+\label{fig:introduction:backprop:between-successive-layers}
+\end{minipage}%
+\hfill%
+\begin{minipage}{0.65\textwidth}
+By \ref{eqn:introduction:forward:explicit:a} and \ref{eqn:introduction:forward:explicit:f}, 
+\begin{subequations}\label{eqn:introduction:backward:alpha_j}
+\begin{align*}
+    a_{j}^{(l)} &= \sum_{k = 1}^{n_{(l-1)}} w_{kj}^{(l)} f_{k}^{(l-1)} + b^{(l)}_j \\ 
+                     &= \sum_{k = 1}^{n_{(l-1)}} w_{kj}^{(l)} \sigma^{(l-1)}(a_{k}^{(l-1)}) + b^{(l)}_j. \tag{\ref{eqn:introduction:backward:alpha_j}} 
+\end{align*}
+\end{subequations}
+Differentiating \ref{eqn:introduction:backward:alpha_j} with respect to $a_{i}^{(l)}$ gives 
+\begin{subequations}\label{eqn:introduction:backward:partial_alpha_j_partial_alpha_i}
+\begin{align*}
+   \frac{\partial a_{j}^{(l)}}{\partial a_{i}^{(l-1)}} &= \frac{\partial}{\partial a_{i}^{(l-1)}} \left ( \sum_{k = 1}^{n_{(l-1)}} w_{kj}^{(l)} f_{k}^{(l-1)} + b^{(l)}_j \right ) & \\ 
+                     &= \frac{\partial}{\partial a_{i}^{(l-1)}} \left ( \sum_{k = 1}^{n_{(l-1)}} w_{kj}^{(l)} \sigma^{(l-1)}(a_{k}^{(l-1)}) + b^{(l)}_j \right ) & \\ 
+                     &= w_{ij}^{(l)} \cdot \left(\sigma^{(l-1)}\right){'} ( a_{i}^{(l-1)}). \tag{\ref{eqn:introduction:backward:partial_alpha_j_partial_alpha_i}} 
+\end{align*}
+\end{subequations}
+\end{minipage}
+Substituting \ref{eqn:introduction:backward:partial_alpha_j_partial_alpha_i} into \ref{eqn:introduction:backward:delta_i} gives \begin{align*}
+    \delta_i^{(l-1)} &= \sum_{j=1}^{n_{(l)}} \delta_j^{(l)} w_{ij}^{(l)} \left(\sigma^{(l-1)}\right){'} ( a_{i}^{(l-1)}) 
+                = \left (\sum_{j=1}^{n_{(l)}}  \delta_j^{(l)} w_{ij}^{(l)} \right) \cdot \left(\sigma^{(l-1)}\right){'} ( a_{i}^{(l-1)}).
+\end{align*}
+\end{step}
+\end{proof}
+In practice, the standard way of implementing equations from \nameref{proposition:introduction:backward:naive} is an implementation in the vectorized form. Two main advantages of vectorization are readability and performance. Recently, many deep learning programming frameworks started implementing a wide variety of optimized linear algebra routines \cite{li_2020_the}, often supporting efficient execution on GPUs and TPUs. Given the sheer size of modern datasets, vectorization is key to the computationally feasible implementation of both forward and backward passes.
+\begin{corollary}[Vectorised backpropagation equations]
+\label{corollary:introduction:backprop:vectorised}
+\begin{subequations}
+\begin{align}
+    \frac{\partial \mathcal{L}}{\partial \vec{W}^{(l)}} &= \vec{f}^{(l-1)} \delta^{(l)^{\top}} \label{eqn:backward:vectorised_partial_L_partial_W_l} \\ 
+    \frac{\partial \mathcal{L}}{\partial \vec{b}^{(l)}} &= \delta^{(l)} \label{eqn:backward:vectorised_partial_L_partial_b_l} \text{ where } \\
+    \delta^{(l-1)} &= \left ( \vec{W}^{(l)} \delta^{(l)} \right ) \odot  \left(\sigma^{(l - 1)}\right){'} ( \vec{a}_{i}^{(l - 1)}) \label{eqn:backward:vectorised_delta_l_minus_1} \text{ , for $1 \leq l \leq L$, }\\ 
+    \delta^{(L)} &= \frac{\partial \mathcal{L}}{\partial \vec{f}^{(L)} } \odot  \left(\sigma^{(L)}\right){'} ( \vec{a}^{(L)}). \label{eqn:backward:vectorised_delta_L}
+\end{align}
+\end{subequations}
+\end{corollary}
+\begin{remark}
+The symbol $\odot$ denotes the elementwise product, known as also Hadamard product.
+\end{remark}
+\begin{proof}
+The claimed equations follow directly from \nameref{proposition:introduction:backward:naive}. Writing \ref{eqn:introduction:proposition:backward:naive:partial_L_partial_wij} in terms of matrix outer product yields \ref{eqn:backward:vectorised_partial_L_partial_W_l}. Vectorizing \ref{eqn:introduction:proposition:backward:naive:partial_L_partial_b_j} yields \ref{eqn:backward:vectorised_partial_L_partial_b_l}.
+Recognising the inner product expansion $\sum_{j=1}^{n_{(l)}} \delta_j^{(l)} w_{ij}^{(l)}$ in \ref{eqn:introduction:proposition:backward:naive:delta_l_minus_1} and applying the definition of matrix-vector multiplication $\vec{W}^{(l)} \delta^{(l)}$ yields \ref{eqn:backward:vectorised_delta_l_minus_1}. Vectorizing \ref{eqn:introduction:proposition:backward:naive:delta_L} yields \ref{eqn:backward:vectorised_delta_L}.
+\end{proof}
+
+\begin{remark}
+It is worth discussing the computational complexity of  \nameref{proposition:introduction:backward:naive}. Recall that the forward pass equations are
+\begin{align*}
+    \vec{a}^{(l)} &= (\vec{W}^{(l)})^{\top} \vec{f}^{(l - 1)} + \vec{b}^{(l)}, \text{ for $1 \leq l \leq L$,} \\
+    \vec{f}^{(l)} &= \sigma ^{(l)}(\vec{a}^{(l)}),  \text{ for $1 \leq l \leq L$,} \\
+    \vec{f}^{(0)} &= \vec{x}.
+\end{align*}
+By comparing those equations to \ref{eqn:backward:vectorised_partial_L_partial_W_l}, \ref{eqn:backward:vectorised_partial_L_partial_b_l},  \ref{eqn:backward:vectorised_delta_L}, \ref{eqn:backward:vectorised_delta_l_minus_1}, it is not difficult to observe that the time complexity of gradient computation is asymptotically equivalent to the time complexity of forward pass. This implies that backpropagation training is as computationally efficient as evaluating neural network predictions. The computational efficiency of backpropagation algorithm is a very important factor in widespread use of neural networks.
+\end{remark}
+
+\begin{remark}
+We will briefly discuss the importance of the differentiability of the loss function and the neural network. Loss functions are often differentiable, but many modern neural network architectures use rectified activation functions that are not differentiable. This implies that neural networks themselves are not differentiable so the \nameref{proposition:introduction:backward:naive} simply do not hold. However, the gradient descent algorithm can be generalized to the (sub)gradient descent algorithm.
+\end{remark}
+
+\begin{remark}
+So far, we have discussed only the theoretical foundations for training fully-connected neural networks.
+In practice, there is a wide range of software frameworks designed to simplify the design of neural networks and to automate gradient computations we demonstrated in \nameref{proposition:introduction:backward:naive}. Apart from just simplifying gradient computations, modern deep learning software frameworks perform very complex optimizations. The most popular frameworks are Tensorflow\cite{tensorflow2015-whitepaper}, PyTorch \cite{paszke_2019_pytorch} and Jax\cite{jax2018github}. 
+We will use PyTorch in \nameref{chapter:experiments}.
+\end{remark}

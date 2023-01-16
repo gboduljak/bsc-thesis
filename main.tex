@@ -1,0 +1,164 @@
+\documentclass[12pt,oneside]{report}
+\title{On universality of fully-connected neural networks}
+\date{11 March 2022}
+\author{Gabrijel Boduljak}
+\usepackage[y4project,fancyhdr,hyperref,colour]{edmaths}
+\usepackage{amsmath, amsfonts, amssymb, latexsym, amsthm, bm}
+\usepackage{tikz}
+\usepackage[style=alphabetic]{biblatex}
+\usepackage{enumitem}
+\usepackage{csquotes}
+\usepackage{tabularx}
+\usepackage{capt-of}
+\usepackage{listofitems} % for \readlist to create arrays
+\usetikzlibrary{arrows.meta} % for arrow size
+\usepackage[outline]{contour} % glow around text
+\usepackage{caption}
+\usepackage{minted}
+\usepackage{float}
+\usepackage{array}
+\contourlength{1.4pt}
+\captionsetup{
+  singlelinecheck=false,
+}
+\tikzset{>=latex} % for LaTeX arrow head
+\usepackage{xcolor}
+\usepackage{subfigure}
+\usepackage{pgfplots}
+\pgfplotsset{every axis/.append style={tick label style={/pgf/number format/fixed},font=\scriptsize,ylabel near ticks,xlabel near ticks,grid=major}}
+\usemintedstyle{manni}
+\colorlet{myred}{red!80!black}
+\colorlet{myblue}{blue!80!black}
+\colorlet{mygray}{black!25!black}
+\colorlet{myorange}{orange!70!red!60!black}
+\colorlet{mydarkred}{red!30!black}
+\colorlet{mydarkblue}{blue!40!black}
+\colorlet{mydarkgray}{black!30!black}
+\tikzstyle{node}=[thick,circle,draw=mygray,minimum size=22,inner sep=0.5,outer sep=0.6]
+\tikzstyle{node in}=[node,gray!20!black,draw=mygray!30!black,fill=mygray!25]
+\tikzstyle{node hidden}=[node,gray!20!black,draw=mygray!30!black,fill=mygray!20]
+\tikzstyle{node convol}=[node,orange!20!black,draw=myorange!30!black,fill=myorange!20]
+\tikzstyle{node out}=[node,red!20!black,draw=myred!30!black,fill=myred!20]
+\tikzstyle{connect}=[thick,mydarkgray] %,line cap=round
+\tikzstyle{connect arrow}=[-{Latex[length=4,width=3.5]},thick,mydarkgray,shorten <=0.5,shorten >=1]
+\tikzset{ % node styles, numbered for easy mapping with \nstyle
+  node 1/.style={node in},
+  node 2/.style={node hidden},
+  node 3/.style={node out},
+}
+\def\nstyle{int(\lay<\Nnodlen?min(2,\lay):3)} % map layer number onto 1, 2, or 3
+\setlength\parindent{0pt}
+\providecommand{\varitem}{} % to keep LaTeX quiet
+\makeatletter
+\newenvironment{axioms}[1]
+ {\renewcommand\varitem[1]{\item[\textbf{#1\arabic{enumi}\rlap{$##1$}.}]%
+    \edef\@currentlabel{#1\arabic{enumi}{$##1$}}}%
+  \enumerate[label=\textbf{#1\arabic*.}, ref=#1\arabic*, noitemsep]}
+ {\endenumerate}
+\makeatother
+\makeatletter
+\providecommand*{\dif}%
+   {\@ifnextchar^{\DIfF}{\DIfF^{}}}
+\def\DIfF^#1{%
+   \mathop{\mathrm{\mathstrut d}}%
+      \nolimits^{#1}\gobblespace
+}
+\def\gobblespace{%
+   \futurelet\diffarg\opspace}
+\def\opspace{%
+   \let\DiffSpace\!%
+   \ifx\diffarg(%
+      \let\DiffSpace\relax
+   \else
+      \ifx\diffarg\[%
+         \let\DiffSpace\relax
+      \else
+         \ifx\diffarg\{%
+            \let\DiffSpace\relax
+         \fi\fi\fi\DiffSpace}
+\makeatother
+\addbibresource{citations.bib}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{fadings}
+\newtheorem{theorem}{Theorem}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem*{proposition*}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem*{claim}{Claim}
+\newtheorem{lemma}{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{definition}
+\newtheorem*{definition*}{Definition}
+\theoremstyle{remark}
+\newtheorem{step}{Step}
+\theoremstyle{definition}
+\newtheorem{remark}{Remark}
+\theoremstyle{definition}
+\newtheorem{example}{Example}
+\theoremstyle{remark}
+\newtheorem*{proof-idea*}{Proof Idea}
+\newcommand{\vect}[1]{\bm{#1}}
+\flushbottom
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\B}{{\mathcal B}}
+\newcommand{\C}{{\mathcal C}}
+\newcommand{\M}{{\mathcal M}}
+\newcommand{\Lone}{{\mathcal {L}^1}}
+\newcommand{\Ltwo}{{\mathcal {L}^2}}
+\newcommand{\Linfty}{{\mathcal {L}^\infty}}
+\newcommand{\Lp}{{\mathcal {L}^p}}
+\newcommand{\Lq}{{\mathcal {L}^q}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator*{\sgn}{sgn}
+\let\vec\mathbf
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+\begin{document}
+
+\pagenumbering{roman}
+\maketitle
+
+\begin{abstract} 
+\input{abstract.tex}
+\end{abstract}
+\declaration
+\dedication{I dedicate this thesis to my family, for their endless support and encouragement.}
+
+\tableofcontents
+\addcontentsline{toc}{chapter}{Contents}
+\newpage
+\pagenumbering{arabic}
+
+\input{introduction/main}
+\input{literature-review/main}
+\input{universality/main}
+\input{experiments/main}
+\input{conclusion}
+
+\chapter{Appendix}
+\label{chapter:appendix}
+This chapter is devoted mainly to the mathematics backing the main results established in \nameref{chapter:universality}.
+Although many results discussed in this chapter are standard results in their respective fields, most of them are often not part of the undergraduate syllabus. The results that were part of the syllabus will be referenced. The most important results that were not part of the syllabus will be stated and proved.
+This chapter also contains the \nameref{section:appendix:code} and \nameref{section:appendix:statement}.
+\input{set-theory}
+\include{topology}
+\input{measure/main}
+\input{functional-analysis}
+\include{lp/main}
+\include{riesz-c}
+\include{fourier/main}
+\include{originality/main}
+%  [Main document body here, e.g. \chaper{...} \section{...} ... ]
+ % Or use the `amsrefs' package (http://www.ams.org/tex/amsrefs.html)!
+%\bibliography{bibliography file}
+
+\include{code}
+\clearpage
+\addcontentsline{toc}{chapter}{Bibliography}
+\printbibliography
+\end{document}

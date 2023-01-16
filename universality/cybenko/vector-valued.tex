@@ -1,0 +1,42 @@
+\pagebreak
+\subsection{The Universal Approximation Theorem for $\C([0,1]^n, \R^m)$}
+\label{subsection:universality:cybenko:5}
+
+In this subsection, we will focus on the metric space $\C([0,1]^n, \R^m)$ equipped with the sup-norm distance $\delta_\infty$.
+We begin with a generalization of single-layer, real-valued, fully-connected neural networks - $\mathcal{H}_\sigma$.
+\begin{definition}
+Let $\mathcal{H}_{\sigma}$ denote the family of single-layer, real-valued, fully-connected neural networks with any continuous sigmoidal activation function, given by \begin{align*}
+\mathcal{H}_{\sigma} = \left \{ \vec{x} \to \sum_{k=1}^{N} \alpha_k \sigma{\left (\langle \vec{w_k}, \vec{x} \rangle + \beta_k \right)} : N \in \N, \alpha_1 \ldots \alpha_m, \beta_1 \ldots \beta_m \in \R, \vec{w_k} \in \R^n \right \}.
+\end{align*}
+We define the family $\mathcal{H}_{\sigma}^{m}$ by \begin{align*}
+\mathcal{H}_{\sigma}^m = \left \{ \vec{x} \to \begin{bmatrix}
+           h_\sigma^{(1)}(\vec{x}) \\
+           h_\sigma^{(2)}(\vec{x}) \\
+           \vdots \\
+           h_\sigma^{(m)}(\vec{x})
+         \end{bmatrix} : h_\sigma^{(k)} \in \mathcal{H}_\sigma, \text{ for every } 1 \leq k \leq m \right \} .
+\end{align*} 
+\end{definition}
+We are ready to state and prove the main theorem of this subsection.
+\begin{theorem}[The Universal Approximation Theorem for continuous, vector-valued functions on compact sets]
+\label{thm:universality:cybenko:vector-valued:uap}
+$\mathcal{H}_{\sigma}^{m}$ is dense in $\C([0,1]^n, \R^m)$.
+\end{theorem}
+\begin{proof}
+Let $\vec{f} \in \C([0,1]^n, \R^m)$. Then $f(\vec{x}) = \begin{bmatrix} f^{(1)}(\vec{x}) & f^{(2)}(\vec{x}) & \ldots & f^{(m)}(\vec{x}) \end{bmatrix}^{\top}$, where for every $k \in \{ 1, 2, \ldots, m \}$, $f^{(k)} \in \C([0,1]^n)$. Let $\epsilon > 0$. By \nameref{thm:universality:cybenko}, there exists a finite family $\{  h_\sigma^{(k)} \}_{k=1}^m$ such that $h_\sigma^{(k)} \in \mathcal{H}_{\sigma}$ and \begin{align}
+    \label{eqn:thm:universality:cybenko:vector-valued:uap:1}
+    \delta_\infty(f^{(k)}, h_\sigma^{(k)}) = \sup_{\vec{x} \in [0,1]^n} | f^{(k)} (\vec{x}) - h_\sigma^{(k)}(\vec{x})  | < \frac{\epsilon}{\sqrt{m}}, \text{ for every $1 \leq k \leq m$.}
+\end{align}
+Set $\vec{h}(\vec{x}) = \begin{bmatrix}  h_\sigma^{(1)}(\vec{x}) & h_\sigma^{(2)}(\vec{x}) & \ldots & h_\sigma^{(m)}(\vec{x}) \end{bmatrix}^{\top}$. Clearly, $\vec{h} \in \mathcal{H}_{\sigma}^m$. We will show that $\delta_\infty(\vec{f}, \vec{h})  \leq \epsilon$. For every $\vec{x} \in [0,1]^n$,
+\begin{subequations}\label{ineqn:thm:universality:cybenko:vector-valued:uap:2}
+\begin{align*}
+    \norm{f(\vec{x}) - h(\vec{x})}_2 &= \left(\sum_{k=1}^m | f_k(\vec{x}) - h_k(\vec{x})| ^ 2  \right )^{\frac{1}{2}} & \\ 
+                   &\leq \left ( \sum_{k=1}^m \delta_\infty(f^{(k)}, h_\sigma^{(k)})^2 \right) ^{\frac{1}{2}} & \\
+                   &< \left( \sum_{k=1}^m  \left (\frac{\epsilon}{\sqrt{m}} \right)^2 \right )^{\frac{1}{2}} & \text{by \ref{eqn:thm:universality:cybenko:vector-valued:uap:1}}  \\
+                   &\leq \epsilon.
+     \tag{\ref{ineqn:thm:universality:cybenko:vector-valued:uap:2}}
+\end{align*}
+\end{subequations}
+By \ref{ineqn:thm:universality:cybenko:vector-valued:uap:2}, $\delta_\infty(\vec{f}, \vec{h}) \leq \epsilon$. 
+\end{proof}
+\newpage

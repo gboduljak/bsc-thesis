@@ -1,0 +1,44 @@
+\subsection{The Universal Approximation Theorem for $\Ltwo([0,1]^n)$}
+\label{subsection:universality:ltwo:2}
+\begin{theorem}[The Universal Approximation Theorem for square-integrable functions]
+\label{thm:universality:ltwo:discrim}
+Let $\mathcal{H}_{\sigma}$ denote the family of single-layer fully-connected neural networks with any $\Ltwo([0,1]^n)$-discriminatory activation function $\sigma$, given by \begin{align*}
+\mathcal{H}_{\sigma} = \left \{ \vec{x} \to \sum_{k=1}^{m} \alpha_k \sigma{\left (\langle \vec{w_k}, \vec{x} \rangle + \beta_k \right)} : m \in \N, \alpha_1 \ldots \alpha_m, \beta_1 \ldots \beta_m \in \R, \vec{w_k} \in \R^n \right \}.
+\end{align*}
+Then $\mathcal{H}_{\sigma}$ is dense in $\Ltwo([0,1]^n)$.
+\end{theorem}
+\begin{proof-idea*} We will adapt the proof of \nameref{thm:universality:continuousdiscrim}. We will argue by contradiction, assuming $\mathcal{H}_{\sigma}$ is not dense in $\Ltwo([0,1]^n)$. By \nameref{lemma:univ:sepfunclemma},
+this assumption implies existence of a non-trivial "separation" functional $L$, vanishing on  $\mathcal{H}_{\sigma}$.  \nameref{thm:lp:rrt} will help us reveal the structure of the functional $L$. Using the fact $\sigma$ is $\Ltwo([0,1]^n)$-discriminatory activation function, we will obtain the contradiction.
+\end{proof-idea*}
+\begin{proof}
+Firstly, we argue that $\mathcal{H}_{\sigma}$ is actually in $\Ltwo([0,1]^n)$. By definition of $\Ltwo([0,1]^n)$-discriminatory activation function,
+$\sigma$ is bounded. Since $\lambda_{|[0,1]^n}$ is a finite measure,  $\mathcal{H}_{\sigma} \subset \Ltwo([0,1]^n)$.
+Assume, for the sake of contradiction, that  $\mathcal{H}_{\sigma}$ is not dense in $\Ltwo([0,1]^n)$. Since  $\Ltwo([0,1]^n)$ is a normed linear space, $\mathcal{H}_{\sigma}$ is a vector subspace of  $\Ltwo([0,1]^n)$.
+By \nameref{lemma:univ:sepfunclemma}, there exists a bounded linear functional $L$ on $\Ltwo([0,1]^n)$ such that $L \neq 0$ on $\Ltwo([0,1]^n)$ and $L_{|\mathcal{H}_{\sigma}} = 0$. By \nameref{thm:lp:rrt}, there exists $g \in \Ltwo([0,1]^n)$ such that \begin{align}
+    \label{eqn:thm:universality:ltwo:discrim:0}
+    L (f) = \int_{[0,1]^n} f(\vec{x}) g(\vec{x}) \, d\vec{x}, \text{ for every $f \in \Ltwo([0,1]^n)$}.
+\end{align}
+Moreover, $\norm{L} = \norm{g}_2$. Since $L_{|\mathcal{H}_{\sigma}} = 0$, by \ref{eqn:thm:universality:ltwo:discrim:0},
+\begin{align}
+     \label{eqn:thm:universality:ltwo:discrim:1}
+     \int_{[0,1]^n} h(\vec{x}) g(\vec{x}) \, d\vec{x} = 0, \text{ for every $h \in \mathcal{H}_\sigma$}.
+\end{align}
+By \ref{eqn:thm:universality:ltwo:discrim:1}, 
+\begin{align}
+     \label{eqn:thm:universality:ltwo:discrim:2}
+     \int_{[0,1]^n} \sigma(\langle \vec{w}, \vec{x} \rangle + b) g(\vec{x}) \, d\vec{x} = 0, \text{ for every $\vec{w} \in \R^n$, $b \in \R$}.
+\end{align}
+Since $\sigma$ is $\Ltwo([0,1]^n)$-discriminatory activation function, \ref{eqn:thm:universality:ltwo:discrim:2} implies $g = 0$ almost everywhere.
+By Proposition \ref{proposition:measure:characterzerointergral_two_dir}, $\norm{g}_2 = 0$. However, this implies that $\norm{L} = 0$. We conclude $L$ must be identically zero. But this is a contradiction since $L \neq 0$. Hence $\mathcal{H}_{\sigma}$ is dense in $\Ltwo([0,1]^n)$, as desired.
+\end{proof}
+As a corollary of Theorem \ref{thm:universality:ltwo:discrim}, we present the following result addressing the logistic sigmoid.
+\begin{corollary}
+\label{thm:universality:ltwo:sigmoidal}
+Let $\mathcal{H}_{\sigma}$ denote the family of single-layer fully-connected neural networks with the logistic sigmoid activation function $\sigma$, given by \begin{align*}
+\mathcal{H}_{\sigma} = \left \{ \vec{x} \to \sum_{k=1}^{m} \alpha_k \sigma{\left (\langle \vec{w_k}, \vec{x} \rangle + \beta_k \right)} : m \in \N, \alpha_1 \ldots \alpha_m, \beta_1 \ldots \beta_m \in \R, \vec{w_k} \in \R^n \right \}.
+\end{align*}
+Then $\mathcal{H}_{\sigma}$ is dense in $\Ltwo([0,1]^n)$.
+\end{corollary}
+\begin{proof}
+By Lemma \ref{lemma:universality:l2:sigmoiddiscrim}, $\sigma$ is $\Ltwo([0,1]^n)$-discriminatory activation function. The result follows directly from Theorem \ref{thm:universality:ltwo:discrim}.
+\end{proof}

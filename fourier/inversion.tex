@@ -1,0 +1,32 @@
+\subsection{Fourier inversion theorem on $\Lone(\R^n)$}
+
+We are ready to state and prove the \nameref{thm:fourier:inversionlone}.
+
+\begin{theorem}[Fourier inversion theorem for $\Lone(\R^n)$]
+\label{thm:fourier:inversionlone}
+Suppose that $f$ and $\widehat{f}$ are both in $\Lone(\R^n)$. Then \begin{align*}
+    f(\vec{y}) = \frac{1}{(2\pi)^n}\int_{\R^n} e^{-i \langle \vec{u}, \vec{y}\rangle} \widehat{f}(\vec{u}) \,d\vec{u} \text{, almost everywhere}.
+\end{align*}
+\end{theorem}
+
+\begin{proof}
+For $a \neq 0$ define $h_a : \R^n \to \R$ by \begin{align*}
+    h_a (\vec{x}) = \frac{1}{(2 \pi)^n} e^{-\frac{1}{2a^2} \norm{x}^2}.
+\end{align*}
+By Corollary \ref{cor:fourier:gaussian}, $\widehat{h_a} (\vec{u}) = (2 \pi)^{-\frac{n}{2}} a^{n} e^{-\frac{a^2 \norm{\vec{u}}^2}{2} }$. For every $\vec{y} \in \R^n$ and $a \neq 0$, \begin{align*}
+ \int_{\R^n}  e^{-i \langle \vec{u}, \vec{y}\rangle} \widehat{f}(\vec{u})  h_a(\vec{u}) \,d\vec{u} &=  \int_{\R^n} \left( \int_{\R^n}   e^{i \langle \vec{u}, \vec{x} - \vec{y} \rangle} f(\vec{x}) h_a(\vec{u})  \,d\vec{x} \right) \,d\vec{u}  & \\
+                      &= \int_{\R^n} \left( \int_{\R^n}  e^{i \langle \vec{u}, \vec{x} - \vec{y} \rangle} f(\vec{x}) h_a(\vec{u})  \,d\vec{u} \right)d\vec{x} & \\
+                      &= \int_{\R^n} f(\vec{x}) \left( \int_{\R^n}   e^{i \langle \vec{u}, \vec{x} - \vec{y} \rangle} h_a(\vec{u})  \,d\vec{u} \right)d\vec{x} & \\
+                      &= \int_{\R^n} f(\vec{x}) \left( \int_{\R^n}   e^{i \langle \vec{x} - \vec{y} , \vec{u} \rangle} h_a(\vec{u})  \,d\vec{u} \right)d\vec{x}  & \\
+                      &= \int_{\R^n} f(\vec{x}) \widehat{h_a}(\vec{x} - \vec{y}) \,d\vec{x} & \\
+                      &= \int_{\R^n} f(\vec{y} - \vec{t}) \widehat{h_a}(- \vec{t}) \,d\vec{t} &\\ 
+                      &=\int_{\R^n} f(\vec{y} - \vec{t}) \widehat{h_a}(\vec{t}) \,d\vec{t} = (f \ast h_a)(\vec{y}).
+\end{align*}
+
+The interchange of integrals is justified by \nameref{thm:measure:fubini}, since \[\int_{\R^n}\int_{\R^n} |e^{i \langle \vec{u}, \vec{x} - \vec{y} \rangle}  | |f (\vec{x}) | |h_a (\vec{u})|  \,d\vec{x}  \,d\vec{u} \leq \norm{f}_1 \norm{h_a}_1 < \infty.\]
+We performed the change of variables with $\vec{t} = \vec{y} - \vec{x}$ and applied the symmetry of $\langle \cdot, \cdot \rangle$ and $\widehat{h_a}$. Observe that $|e^{-i \langle \vec{u}, \vec{y} \rangle} \widehat{f}(\vec{u}) h_a(\vec{u})| \leq |\widehat{f}(u)||h_a(\vec{u})| \leq \frac{1}{(2 \pi)^n} |\widehat{f}(u)|$. Since $\widehat{f}$ in $\Lone(\R^n)$, $ \frac{1}{(2 \pi)^n} |\widehat{f}| \in \Lone(\R^n)$. Since for $\vec{u} \in \R^n$, $\lim_{a \to \infty} h_a (\vec{u}) = 1$, by \nameref{thm:dct}, \begin{equation}
+    \label{eqn:fourier:inv:leftlim}
+    \lim_{a \to \infty} \int_{\R^n}  e^{-i \langle \vec{u}, \vec{y}\rangle} \widehat{f}(\vec{u})  h_a(\vec{u}) \,d\vec{u}  =  \int_{\R^n}  e^{-i \langle \vec{u}, \vec{y}\rangle} \widehat{f}(\vec{u})   \,d\vec{u}.
+\end{equation}
+Applying \nameref{lemma:fourier:approxident} with $\delta = \frac{1}{\alpha}$ gives $(f \ast h_a) \to f$ in $\Lone(\R^n)$ as $a \to \infty$. Let $\{ a_n \}_{n =1}^\infty$ be any sequence of strictly increasing real numbers. Then $(f \ast h_{a_n}) \to f$ in $\Lone(\R^n)$ as $n \to \infty$. By \nameref{proposition:measure:convergence:lone_implies_ae}, $(f \ast h_{a_n}) \to f$ in measure. By \nameref{proposition:measure:convergence:mu_implies_subseqn_ae}, there exists a subsequence $\{(f \ast h_ {a_{n_k}})\}_{k=1}^\infty$ such that $(f \ast h_ {a_{n_k}}) \to f$ pointwise almost everywhere as $k \to \infty$. By \ref{eqn:fourier:inv:leftlim}, $(f \ast h_ {a_{n_k}})(\vec{y}) = \int_{\R^n}  e^{-i \langle \vec{u}, \vec{y}\rangle} \widehat{f}(\vec{u})  h_{a_{n_k}}(\vec{u}) \,d\vec{u} \to  \int_{\R^n}  e^{-i \langle \vec{u}, \vec{y}\rangle} \widehat{f}(\vec{u}) \,d\vec{u}$ as $k \to \infty$. By uniqueness of the limit, $f(\vec{y}) = \int_{\R^n}  e^{-i \langle \vec{u}, \vec{y}\rangle} \widehat{f}(\vec{u}) \,d\vec{u}$ almost everywhere, as claimed.
+\end{proof}

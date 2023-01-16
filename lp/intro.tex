@@ -1,0 +1,35 @@
+\begin{definition}
+Let $(\Omega, \mathcal{F}, \mu)$ be a measure space and suppose $1 \leq p < \infty$. The space $\Lp(\Omega, \mathcal{F}, \mu)$ consists of equivalence classes of measurable functions $f : \Omega \to \R$ such that
+\begin{align*}
+    \int_{\Omega} | f| ^ p \,d\mu < \infty.
+\end{align*}
+We say that two measurable functions are equivalent if they are equal $\mu$-almost everywhere.
+For the sake of simplicity, we will simply refer to representative functions of those equivalence classes instead
+of equivalence classes themselves. We will also write $\Lp(\Omega)$ instead of $\Lp(\Omega, \mathcal{F}, \mu)$ when the measure space is unambiguous.
+\end{definition}
+The $\Lp$ norm for $f \in \Lp(\Omega, \mathcal{F}, \mu)$ is defined by
+\begin{align*}
+    \norm{f}_p = \left ( \int_\Omega |f|^p \,d\mu \right )^{\frac{1}{p}}.
+\end{align*}
+\begin{definition}[essential supremum]
+\label{defn:lp:esssup}
+Let $(\Omega, \mathcal{F}, \mu)$ be a measure space and suppose that $f : \Omega \to \R$ is measurable. The essential supremum of $f$ on $\Omega$ is defined by
+\begin{align*}
+    \esssup_{\Omega}f = \inf \left \{ a \in \R : \mu (\{ \omega \in \Omega : f(\omega) > a \}) \right \}.
+\end{align*}
+\end{definition}
+\begin{definition}
+Let $(\Omega, \mathcal{F}, \mu)$ be a measure space. The space $\Linfty(\Omega, \mathcal{F}, \mu)$ consists of pointwise $\mu$-almost everywhere equivalence classes of essentially bounded measurable functions $f : \Omega \to \R$ with the norm
+\begin{align*}
+    \norm{f}_\infty = \esssup_{\Omega} |f|.
+\end{align*}
+Again, for the sake of simplicity, we will simply refer to representative functions of those equivalence classes instead
+of equivalence classes themselves. We will also write $\Linfty(\Omega)$ instead of $\Linfty(\Omega, \mathcal{F}, \mu)$ when the measure space is unambiguous.
+\end{definition}
+\begin{remark}
+\label{remark:lp:inftynorm}
+Observe that $|f| \leq \esssup_{\Omega}|f|$ $\mu$-a.e. Hence $|f| \leq \norm{f}_\infty$ $\mu$-a.e.
+\end{remark}
+\begin{remark}
+The fact $\norm{\cdot}_p$ and $\norm{\cdot}_\infty$ are norms on $\Lp$ and $\Linfty$ is a consequence of Proposition \ref{proposition:measure:characterzerointergral_two_dir} and \nameref{ineqn:lp:minkowski}.
+\end{remark}

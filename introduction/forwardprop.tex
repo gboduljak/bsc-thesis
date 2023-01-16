@@ -1,0 +1,17 @@
+\section{Forward pass}
+Let $\vec{f} : \R^{n_{(0)}} \to \R^{n_{(L)}}$ be an $L$-layer fully-connected neural network parameterized by $L$ weight matrices $\{ \vect{W}^{(l)}  \}_{l=1}^{L}$, bias vectors $\{  \vect{b}^{(l)} \}_{l=1}^{L}$ and choices of activation functions $\{ \sigma^{(l)} \}_{l=1}^{L}$. 
+To evaluate predictions of the neural network $\vec{f}$ on input $\vec{x} \in \R^n$, we set $\vec{f}^{(0)} = \vec{x}$ and repeatedly evaluate following equations
+\begin{subequations}
+\begin{align}
+    \vec{a}^{(l)} &= (\vec{W}^{(l)})^{\top} \vec{f}^{(l - 1)} + \vec{b}^{(l)}, \text{ for $1 \leq l \leq L$}, \label{eqn:introduction:forward:vectorised:a}  \\
+    \vec{f}^{(l)} &= \sigma ^{(l)}(\vec{a}^{(l)}), \text{ for $1 \leq l \leq L$}. \label{eqn:introduction:forward:vectorised:f}
+\end{align}
+\end{subequations}
+Equations \ref{eqn:introduction:forward:vectorised:a} and \ref{eqn:introduction:forward:vectorised:f} are componentwise equivalent to
+\begin{subequations}
+\begin{align}
+    a_{i}^{(l)} &= \sum_{k = 1}^{n_{(l-1)}} w_{ki}^{(l)} f_{k}^{(l-1)} + b^{(l)}_i, \text{ for $1 \leq i \leq n^{(l)}$,} \label{eqn:introduction:forward:explicit:a} \\
+    f^{(l)}_{i} &= \sigma ^{(l)}(a_{i}^{(l)}), \text{ for $1 \leq i \leq n^{(l)}$.} \label{eqn:introduction:forward:explicit:f}
+\end{align}
+\end{subequations}
+The process of evaluating $\vec{f}$ on input $\vec{x}$ is known as the forward pass. 

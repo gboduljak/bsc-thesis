@@ -1,0 +1,16 @@
+\chapter{Conclusion}
+
+In this thesis, we explored various important results in the approximation theory of single-layer, fully-connected neural networks.
+
+In \nameref{chapter:introduction}, we introduced fundamental machine learning terminology from statistical learning perspective. We formalized common machine learning tasks and presented main challenges. We also introduced fully-connected neural networks as a family of machine learning algorithms. We discussed the backpropagation training algorithm and we pointed out various subtleties related to training initialization and optimization.
+
+In \nameref{chapter:literature-review}, we introduced the approximation theory of neural networks and discussed the main research questions.
+We briefly discussed the historical development of this field and we stated contemporary state-of-the-art results. Finally, we described the role of this thesis in the context of this research area.
+
+In \nameref{chapter:universality}, we presented different universal approximation results, addressing different function spaces and activation functions. We discussed the universal approximation of continuous functions on compact sets from two different perspectives. We discussed the universal approximation of Lebesgue square-integrable and integrable functions. Finally, we discussed the universal approximation of Borel measurable functions in a probabilistic sense.
+
+In \nameref{chapter:experiments}, we presented and discussed various practical problems related to the applications of neural networks.
+Despite impressive theoretical properties discussed in \nameref{chapter:literature-review} and \nameref{chapter:universality}, many practical applications of neural networks often suffer from issues not addressed in the approximation theory. For instance, we discussed \nameref{subsection:experiments:classification:activation} and conjectured that different activation functions may require different training configurations. We explored the impact of \nameref{subsection:experiments:classification:adding-a-layer} and expanded this study by considering
+\nameref{subsection:experiments:classification:depth}. Finally, we observed that seemingly unimportant hyperparameter choices discussed in \nameref{subsection:experiments:classification:batch} and \nameref{subsection:experiments:classification:optimizer} may have significant practical consequences.
+
+In  \nameref{chapter:universality}, we used a lot of standard results from measure theory and functional analysis, including \nameref{thm:anal:stone-weierstrass}, \nameref{thm:lp:rrt}, \nameref{thm:fcs:rrt-bounded} and \nameref{thm:funct:hahn-banach}. Those and many other used results are discussed, stated and proved in \nameref{chapter:appendix}.

@@ -1,0 +1,197 @@
+\subsection{Towards the Probabilistic Universal Approximation Theorem}
+\label{subsection:universality:measure:towards_probabilistic_uap}
+
+We will begin with a discussion of the uniform density of single-layer fully-connected neural networks on compacta in $\C(\R^n)$.
+\begin{theorem}
+\label{thm:universality:measure:uap:nnsdensecompacta}
+Let $\mathcal{H}_{\sigma}$ denote the family of single-layer fully-connected neural networks with any continuous sigmoidal activation function $\sigma$, given by \begin{align*}
+\mathcal{H}_{\sigma} = \left \{ \vec{x} \to \sum_{k=1}^{m} \alpha_k \sigma{\left (\langle \vec{w_k}, \vec{x} \rangle + \beta_k \right)} : m \in \N, \alpha_1 \ldots \alpha_m \in \R,  \beta_1 \ldots \beta_m \in \R, \vec{w_k} \in \R^n \right \}.
+\end{align*}
+Then $\mathcal{H}_{\sigma}$ is uniformly dense on compacta in $\C(\R^n)$.
+\end{theorem}
+
+\begin{proof-idea*}
+By \nameref{thm:universality:cybenko}, for a fixed compact set $K \subset \R^n$, $\mathcal{H}_{\sigma}$ is dense on $\C(K)$.
+However, we need to show that for every $f \in \C(\R^n)$, there exists a sequence $\{ h_m \}_{m=1}^\infty$, $h_m \in \mathcal{H}_{\sigma}$ such that $h_m \to f$ on every compact set $K \subset \R^n$. Informally, for every $f \in \C(\R^n)$, we need to exhibit a \textbf{single sequence } $\{ h_m \}_{m=1}^\infty$ converging to $f$ uniformly on every compact set $K \subset \R^n$. We will fix $f \in \C(\R^n)$. The key observation is that $\R^n$ can be covered with a countable union of nested compact sets. Using the \nameref{thm:universality:cybenko}, for every compact set, we will exhibit a sequence of neural networks from  $\mathcal{H}_{\sigma}$ converging to $f$ uniformly on the compact set. Using the fact our compact sets are nested, we will apply diagonalisation argument to produce a single sequence of neural networks from  $\mathcal{H}_{\sigma}$ converging to $f$ uniformly on the every compact set.
+\end{proof-idea*}
+\begin{proof}
+
+Fix $f \in \C(\R^n)$. By Heine-Borel Theorem, for every $r > 0$, $B(\vec{0}, r)$ is compact. Observe that $f_{|  B(\vec{0}, r)} \in \C( B(\vec{0}, r))$, for every $r > 0$. Hence by \nameref{thm:universality:cybenko}, for every $r > 0$, there exists a sequence in $\mathcal{H}_{\sigma}$ denoted by $\{ h_{m}^{(r)} \}_{m = 1}^\infty$ such that $h_{m}^{(r)} \to f_{|  B(\vec{0}, r)}$ uniformly as $m \to \infty$. Hence $h_{m}^{(r)} \to f$ uniformly on $ B(\vec{0}, r)$, as $m \to \infty$. Consider following sequences.
+\begin{align*}
+    \textbf{h}_1^{(1)} &\quad& h_2^{(1)} &\quad& h_3^{(1)} &\quad& h_4^{(1)} &\quad& \ldots &\quad& \to f, \text{ uniformly on $B(\vec{0}, 1)$} \\
+    h_1^{(2)}  &\quad& \textbf{h}_2^{(2)}  &\quad& h_3^{(2)}  &\quad& h_4^{(2)}  &\quad& \ldots  &\quad& \to f, \text{ uniformly on $B(\vec{0}, 2)$} \\
+    h_1^{(3)}  &\quad& h_2^{(3)}  &\quad& \textbf{h}_3^{(3)}  &\quad& h_4^{(3)}  &\quad& \ldots  &\quad& \to f, \text{ uniformly on $B(\vec{0}, 3)$} \\ 
+    h_1^{(4)}  &\quad& h_2^{(4)}  &\quad& h_3^{(4)}  &\quad& \textbf{h}_4^{(4)}  &\quad& \ldots  &\quad& \to f, \text{ uniformly on $B(\vec{0}, 4)$} \\ 
+    \vdots  &\quad& \vdots &\quad& \vdots  &\quad& \vdots &\quad& \ddots &\quad& \vdots
+\end{align*}
+Clearly, for every $r > 0$, $B(\vec{0}, r) \subset B(\vec{0}, r + 1)$. Thus, for every $r > 0$,  \begin{align}
+    \label{eqn:thm:universality:measure:uap:nnsdensecompacta:1}
+    h_m^{(r)} \to f \text{ uniformly on every $B(\vec{0}, r')$, as $m \to \infty$}, \text{ for every $r' \leq r$.}
+\end{align}
+Define $\{ h_m \}_{m = 1}^\infty$ by $h_m = h_m^{(m)}$ for every $m \in \N$.
+Note that $\R^n = \bigcup_{r = 1}^\infty B(\vec{0}, r)$. Let $K \subset \R^n$ be a compact set. Since $ B(\vec{0}, r) \uparrow \R^n$ as $r \to \infty$, there exists some $r_0 \in \N$ such that \begin{align}
+    \label{eqn:thm:universality:measure:uap:nnsdensecompacta:2}
+    K \subseteq B (\vec{0}, r_0) \subset  B (\vec{0}, r_0 + 1) \subset  B (\vec{0}, r_0 + 2) \ldots
+\end{align}
+Assume, without loss of generality, $r_0$ is the smallest such a natural number.
+By \ref{eqn:thm:universality:measure:uap:nnsdensecompacta:2} and \ref{eqn:thm:universality:measure:uap:nnsdensecompacta:1}, $\{ h_m \}_{m \geq r_0} \to f$ uniformly on $B(\vec{0}, r_0)$ as $m \to \infty$. Since $K \subseteq B(\vec{0}, r_0)$ and $K$ was arbitrary, the proof is complete.
+\end{proof}
+The following two lemmas are auxiliary results that will be help us establish the Proposition \ref{proposition:universality:measure:continuous_dense_mn} - the most important result in this subsection.
+\begin{lemma}
+\label{lemma:universality:measure:uap:approx_characteristic}
+Let $A \in \B(\R^n)$. Suppose that $\mu$ is a probability measure on $\B(\R^n)$. Then for every $\epsilon > 0$, there exist a closed set $F \in \B(\R^n)$ and a continuous function $g \in \C(\R^n)$ such that $g$ and $\chi_A$ agree on $F$ and $\mu (\R^n \setminus F) < \epsilon$.
+\end{lemma}
+\begin{proof-idea*}
+The proof relies on the regularity of the probability measure $\mu$ and Urysohn lemma. By appealing to the regularity of $\mu$, we will extract the compact set approximating $A$ to desired accuracy in measure $\mu$. The existence of a desired function $g$ will follow from \nameref{lemma:topology:urysohn}, stated below.
+\begin{lemma*}[Urysohn lemma, Theorem 33.1 \cite{munkres_2014_topology}]
+\label{lemma:topology:urysohn}
+Let $X$ be a normal space. Let $A, B$ be disjoint closed subsets of $X$. There exists a continuous map $f : X \to [a,b]$ such that $f(x) = a$, for every $a \in A$ and $f(x) = b$, for every $b \in B$.
+\end{lemma*}
+We will apply \nameref{lemma:topology:urysohn} to the compact set approximating $A$ in measure $\mu$.
+\end{proof-idea*}
+\pagebreak
+\begin{proof}
+Since $\mu$ is a probability measure on $(\R^n, \B(\R^n))$, by \nameref{proposition:measure:regularity_borel_finite}, $\mu$ is regular. Hence, there exist a compact set $K$ and an open set $U$ such that $K \subset A \subset U$ satisfying \begin{align}
+    \label{eqn:universality:measure:uap:approx_characteristic:1}
+    \mu(A \setminus K ) < \frac{\epsilon}{2} \text{ and } \mu (U \setminus A) < \frac{\epsilon}{2}.
+\end{align}
+Since $\R^n$ with the standard topology is a metric space, $\R^n$ is Hausdorff and normal. Since $K$ is compact and $\R^n$ Hausdorff, $K$ is closed. Since $U$ is open, $\R^n \setminus U$ is closed. Since $K \subset U$, $K \cap (\R^n \setminus U) = \emptyset$. By \nameref{lemma:topology:urysohn}, there exists $g \in \C(\R^n)$ such that $0 \leq g \leq 1$ and $g = 1$ on $K$ while $g = 0$ on $\R^n \setminus U$. Set $F = K \cup (\R^n \setminus U)$. Since $K$ and $ (\R^n \setminus U)$ are closed, $F$ is closed. We will show that $\chi_A$ and $g$ agree on $F$. Suppose that $\vec{x} \in F$. Since $K \cap (\R^n \setminus U) = \emptyset$, either $\vec{x} \in K$ or $\vec{x} \in (\R^n \setminus U)$. If $\vec{x} \in K$, then $\chi_{K}(\vec{x}) = 1 = g(\vec{x})$. If $\vec{x} \in (\R^n \setminus U)$,
+then $\chi_{K}(\vec{x}) = 0$ since $K \subset U$. Hence $\chi_{K}(\vec{x}) = 0 = g(\vec{x})$. Therefore, $\chi_{A_{| F}} = g$. Hence \begin{align*}
+        \mu (\R^n \setminus F) &= \mu ((\R^n \setminus K) \cap U) = \mu (U \setminus K) \\
+                               &= \mu (A \setminus K) + \mu(U \setminus A) \\
+                               &< \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon, \text{ by \ref{eqn:universality:measure:uap:approx_characteristic:1}} . 
+\end{align*}
+\end{proof}
+The following lemma is a natural generalization of Lemma \ref{lemma:universality:measure:uap:approx_characteristic} to simple, $\B(\R^n)$-measurable functions.
+\begin{lemma}
+\label{lemma:universality:measure:uap:approx_simple}
+Let $\varphi$ be a simple, $\B(\R^n)$-measurable function. Suppose that $\mu$ is a probability measure on $\B(\R^n)$. Then for every $\epsilon > 0$, there exist a closed set $F \in \B(\R^n)$ and a continuous function $g \in \C(\R^n)$ such that $\varphi$ and $g$ agree on $F$ and $\mu (\R^n \setminus F) < \epsilon$.
+\end{lemma}
+\begin{proof}
+Write $\varphi = \sum_{k = 1}^m a_k \chi_{A_{k}}$ where for every $k \in \{ 1, 2, \ldots, m \}$,
+$a_k \in \R$ and $A_k \in \B(\R^n)$. Without loss of generality, for every $i, j \in  \{ 1, 2, \ldots, m \}, i \neq j$, $A_i \cap A_j = \emptyset$.
+By Lemma \ref{lemma:universality:measure:uap:approx_characteristic}, for every $k \in \{ 1, 2, \ldots, m \}$, there exist a closed set $F_k \in \B(\R^n)$ and a continuous function $g_k \in \C(\R^n)$ such that
+\begin{align}
+    \label{eqn:universality:measure:uap:approx_simple:1}
+    \text{for every } \vec{x} \in F, \chi_{A_k} (\vec{x}) = g_k (\vec{x}) \text{ and } \mu (\R^n \setminus F_k) < \frac{\epsilon}{m}.
+\end{align}
+Set $F = \bigcap_{k=1}^m F_k$. Define $g : \R^n \to \R$ by $g = \sum_{k = 1}^m a_k g_k$. Since $g$ is a sum of continuous functions, $g \in \C(\R^n)$. We claim that $\varphi$ and $g$ agree on $F$. Observe
+\begin{subequations}\label{eqn:universality:measure:uap:approx_simple:2}
+\begin{align*}
+    \vec{x} \in F &\iff x \in F_k, \text{ for every $k \in \{ 1, 2, \ldots, m \} $} \\
+                  &\implies \chi_{A_{k}}(\vec{x}) = g_k(\vec{x}), \text{ for every $\vec{x} \in F_k$, } \text{for every $k \in \{ 1, 2, \ldots, m \} $} \\ 
+                  &\implies a_k  \chi_{A_{k}}(\vec{x}) = a_k g_k(\vec{x}),  \text{ for every $\vec{x} \in F_k$, } \text{for every $k \in \{ 1, 2, \ldots, m \} $}
+     \tag{\ref{eqn:universality:measure:uap:approx_simple:2}}
+\end{align*}
+\end{subequations}
+Since for every $k \in \{ 1, 2, \ldots, m \} $, $F \subseteq F_k$, by \ref{eqn:universality:measure:uap:approx_simple:2}, \begin{align}
+    \label{eqn:universality:measure:uap:approx_simple:3}
+     a_k  \chi_{A_{k}}(\vec{x}) = a_k g_k(\vec{x}), \text{ for every $\vec{x} \in F$}, \text{ for every $k \in \{ 1, 2, \ldots, m \} $}.
+\end{align}
+Summing over \ref{eqn:universality:measure:uap:approx_simple:3} gives \begin{align}
+    \varphi(\vec{x}) = \sum_{k = 1}^m a_k \chi_{A_{k}}(\vec{x}) =  \sum_{k = 1}^m a_k g_k(\vec{x}) = g(\vec{x}), \text{ for every $\vec{x} \in F$.}
+\end{align}
+It remains to prove that $\mu(\R^n \setminus F) < \epsilon$. By definition of $F$ and \ref{eqn:universality:measure:uap:approx_simple:1}, \begin{align}
+    \mu(\R^n \setminus F) = \mu \left (\bigcup_{k=1}^m (\R^n \setminus F_k) \right) \leq \sum_{k = 1}^m \mu (\R^n \setminus F_k) < \sum_{k = 1}^m \frac{\epsilon}{m} = \epsilon.
+\end{align}
+\end{proof}
+The following proposition is the most important result in this section and it will play essential role in the proof of \nameref{thm:universality:measure:uap:probabilistic}.
+\begin{proposition}
+\label{proposition:universality:measure:continuous_dense_mn}
+$\mathcal{C}(\R^n)$ is $\rho_\mu$-dense in $\M^n$.
+\end{proposition}
+\begin{proof-idea*} The argument will be divided in four steps. We begin by showing that $f$ is bounded, except possibly on a set of arbitrarily small measure.
+Using this fact, we will construct a bounded function $h \in \M^n$ which is sufficiently close to $f$ in $\rho_\mu$ metric. Since $h$ is a bounded measurable function, there exists a sequence of measurable simple functions $\{ \varphi_m \}_{m=1}^\infty$ such that $\varphi_m \to h$ pointwise. This will enable us to pick a simple function $\varphi$ which is sufficiently close to $h$ in $\rho_\mu$ metric. Using Lemma \ref{lemma:universality:measure:uap:approx_simple}, we will extract a continuous function $g$ which is sufficiently close to $\varphi$ in $\rho_\mu$ metric. We will complete the proof by putting those estimates together.  
+\end{proof-idea*}
+\begin{proof}
+Let $f \in \M^n$ and let $\epsilon > 0$. We will show that there exists $g \in \C(\R^n)$ such that $\rho_\mu (f, g) < \epsilon$.
+\setcounter{step}{0}
+\begin{step}[$f$ is almost bounded]
+Firstly, we will argue that $f$ is bounded, except possibly on a set of arbitrarily small measure. Recall that $f \in \M^n$ implies that $f$
+is $\mu$-almost everywhere finite. This implies \begin{align}
+    \label{eqn:universality:measure:continuous_dense_mn:1}
+    \mu(\{ |f| = \infty \}) = 0.
+\end{align}
+Observe that $\{ |f| = \infty \} = \bigcap_{m=1}^\infty \{ |f| > m \}$. Since $\{ |f| > m \} = f^{-1}(-\infty, -m) \cup f^{-1}(m, \infty)$ and $f$ is $\B(\R^n)$-measurable, $\{ |f| > m \} \in \B(\R^n)$. Clearly, $\{ |f| > m + 1\} \subseteq \{ |f| > m \}$, for every $m \in \N$. By continuity of $\mu$ and \ref{eqn:universality:measure:continuous_dense_mn:1}, 
+\begin{align}
+    \label{eqn:universality:measure:continuous_dense_mn:2}
+    \mu(\{ |f| = \infty \}) = 0 = \mu \left( \bigcap_{m=1}^\infty \{ |f| > m \} \right) = \lim_{m \to \infty} \mu ( \{ |f| > m \}).
+\end{align}
+By \ref{eqn:universality:measure:continuous_dense_mn:2}, there exists $N \in \N$ such that \begin{align}
+    \label{ineqn:universality:measure:continuous_dense_mn:3}
+    \mu (\{ |f| > m \}) < \frac{\epsilon}{2}, \text{ for every $m \geq N$.}
+\end{align}
+By \ref{ineqn:universality:measure:continuous_dense_mn:3}, in particular, $\mu (\{ |f| > N \}) < \frac{\epsilon}{2}$.
+\end{step}
+\begin{step}[Approximate $f$ with a bounded function $h$]
+Define $h : \R^n \to \R$ by $h = f \chi_{\{ |f| \leq N \}}$. Since $f \in \M^n$ and $\{ |f| \leq N \}$ is measurable, $h \in \M^n$. By definition of $h$, we have \begin{align}
+    \label{eqn:universality:measure:continuous_dense_mn:4}
+    | f(\vec{x}) - h(\vec{x}) | = \begin{cases}
+      0 & \text{ if $|f(\vec{x})| \leq N$ } \\
+      |f(\vec{x})| & \text{ otherwise }
+    \end{cases}.
+\end{align}
+\begin{subequations}\label{ineqn:universality:measure:continuous_dense_mn:8}
+\begin{align*}
+    \rho_\delta(f, h) = \int_{\R^n} |f - h | \wedge 1 \, d\mu &= \int_{\{ |f| \leq N \}} |f - h | \wedge 1 \, d\mu +  \int_{\{ |f| > N \}} |f - h | \wedge 1 \, d\mu & \quad \\
+    &= \int_{\{ |f| > N \}} |f - h | \wedge 1 \, d\mu  \text{ by \ref{eqn:universality:measure:continuous_dense_mn:4} } &\\
+    &\leq \int_{\{ |f| > N \}} 1 \, d\mu &  \quad & \\
+    &=\mu(\{ |f| > N \}) < \frac{\epsilon}{2}.  \text{ by \ref{ineqn:universality:measure:continuous_dense_mn:3}}
+     \tag{\ref{ineqn:universality:measure:continuous_dense_mn:8}} 
+\end{align*}
+\end{subequations}
+\end{step}
+\begin{step}[Approximate $h$ with a simple function $\varphi$]
+Since $h \in \M^n$, by there exists a sequence of measurable simple functions $\{ \varphi_m \}_{m=1}^\infty$ such that $\varphi_m \to h$ pointwise. Since $|h| \leq N$, without loss of generality, assume that $|\varphi_m| \leq N$, for every $m \in N$. We claim $\rho_\mu(\varphi_m, h) \to 0$ as $m \to \infty$. We aim to apply \nameref{thm:dct}. Observe that for every $\vec{x} \in \R^n$, \begin{align}
+    \label{ineqn:universality:measure:continuous_dense_mn:4}
+     | h(\vec{x}) - \varphi_m(\vec{x}) | \wedge 1 \leq | h(\vec{x}) -  \varphi_m(\vec{x}) | \leq  | h(\vec{x})| +  |  \varphi_m (\vec{x}) | \leq N + N = 2N.
+\end{align}
+By \ref{ineqn:universality:measure:continuous_dense_mn:4}, $\vec{x} \to 2N$ is $\mu$-integrable and dominates $|h - \varphi_m| \wedge 1$. Hence, by \nameref{thm:dct}, \begin{align}
+     \label{eqn:universality:measure:continuous_dense_mn:5}
+     \lim_{m \to \infty} \rho_\mu (h, \varphi_m) = \lim_{m \to \infty} \int_{\R^n} | h  -  \varphi_m | \wedge 1 \, d\mu =  \int_{\R^n} \lim_{m \to \infty} | h  -  \varphi_m | \wedge 1 \, d\mu = 0.
+\end{align}
+By \ref{eqn:universality:measure:continuous_dense_mn:5}, there exists $M \in \N$ such that \begin{align}
+    \label{ineqn:universality:measure:continuous_dense_mn:6}
+    \rho_\mu(h, \varphi_m) = \int_{\R^n} | h  -  \varphi_m | \wedge 1 \, d\mu < \frac{\epsilon}{4}, \text{ for every $m \geq M$}.
+\end{align}
+\end{step}
+Set $\varphi = \varphi_M$. In particular, by \ref{ineqn:universality:measure:continuous_dense_mn:6}, 
+\begin{align}
+    \label{ineqn:universality:measure:continuous_dense_mn:11}
+    \rho_\mu (h, \varphi) < \frac{\epsilon}{4}.
+\end{align}
+\begin{step}[Approximate $\varphi$ with a continuous function $g$]
+By Lemma \ref{lemma:universality:measure:uap:approx_simple}, there exist a closed set $F \in \B(\R^n)$ and a continuous function $g \in \C(\R^n)$ such that \begin{align}
+    \label{eqn:universality:measure:continuous_dense_mn:12}
+    \varphi \text{ and } g \text{ agree on $F$} \text{ and } \mu (\R^n \setminus F) < \frac{\epsilon}{4}.
+\end{align}
+Then the following computation yields the desired estimate,
+\begin{subequations}\label{ineqn:universality:measure:continuous_dense_mn:7}
+\begin{align*}
+    \rho_\mu(\varphi, g) = \int_{\R^n} | \varphi - g | \wedge 1 \, d\mu &= \int_{F} | \varphi - g | \wedge 1 \, d\mu +  \int_{\R^n \setminus F} | \varphi - g | \wedge 1 \, d\mu & \\
+                                                 &= \int_{\R^n \setminus F} | \varphi - g | \wedge 1 \, d\mu \text{ by \ref{eqn:universality:measure:continuous_dense_mn:12}}\\
+                                                 &\leq \int_{\R^n \setminus F}  1 \, d\mu  \\
+                                                 &= \mu(\R^n \setminus F) < \frac{\epsilon}{4}. \text{ by \ref{eqn:universality:measure:continuous_dense_mn:12}}
+     \tag{\ref{ineqn:universality:measure:continuous_dense_mn:7}} 
+\end{align*}
+\end{subequations}
+\end{step}
+\begin{step}[Putting estimates regarding $f, h, \varphi, g$ together.] We will show that $g$ is a desired continuous function.
+We begin by proving that $\rho_\mu (h, g) < \frac{\epsilon}{2}$. Since $\rho_\mu$ is a metric, by \ref{ineqn:universality:measure:continuous_dense_mn:11} and \ref{ineqn:universality:measure:continuous_dense_mn:7}, \begin{align}
+    \label{ineqn:universality:measure:continuous_dense_mn:9}
+    \rho_\mu(h, g) \leq \rho_\mu(h, \varphi) + \rho_\mu(\varphi, g) < \frac{\epsilon}{4} + \frac{\epsilon}{4} = \frac{\epsilon}{2}.
+\end{align}
+Again, applying the triangle inequality of $\rho_\mu$ combined with estimates \ref{ineqn:universality:measure:continuous_dense_mn:8} and \ref{ineqn:universality:measure:continuous_dense_mn:9} yields 
+\begin{align*}
+    \rho_\mu (f, g) \leq \rho_\mu (f, h) + \rho_\mu (h, g) < \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon.    
+\end{align*}
+\end{step}
+\end{proof}
+\begin{corollary}
+\label{corollary:universality:measure:continuous_dense_mn}
+$\mathcal{C}(\R^n)$ is $\delta_\mu$-dense in $\M^n$.
+\end{corollary}
+\begin{proof}
+Follows directly from Proposition \ref{proposition:universality:measure:continuous_dense_mn} and \nameref{proposition:universality:measure:modes_convergence}.
+\end{proof}
+

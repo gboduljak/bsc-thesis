@@ -1,0 +1,14 @@
+\section{Fourier Analysis}
+\label{section:appendix:fourier}
+In this section, we will introduce the Fourier Transform and state its main properties. Fourier Transform played an essential role in proving that certain activation functions were discriminatory. In previous sections, we have been working with real-valued functions. In this section, we will assume that $\Lone(\R^n)$ consists of complex-valued functions. In other words, we write $\Lp(\R^n), 1 \leq p < \infty$ for the normed linear space of complex-valued, Borel-measurable functions on $\R^n$ such that
+\begin{align*}
+    \norm{f}_p = \left(\int_{\R^n} |f|^p \, d\lambda \right )^{\frac{1}{p}} < \infty,
+\end{align*}
+where two functions are identified if they are $\lambda$-almost everywhere equivalent. Here, $\lambda$ is the $n$-dimensional Lebesgue measure. For the sake of simplicity, we will simply refer to representative functions of those equivalence classes instead
+of equivalence classes themselves. Also, it is worth noting that we presented integration theorems only in terms of real-valued functions. However, by definition of the integral of a complex-valued function, all these results generalize to complex-valued functions and we may use them in this section.
+\input{fourier/basics}
+\input{fourier/conv}
+\input{fourier/approx-ids}
+\input{fourier/gaussians}
+\input{fourier/inversion}
+\input{fourier/measure}

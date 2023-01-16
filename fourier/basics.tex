@@ -1,0 +1,30 @@
+\subsection{Fourier Transform on $\Lone(\R^n)$}
+We begin by introducing the Fourier Transform on $\Lone(\R^n)$.
+\begin{definition}[Fourier Transform on $\Lone(\R^n)$]
+Let $f \in \Lone(\R^n)$. We define the Fourier Transform of $f$, denoted $\widehat{f} : \R^n \to \mathbb{C}$, by 
+\begin{align*}
+    \widehat{f} (\vec{u}) = \int_{\R^n} e^{i \langle \vec{u}, \vec{x} \rangle } f(\vec{x}) \, d \lambda(\vec{x}).
+\end{align*}
+\begin{remark}
+Some authors put a negative sign before the inner product $\langle \vec{u}, \vec{x} \rangle$ or introduce a scaling factor of $(2 \pi)^{-1}$ or $(2 \pi)^{-\frac{1}{2}}$ before the integral. I decided to follow the convention in \cite{bass2011real} for the sake of consistency.
+\end{remark}
+\begin{remark}
+Because in this section we work only with the Lebesgue measure, we will write $\int_{\R^n} e^{i \langle \vec{u}, \vec{x} \rangle } f(\vec{x}) \, d \vec{x}$ instead of $ \int_{\R^n} e^{i \langle \vec{u}, \vec{x} \rangle } f(\vec{x}) \, d \lambda(\vec{x})$.
+\end{remark}
+The Fourier Transform satisfies various convenient algebraic properties.
+\begin{proposition}[Properties of the Fourier Transform on $\Lone(\R^n)$]
+\label{prop:fourier:basics}
+Suppose $f$ and $g$ are in $\Lone(\R^n)$. Then 
+\begin{enumerate}[noitemsep]
+    \item $\widehat{f}$ is bounded and continuous;
+    \item $\widehat{(f + g)}(\vec{u}) = \widehat{f}(\vec{u})+ \widehat{g}(\vec{u})$;
+    \item for every $a \in \mathbb{C}$, $\widehat{(af)}(\vec{u}) = a\widehat{f}(\vec{u})$;
+    \item if $\vec{a} \in \R^n$ and $f_\vec{a} (\vec{x}) = f (\vec{x} + \vec{a})$ then $\widehat{f_\vec{a}}(\vec{u}) = e^{-i \langle \vec{u}, \vec{a} \rangle} \widehat{f}(\vec{u})$;
+    \item if $\vec{a} \in \R^n$ and $g_\vec{a} (\vec{x}) =  e^{i \langle \vec{a}, \vec{x}  \rangle} g(\vec{x})$ then $\widehat{g_\vec{a}}(\vec{u}) = \widehat{g} (\vec{u} + \vec{a})$;
+    \item if $a \in \R, a \neq 0$ and $h_a (x) = f (a \vec{x})$ then $\widehat{h_{a}}(\vec{u}) = a^{-n} \widehat{f}(\frac{\vec{u}}{a})$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+Continuity follows from \nameref{thm:dct}. All other results are elementary calculations justified by the linearity of the integral or the change of variables. See Proposition 16.1 in \cite{bass2011real} for the details.
+\end{proof}
+\end{definition}

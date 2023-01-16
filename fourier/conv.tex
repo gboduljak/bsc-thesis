@@ -1,0 +1,34 @@
+\subsection{Convolution on $\Lone(\R^n)$}
+An important operation related to integral transforms is a convolution.
+\begin{definition}[Convolution on $\Lone(\R^n)$]
+Let $f, g \in \Lone(\R^n)$. The convolution of $f$ with $g$ is a function $(f \ast g) : \R^n \to \mathbb{C}$ given by
+\begin{equation*}
+    (f \ast g) (\vec{x}) = \int_{\R^n} f(\vec{x} - \vec{y})g(\vec{y}) \,d \vec{y}.
+\end{equation*}
+\end{definition}
+
+\begin{lemma}[Convolution Norm Lemma]
+\label{prop:fourier:convnorm}
+Let $f, g \in \Lone(\R^n)$. Then $(f \ast g)$ is integrable and \begin{align*}
+    \norm{f \ast g}_1 \leq \norm{f}_1 \norm{g}_1. 
+\end{align*}
+\end{lemma}
+\begin{proof} We proceed with a direct calculation,
+     \begin{align*}
+        \norm{(f \ast g)}_1 &= \int_{\R^n} \left | \int_{\R^n} f(\vec{x} - \vec{y})g(\vec{y}) \,d \vec{y} \right | \,d \vec{x} & \\
+                                      &\leq \int_{\R^n} \left (  \int_{\R^n} \left | f(\vec{x} - \vec{y})g(\vec{y}) \right | \,d \vec{y} \right )  \,d \vec{x} & \\
+                                      &\leq \int_{\R^n} \left ( \int_{\R^n} | f(\vec{x} - \vec{y})| |g(\vec{y}) | \,d \vec{x} \right)  \,d \vec{y} \text{ by \nameref{thm:measure:fubini}} \\
+                                      &\leq \int_{\R^n} |g(\vec{y}) |  \left ( \int_{\R^n} | f(\vec{x} - \vec{y})| \,d \vec{x} \right)  \,d \vec{y} &  \\
+                                      &\leq \int_{\R^n} |g(\vec{y}) |  \left ( \int_{\R^n} | f(\vec{t})| \,d \vec{t} \right)  \,d \vec{y} & \\
+                                      &\leq \left (\int_{\R^n} |g(\vec{y})| \,d \vec{y} \right) \left( \int_{\R^n} | f(\vec{t})| \,d \vec{t} \right) = \norm{f}_1 \cdot \norm{g}_1.
+    \end{align*}
+The application of \nameref{thm:measure:fubini} was permissible because the integrand is non-negative. Since $f, g \in \Lone(\R^n)$, so is $(f \ast g)$ by the inequality above.
+\end{proof}
+The following result describes a deep connection between the Fourier Transform and the convolution operation.
+\begin{theorem}[Fourier Transform of a convolution is a multiplication]
+If $f, g \in \Lone(\R^n)$, then $\widehat{(f \ast g)}(\vec{u}) = \widehat{f}(\vec{u}) \cdot \widehat{g}(\vec{u})$. 
+\end{theorem}
+\begin{proof} Proof is by direct calculation and it is very similar to the argument above. See Proposition 16.4 in \cite{bass2011real}.
+\end{proof}
+
+Although its proof is elementary, the result above is very important in applications of the Fourier transform. For instance, in signal processing, an efficient implementation of signal filters relies on the multiplicative property of convolution guaranteed by the result above.

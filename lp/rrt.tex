@@ -1,0 +1,221 @@
+\subsection{Duality and Riesz Representation Theorem for $\Lp$}
+
+The purpose of this section is to establish \nameref{thm:lp:rrt}.
+We begin by stating and proving an useful lemma.
+
+\begin{lemma}
+\label{lemma:lp:funct_norm}
+Let $(\Omega, \mathcal{F}, \mu)$ be a $\sigma$-\textbf{finite} measure space and suppose that $1 \leq p < \infty$. 
+Let $q$ be the \nameref{defn:lp:holder_conj} of $p$. If $g \in \Lq$, then the map $F : \Lp(\Omega) \to \R$
+\begin{align*}
+    F(f) = \int_\Omega fg \,d\mu
+\end{align*}
+is a bounded linear functional on $\Lp(\Omega)$. Moreover, $\norm{F} = \norm{g}_q$.
+\end{lemma}
+\begin{proof-idea*}
+The fact $F$ is a bounded linear functional on $\Lp(\Omega)$ is reasonably obvious. However, the main difficulty is showing that $\norm{F} = \norm{g}_q$. By \nameref{ineqn:lp:holder}, it is sufficient to show that $\norm{F} \geq \norm{g}_q$. Since the case for $p=1$ is slightly trickier, we will handle the cases $1 < p < \infty$ and $p = 1$ separately. The main idea will be to construct a function $f$ in $\Lp(\Omega)$ satisfying $\norm{f}_p = 1$ and $|F(f)| \geq \norm{g}_q$.
+\end{proof-idea*}
+\begin{proof}
+The fact $F$ is a linear functional follows from the linearity of the integral.
+Now we demonstrate it is a bounded linear functional.
+By \nameref{ineqn:lp:holder}, we have
+\begin{align*}
+    0 \leq | F (f) | \leq \norm{f}_p \norm{g}_q.
+\end{align*}
+This implies $\norm{F} \leq \norm{g}_q$. It suffices to prove the reverse inequality $\norm{F} \geq \norm{g}_q$.
+We may assume that $g \neq 0$. Otherwise, the result is trivial.
+\setcounter{step}{0}
+\begin{step}
+We begin by considering $1 < p < \infty$. Set
+\begin{equation}
+    f = (\sgn g) \left ( \frac{|g|}{\norm{g}_q} \right )^{\frac{q}{p}}.
+\end{equation}
+Since $g \neq 0$, $|\sgn g| = 1$ so $|f|^p = \left| (\sgn g) \left ( \frac{|g|}{\norm{g}_q} \right )^{\frac{q}{p}} \right| =\frac{|g|^q}{\norm{g}_q^q}$. Now
+\begin{align*}
+    \norm{f}_p^p = \int_\Omega |f|^p \,d\mu = \int_\Omega  \frac{|g|^q}{\norm{g}_q^q} \,d\mu = \frac{\norm{g}_q^q}{\norm{g}_q^q} = 1.
+\end{align*}
+Therefore, $f \in \Lp(\Omega)$. Since $p, q$ are \nameref{defn:lp:holder_conj}s, $\frac{q}{p} = q - 1$, we have
+\begin{align*}
+    F (f) &= \int_\Omega (\sgn g) g \left ( \frac{|g|}{\norm{g}_q} \right )^{q - 1} \,d\mu & \\
+          &= \int_\Omega |g| \left ( \frac{|g|}{\norm{g}_q} \right )^{q - 1} \,d\mu & \\
+          &= \int_\Omega \frac{|g|^q}{\norm{g}_q^{q - 1}}  \,d\mu  & \\
+          &= \norm{g}_q.
+\end{align*}
+Since $\norm{f}_p = 1$, it follows that $\norm{F} \geq \norm{g}_q$.
+\end{step}
+\begin{step}
+Suppose $p = 1$. For $\epsilon > 0$, define
+\begin{align*}
+    A_\epsilon = \left \{ \omega \in \Omega : | g(\omega) | > \norm{g}_\infty - \epsilon \right \}.
+\end{align*}
+By definition of \nameref{defn:lp:esssup}, $\mu (A_\epsilon) > 0$. Since $(\Omega, \mathcal{F}, \mu)$ is a $\sigma$-finite measure space, there exists a family $\{ A_n \}_{n = 1}^{\infty}$ of $\mathcal{F}$-measurable sets of finite measure such that $\Omega = \bigcup_{n=1}^{\infty} A_n$. Without loss of generality, we may assume $A_n \uparrow \Omega$. Hence $A_\epsilon = \bigcup_{n=1}^{\infty} (A_\epsilon \cap A_n)$. This implies there exists an $\mathcal{F}$-measurable subset $B \subseteq A_\epsilon$ such that $0 < \mu(B) < \infty$. Define $f : \Omega \to \R$ by
+\begin{align*}
+    f = (\sgn g) \frac{\chi_B}{\mu(B)}.
+\end{align*}
+Clearly, $f$ is measurable. Since $|\sgn g| = 1$, we have
+\begin{align*}
+    \norm{f}_1 = \int_\Omega \frac{\chi_B}{\mu(B)} \,d\mu = 1.
+\end{align*}
+Hence $f \in \Lone(\Omega)$ satisfying $\norm{f}_1 = 1$. Now
+\begin{align*}
+    F(f) &= \int_\Omega (\sgn g) g \frac{\chi_B}{\mu(B)}  \,d\mu & \\
+         &= \int_B \frac{|g|}{\mu(B)} \,d\mu \geq \frac{1}{\mu(B)} \int_B (\norm{g}_\infty - \epsilon) \,d\mu & \\
+         &\geq \norm{g}_\infty - \epsilon.
+\end{align*}
+Hence $\norm{F} \geq \norm{g}_\infty - \epsilon$. Since $\epsilon$ was arbitrary, $\norm{F} \geq \norm{g}_\infty$.
+\end{step}
+\end{proof}
+\begin{remark}
+Observe that $\sigma$-finiteness assumption was not used in Step 1 of the proof, corresponding to $1 < p < \infty$. Thus, the assumption regarding $\sigma$-finiteness can be dropped assuming $1 < p < \infty$.
+\end{remark}
+We are ready to state and prove the most important result in this section - \nameref{thm:lp:rrt}.
+
+\begin{theorem}[Riesz Representation Theorem for the Dual of $\Lp$]
+\label{thm:lp:rrt}
+Let $(\Omega, \mathcal{F}, \mu)$ be a $\sigma$-finite measure space and suppose that $1 \leq p < \infty$.
+Let $q$ be the \nameref{defn:lp:holder_conj} of $p$. Let $F : \Lp(\Omega) \to \R$ be a bounded linear functional on $\Lp(\Omega)$. Then there exists a function $g \in \Lq(\Omega)$ such that
+\begin{align}
+    \label{eqn:lp:claim_riesz}
+    F (f) = \int_\Omega f g \,d\mu.
+\end{align}
+Moreover, $\norm{F} = \norm{g}_q$.
+\end{theorem}
+\begin{proof}
+\setcounter{step}{0}
+\begin{step}[$\mu(\Omega) < \infty$]
+We will show such a function $g$ exists, assuming $\mu(\Omega) < \infty$. Define the map $\nu : \mathcal{F} \to \R$ by
+\begin{align*}
+    \nu(E) = F (\chi_E).
+\end{align*}
+Since $\mu(\Omega) < \infty$, $\chi_E \in \Lp(\Omega)$ so the map $\nu$ is indeed well-defined on $\mathcal{F}$. We will show that $\nu$ is a signed measure, $\nu \ll \mu$ and that the Radon-Nikodym derivative $\frac{\partial \nu}{\partial \mu}$ is a desired function. By linearity of $F$, $\nu(\emptyset) = F(\chi_\emptyset) = F(0) = 0$. Observe that for every $E \in \mathcal{F}$, \begin{align}
+    \label{ineqn:lp:rrt:abs-nu-mu}
+    | \nu(E) | = | F(\chi_E) | \leq \norm{F} \norm{\chi_E}_p = \norm{F} (\mu(E))^{\frac{1}{p}}.
+\end{align}
+Firstly, we will prove that $\nu$ is finitely additive. Let $A, B \in \mathcal{F}$ be disjoint. By linearity of $F$, \[
+    \nu(A \cup B) = F(\chi_{A \cup B}) = F(\chi_{A} + \chi_{B}) = F(\chi_A) + F(\chi_B) = \nu(A) + \nu(B).
+\]
+Now let $\{ E_n \}_{n=1}^{\infty}$ be a sequence of $\mathcal{F}$-measurable, pairwise disjoint sets. Set $E = \bigcup_{n = 1}^{\infty} E_n$. For $m \in \mathcal{N}$, define $E_{m}^\ast$ by $E_{m}^\ast = \bigcup_{k = m + 1}^\infty E_k$. Clearly, $E_{m}^\ast \in \mathcal{F}$. For every $m \in N$, we have \begin{align}
+     \label{ineqn:lp:rrt:countable_additivity_e}
+    E = \left (\bigcup_{k = 1}^m E_k \right) \cup \left ( \bigcup_{k = m + 1}^\infty E_k \right) = \left(\bigcup_{k=1}^m E_k \right) \cup E_{m}^\ast.
+\end{align}
+By \ref{ineqn:lp:rrt:countable_additivity_e} and finite additivity of $\nu$, for every $m \in \N$, \begin{align}
+    \label{ineqn:lp:rrt:nu_countable_additivity_e}
+    \nu (E) = \nu \left (\bigcup_{k = 1}^m E_k \right) + \nu ( E_{m}^\ast) = \sum_{k=1}^m \nu(E_k) + \nu( E_{m}^\ast).
+\end{align}
+We will show that $\lim_{m \to \infty} \nu (E_{m}^\ast) = 0$. By definition of $E_{m}^\ast$, $E_{m}^\ast \downarrow \emptyset$ as $m \to \infty$. By continuity of $\mu$ and $\mu(\Omega) < \infty$, $\mu (E_{m}^\ast) \downarrow \mu (\emptyset) = 0$, as $m \to \infty$. Then, by \ref{ineqn:lp:rrt:abs-nu-mu}, $|\nu (E_{m}^\ast) | \to 0$ as $m \to \infty$. Thus $\nu (E_{m}^\ast)  \to 0$ as $m \to \infty$. Taking $\lim_{m  \to \infty}$ on both sides of \ref{ineqn:lp:rrt:nu_countable_additivity_e} gives \[ 
+    \nu(E) = \lim_{m \to \infty} \sum_{k=1}^m \nu(E_k) + \lim_{m \to \infty}\nu (E_{m}^\ast)= \sum_{n = 1}^\infty \nu(E_n).
+\]
+Since $F$ is bounded, by \ref{ineqn:lp:rrt:abs-nu-mu}, $|\nu | \ll \mu$. 
+\end{step}
+By \nameref{thm:radon-nikodym-signed}, there exists a $\mu$-almost everywhere unique map $g \in \Lone (\Omega)$ such that for every $E \in \mathcal{F}$,
+\begin{equation}
+    \label{lp:riesz:basecase}
+    \nu(E) = F (\chi_E) = \int_\Omega \chi_E g \,d\mu.
+\end{equation}
+Now consider a simple function $\varphi \in \Lp(\Omega)$. Without loss of generality, there exist disjoint $\mathcal{F}$-measurable sets $\{ A_k \}_{k=1}^n$ and constants $a_k \in \R, 1 \leq k \leq n$ such that $\varphi = \sum_{k = 1}^n a_k \chi_{A_k}$. By linearity of $F$ and \ref{lp:riesz:basecase},
+\begin{subequations}\label{lp:riesz:simplefns}
+\begin{align*}
+    F (\varphi) &= F \left (\sum_{k = 1}^n a_k \chi_{A_k} \right ) = \sum_{k = 1}^n a_k F(\chi_{A_k}) \\
+                &= \sum_{k = 1}^n a_k \int_\Omega \chi_{A_k} g \,d\mu = \sum_{k = 1}^n \int_\Omega a_k \chi_{A_k} g \,d\mu \\ 
+                &= \int_\Omega \left(\sum_{k = 1}^n a_k \chi_{A_k} \right) g \,d\mu \\ 
+                &= \int_\Omega \varphi g \,d\mu.
+     \tag{\ref{lp:riesz:simplefns}} 
+\end{align*}
+\end{subequations}
+Since $F$ is bounded, for every simple function $\varphi \in \Lp(\Omega)$, \begin{align}
+    \label{lp:ineqn:bound_boundedfns}
+    | F (\varphi) | = \left | \int_\Omega \varphi g \,d\mu  \right | \leq \norm{F} \norm{\varphi}_p.
+\end{align}
+
+We will show that $g \in \Lq(\Omega)$. If $g$ is $\mu$-almost everywhere equivalent to $0$, the claim is trivial. Therefore, assume $g \neq 0$. Since $g$ is measurable, there exists a sequence of measurable simple functions $\{ \varphi_n \}_{n = 1}^{\infty}$ such that $\varphi_n \rightarrow g$ pointwise $\mu$-almost everywhere and $| \varphi_n | \leq |g|$. Since $g$ is not equivalent to $0$, we have $\norm{g}_q > 0$. Eventually, $\norm{ \varphi_n}_q > 0$. For sufficiently large $n \in \N$, define
+\begin{align*}
+    f_n = (\sgn g) \left ( \frac{|\varphi_n|}{\norm{\varphi_n}_q} \right)^{\frac{q}{p}}.
+\end{align*}
+Since $g \neq 0$, $| \sgn g | = 1$. Observe that 
+\begin{align}
+     \label{ineqn:lp:rrt:fn_p}
+    \norm{f_n}_p^p = \int_\Omega |f_n|^p  \,d\mu = \int_\Omega \frac{|\varphi_n|^q}{\norm{\varphi_n}_q^q} \,d\mu = \frac{\norm{\varphi_n}_q^q}{\norm{\varphi_n}_q^q} = 1.
+\end{align}
+Hence $\norm{f_n}_p$ = 1. Since $\varphi_n$ and $\sgn g$ are simple, $f_n$ is simple. Since $f_n$ is simple, $f_n \varphi_n$ is simple. Since $\mu(\Omega) < \infty$, $f_n \in \Lp(\Omega)$ and hence $f_n \varphi_n \in \Lp(\Omega)$.
+Since $p, q$ are \nameref{defn:lp:holder_conj}s, $\frac{q}{p} = q - 1$,
+\begin{equation}
+    \label{ineqn:lp:rrt:varphi_n fn}
+    \int_\Omega | f_n \varphi_n | \,d\mu  = \int_\Omega \frac{|\varphi_n|^{q-1}}{\norm{\varphi_n}_q^{q - 1}} \cdot |\varphi_n | \,d\mu = \frac{\norm{\varphi_n}_q^{q}}{\norm{\varphi_n}_q^{q - 1}} = \norm{\varphi_n}_q. 
+\end{equation}
+Observe that $|f_n g| = f_n g$.
+To show $g \in \Lq(\Omega)$, we estimate $\norm{g}_q$. Since $\varphi_n \rightarrow g$ pointwise $\mu$-almost everywhere, $|\varphi_n|^q \rightarrow |g|^q$ pointwise $\mu$-almost everywhere. By \nameref{thm:fatou},
+\begin{align*}
+    \norm{g}_q= \left ( \int_\Omega |g|^q \,d\mu \right)^{\frac{1}{q}} &\leq \liminf_{n \to \infty}  \left ( \int_\Omega |\varphi_n|^q  \,d\mu \right ) ^{\frac{1}{q}} = \liminf_{n \to \infty} \norm{\varphi_n}_q \\
+                 &= \liminf_{n \to \infty} \int_\Omega | f_n \varphi_n | \,d\mu & \text{by \ref{ineqn:lp:rrt:varphi_n fn}} \\
+                 &\leq \liminf_{n \to \infty} \int_\Omega | f_n g | \,d\mu  & \text{since $|\varphi_n| \leq |g|$}\\
+                 &\leq \norm{F} < \infty. & \text{ by \ref{ineqn:lp:rrt:fn_p} and \ref{lp:ineqn:bound_boundedfns}}
+\end{align*}
+Hence $g \in \Lq(\Omega)$.
+
+Now we show that \ref{eqn:lp:claim_riesz} holds on $\Lp(\Omega)$. Let $f \in \Lp(\Omega)$. By \nameref{thm:lp:density}, there exists a sequence of simple functions $\{ \varphi_n \}_{n = 1}^{\infty}$ such that $\varphi_n \rightarrow f$ in $\Lp(\Omega)$. 
+By \ref{lp:riesz:simplefns}, there exists $g \in \Lq(\Omega)$ such that for every $n \in \N$, \begin{align*}
+    F (\varphi_n) = \int_\Omega \varphi_n g \,d\mu.  
+\end{align*}
+By \nameref{ineqn:lp:holder}, $\norm{fg}_1 \leq \norm{f}_p \cdot \norm{g}_q < \infty$, so $fg \in \Lone(\Omega)$.
+Similarly, by \nameref{ineqn:lp:holder}, $\norm{\varphi_n g}_1 \leq \norm{\varphi_n}_p \cdot \norm{g}_q < \infty$, so $\varphi_n g \in \Lone(\Omega)$. We have
+\begin{align*}
+    \left | \int_\Omega f g \,d\mu  - F (\varphi_n) \right | &= \left |  \int_\Omega f g \,d\mu -  \int_\Omega \varphi_n g \,d\mu  \right | =  \left |  \int_\Omega (f - \varphi_n) g \,d\mu  \right |  & \\
+    &\leq  \int_\Omega | (f - \varphi_n) | | g |  \,d\mu \text{ by \nameref{ineqn:lp:holder}} \\
+    &\leq \norm{f - \varphi_n}_p \cdot \norm{g}_q.
+\end{align*}
+Since $\norm{g}_q < \infty$ and $\lim_{n \to \infty} \norm{f - \varphi_n}_p = 0$, $\lim_{n \to \infty} \left | \int_\Omega f g \,d\mu  - F (\varphi_n) \right | = 0$.
+Hence, \begin{align}
+    \label{eqn:lp:rrt:final_eqn_simple_fns}
+    \lim_{n \to \infty} F(\varphi_n) = \int_\Omega f g \,d\mu.
+\end{align}
+Since $F$ is bounded on $\Lp(\Omega)$, we have \begin{align}
+    \label{eqn:lp:rrt:final_eqn_bound_F}
+    | F(f) - F(\varphi_n) | = | F (f - \varphi_n) | \leq \norm{F} \norm{f - \varphi_n}_p.
+\end{align}
+Since $\lim_{n \to \infty} \norm{f - \varphi_n}_p = 0$, by \ref{eqn:lp:rrt:final_eqn_bound_F}, \begin{align}
+    \label{eqn:lp:rrt:final_eqn_simple_f}
+    F (f) = \lim_{n \to \infty} F(\varphi_n).
+\end{align}
+Applying \ref{eqn:lp:rrt:final_eqn_simple_fns} to \ref{eqn:lp:rrt:final_eqn_simple_f} yields \[ 
+ F(f) = \int_{\Omega} f g \, d\mu.
+\]
+By Lemma \ref{lemma:lp:funct_norm}, $\norm{F} = \norm{g}_q$. By \ref{lp:riesz:basecase}, $g$ is unique up to a $\mu$-null set. This completes the proof for a finite measure space.
+\begin{step}
+Now we extend the result to a $\sigma$-finite measure space. Let $\{ A_n \}_{n = 1}^{\infty}$ be the sequence of $\mathcal{F}$-measurable sets such that $\Omega = \bigcup_{n = 1}^{\infty} A_n$. Without loss of generality, assume $A_n \subseteq A_{n + 1}$. Now consider the measure space $(A_n, \mathcal{F}_{|A_n}, \mu_{|A_n})$. By the previous case, there exists a $g_n \in \Lq(A_n, \mathcal{F}_{|A_n}, \mu_{|A_n})$ such that for all $f \in \Lp(\Omega)$,
+\begin{align*}
+    F (f \chi_{A_n} ) = \int_\Omega (f \chi_{A_n}) g_n \,d\mu.
+\end{align*}
+Furthermore $\norm{F_{|A_n}} = \norm{g_n}_q$ and $g_n$ is unique up to a $\mu$-null set.
+Suppose $m \geq n$. Since $A_n \subseteq A_m$ and $g_m$ is $\mu$-a.e unique, $g_m = g_n$ $\mu$-a.e. 
+Hence $g = \lim_{n \to \infty} g_n \chi_{A_n}$ is well-defined $\mu$-a.e. By redefining $g$ at a null-set, we may assume that $g$ is defined on $\Omega$. We claim that $g$ is a desired function. By \nameref{thm:fatou}, 
+\begin{align*}
+    \norm{g}_{q}^{q} \leq \liminf_{n \to \infty}{\int_\Omega |g_n \chi_{A_n}|^q } \,d\mu \leq \liminf_{n \to \infty}  \norm{g_n}_q^q \leq \liminf_{n \to \infty} \norm{F_{|A_n}}^q \leq \norm{F}^q < \infty.
+\end{align*}
+Hence $g \in \Lq(\Omega)$.
+Consider $f \in \Lp(\Omega)$. Since $\Omega = \bigcup_{n = 1}^{\infty} A_n$, $f \chi_{A_n} \rightarrow f$ pointwise. Since $|f| \in \Lp(\Omega)$ and $| f \chi_{A_n} | \leq | f |$, by \nameref{lemma:lp:convg}, $f \chi_{A_n} \rightarrow f$ in $\Lp(\Omega)$. Since $f \in \Lp(\Omega), f \chi_{A_n} \in \Lp(\Omega)$. Since $F$ is bounded,
+\begin{align}
+     \label{eqn:lp:rrt:final_eqn_bound_F_2}
+    | F(f) - F(f \chi_{A_n}) | = | F(f - f \chi_{A_n}) | \leq \norm{F} \norm{f - f \chi_{A_n}}_p.
+\end{align}
+Since $f \chi_{A_n} \rightarrow f$ in $\Lp(\Omega)$, by \ref{eqn:lp:rrt:final_eqn_bound_F_2},
+\begin{align}
+    \label{eqn:lp:rrt:final_eqn_bound_f_2}
+    F(f) = \lim_{n \to \infty} F(f \chi_{A_n}).
+\end{align}
+By \nameref{ineqn:lp:holder}, $\norm{fg}_1 \leq \norm{f}_p \cdot \norm{g}_q < \infty$, so $fg \in \Lone(\Omega)$.
+We have
+\begin{align*}
+    \left | \int_\Omega f g \,d\mu  - F (f \chi_{A_n}) \right | &= \left |  \int_\Omega f g \,d\mu -  \int_\Omega f \chi_{A_n} g \,d\mu  \right | =  \left |  \int_\Omega (f - f \chi_{A_n}) g \,d\mu  \right |  & \\
+    &\leq  \int_\Omega | (f - f \chi_{A_n}) | | g |  \,d\mu \text{ by \nameref{ineqn:lp:holder}} \\
+    &\leq \norm{f - f \chi_{A_n}}_p \cdot \norm{g}_q.
+\end{align*}
+Since $\norm{g}_q < \infty$ and $\lim_{n \to \infty} \norm{f - f \chi_{A_n}}_p = 0$, \begin{align}
+    \label{eqn:lp:rrt:final_eqn_lim_f_chian}
+    \lim_{n \to \infty} F(f \chi_{A_n}) = \int_\Omega f g \,d\mu.
+\end{align}
+Applying \ref{eqn:lp:rrt:final_eqn_lim_f_chian} to \ref{eqn:lp:rrt:final_eqn_bound_f_2} yields \[ 
+    F(f) = \int_\Omega f g \,d\mu.
+\]
+By Lemma \ref{lemma:lp:funct_norm}, $\norm{F} = \norm{g}_q$.
+\end{step}
+\end{proof}

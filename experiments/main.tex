@@ -1,0 +1,43 @@
+
+\chapter{Experiments}
+\label{chapter:experiments}
+
+In this chapter, we will study the relationship between the performance of neural networks and various architectural decisions, including the choice of an activation function and the effect of neural network depth.
+The purpose of this chapter is to present a wide range of difficulties in the application of neural networks and illustrate the main differences between practical observations and theoretical guarantees. Studies in this chapter will be experimental and significantly less rigorous than counterparts in other chapters. We will also discuss the role of hyperparameters, including the optimizer and batch size.
+
+
+\section{Introduction}
+In the \nameref{chapter:literature-review} and \nameref{chapter:universality}, we have seen that the conditions on activation function play an important role in many proofs of the universal approximation. We have also seen that neural networks with only one "sufficiently" wide hidden layer can approximate continuous and measurable functions, in the appropriate sense. 
+
+In this chapter, we aim to experimentally examine the performance impact of the activation function and the (in)significance of neural network depth. We will discuss classification on \textit{Fashion MNIST}.
+We want to provide insight into the following three questions of practical importance. 
+\begin{enumerate}[noitemsep]
+    \item \textit{Does the choice of activation function significantly affect the performance?}
+    \item \textit{Does the neural network depth significantly affect the performance?}
+    \item \textit{Does the training configuration significantly affect the performance?}
+\end{enumerate}
+Training setup in Table \ref{table:expriments:training_config} is used in every experiment unless stated otherwise.
+\begin{table}[H]
+\centering
+\begin{tabularx}{0.8\textwidth} { 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X | }
+ \hline
+ \textbf{epochs} & 10 \\
+ \hline
+ \textbf{batch size} & 32 \\
+ \hline
+ \textbf{optimizer} & Adam \\
+ \hline
+ \textbf{learning rate} & PyTorch default \\
+ \hline 
+ \textbf{random seed} & 42 \\
+  \hline 
+ \textbf{computer} & Macbook Pro 2017 15" \\
+\hline
+\end{tabularx}
+\caption{training configuration}
+\label{table:expriments:training_config}
+\end{table}
+
+\input{experiments/classification/main}

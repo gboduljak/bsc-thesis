@@ -1,0 +1,28 @@
+\subsection{Methodology}
+\label{section:experiments:classification:experiments-methodology}
+
+Each experiment consists of a neural network architecture configuration and a training configuration. Experiments are run independently. 
+Each experiment run consists of instantiation of a neural network from the configuration and training from scratch using training configuration from Table \ref{table:expriments:training_config}. In each experiment, the neural network architecture is fixed and only weights and biases are changed by the optimizer. After every 100 batch iterations, training and validation set accuracy and loss are computed for the experiment neural network architecture. The model achieving the best validation accuracy is maintained and its weights are saved. Plots in the subsequent sections were created by manual inspection and analysis of the following statistics:
+\begin{itemize}[noitemsep]
+    \item training and validation loss collected during the training process,
+    \item training and validation accuracy collected during the training process,
+    \item validation set accuracy and loss corresponding to the best weights,
+    \item class-specific validation set accuracy corresponding to the best weights,
+    \item confusion matrix corresponding to the model with the best weights.
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \begin{minted}[fontsize=\footnotesize]{python}
+    layer_width = 64
+    layers_number = 4
+    layers = [ LayerConfig(layer_width, nn.ReLU()) for _ in range(layers_number) ]
+    experiment = {
+        'name' : 'nn-4x-64-relu-softmax',
+        'epochs': 10,
+        'batch_size' : 32,
+        'layers_config': layers + [LayerConfig(10, nn.Softmax(dim=0))]
+    }
+    \end{minted}
+    \caption{The configuration of \textit{nn-4x-64-relu-softmax} experiment}
+    \label{fig:experiments:classification:experiment-example}
+\end{figure}
